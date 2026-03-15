@@ -1,0 +1,91 @@
+@implements IAsyncDisposable
+@inject ISonnerService SonnerService
+@inject IJSRuntime JS
+
+@{
+    var (yPos, xPos) = Position.ToDataValues();
+    var isFront = Index == 0;
+    var isVisible = Index < VisibleToasts;
+    var expanded = Expanded;
+    var offset = _offset;
+    var typeName = ToastState.Type.ToString().ToLowerInvariant();
+    var isCustom = ToastState.CustomContent is not null;
+}
+
+<li @ref="_elementRef"
+    id="@_elementId"
+    tabindex="0"
+    data-sonner-toast=""
+    data-styled="@(isCustom ? "false" : "true")"
+    data-mounted="@_mounted.ToString().ToLowerInvariant()"
+    data-removed="@ToastState.MarkedForDeletion.ToString().ToLowerInvariant()"
+    data-visible="@isVisible.ToString().ToLowerInvariant()"
+    data-y-position="@yPos"
+    data-x-position="@xPos"
+    data-index="@Index"
+    data-front="@isFront.ToString().ToLowerInvariant()"
+    data-type="@typeName"
+    data-rich-colors="@(ToastState.RichColors ?? RichColors).ToString().ToLowerInvariant()"
+    data-dismissible="@ToastState.Dismissible.ToString().ToLowerInvariant()"
+    data-expanded="@expanded.ToString().ToLowerInvariant()"
+    data-swiping="@_swiping.ToString().ToLowerInvariant()"
+    data-swipe-out="@_swipeOut.ToString().ToLowerInvariant()"
+    data-swipe-direction="@_swipeOutDirection"
+    data-promise="@ToastState.IsPromise.ToString().ToLowerInvariant()"
+    class="@ToastState.Class"
+    style="--index: @Index; --toasts-before: @Index; --z-index: @(TotalCount - Index); --offset: @(offset)px; --initial-height: @(_initialHeight)px; @ToastState.Style"
+    @onpointerenter="OnPointerEnter"
+    @onpointerleave="OnPointerLeave">
+
+    @if (CloseButton && !isCustom && ToastState.Type is not ToastType.Loading)
+    {
+        <button data-close-button="" aria-label="Close toast"
+                data-disabled="@(ToastState.Type is ToastType.Loading).ToString().ToLowerInvariant()"
+                @onclick="OnCloseButtonClick">
+            @CloseIcon
+        </button>
+    }
+
+    @if (isCustom)
+    {
+        @ToastState.CustomContent
+    }
+    else
+    {
+        @if (ToastState.Icon is not null || ToastState.Type is not ToastType.Normal)
+        {
+            <div data-icon="">
+                @if (ToastState.Icon is not null)
+                {
+                    @ToastState.Icon
+                }
+                else if (ToastState.Type is ToastType.Loading)
+                {
+                    @LoadingSpinner
+                }
+                else
+                {
+                    @GetDefaultIcon(ToastState.Type)
+                }
+            </div>
+        }
+
+        <div data-content="">
+            <div data-title="">@ToastState.Message</div>
+            @if (ToastState.Description is not null)
+            {
+                <div data-description="">@ToastState.Description</div>
+            }
+        </div>
+
+        @if (ToastState.Cancel is { } cancel)
+        {
+            <button data-button="" data-cancel="" @onclick="() => OnCancelClick(cancel)">@cancel.Label</button>
+        }
+
+        @if (ToastState.Action is { } action)
+        {
+            <button data-button="" data-action="" @onclick="() => OnActionClick(action)">@action.Label</button>
+        }
+    }
+</li>

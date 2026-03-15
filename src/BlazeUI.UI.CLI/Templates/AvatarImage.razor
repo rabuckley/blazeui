@@ -1,0 +1,16 @@
+@namespace __NAMESPACE__
+
+<BlazeUI.Headless.Components.Avatar.AvatarImage
+    data-slot="avatar-image"
+    Src="@Src"
+    Alt="@Alt"
+    Class="@Css.Cn("aspect-square size-full rounded-full object-cover", Class)"
+    @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter] public string? Src { get; set; }
+    [Parameter] public string? Alt { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

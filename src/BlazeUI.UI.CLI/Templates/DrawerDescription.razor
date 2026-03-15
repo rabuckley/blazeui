@@ -1,0 +1,15 @@
+@namespace __NAMESPACE__
+
+<BlazeUI.Headless.Components.Drawer.DrawerDescription
+    data-slot="drawer-description"
+    Class="@Css.Cn("text-sm text-muted-foreground", Class)"
+    @attributes="AdditionalAttributes">
+    @ChildContent
+</BlazeUI.Headless.Components.Drawer.DrawerDescription>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

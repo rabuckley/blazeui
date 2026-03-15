@@ -1,0 +1,19 @@
+@namespace __NAMESPACE__
+
+<BlazeUI.Headless.Components.Separator.Separator
+    Class="@GetClasses()"
+    Orientation="@Orientation"
+    data-slot="separator"
+    @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter] public Orientation Orientation { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "shrink-0 bg-border data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch",
+        Class
+    );
+}

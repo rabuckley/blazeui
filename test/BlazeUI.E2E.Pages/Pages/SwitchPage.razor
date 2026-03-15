@@ -1,0 +1,20 @@
+@page "/switch"
+@using BlazeUI.Headless.Components.Switch
+
+<div data-testid="switch-default">
+    <SwitchRoot>
+        <SwitchThumb />
+    </SwitchRoot>
+</div>
+
+<div data-testid="switch-disabled">
+    <SwitchRoot Disabled="true">
+        <SwitchThumb />
+    </SwitchRoot>
+</div>
+
+<div data-testid="switch-form">
+    <SwitchRoot Name="notifications" Value="yes" UncheckedValue="no">
+        <SwitchThumb />
+    </SwitchRoot>
+</div>

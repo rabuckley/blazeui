@@ -1,0 +1,41 @@
+@namespace BlazeUI.Styled.Demo.Components.UI
+
+<Button Variant="Button.ButtonVariant.Ghost"
+        data-size="@GetSizeValue()"
+        Class="@GetClasses()"
+        type="button"
+        @attributes="AdditionalAttributes">
+    @ChildContent
+</Button>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public InputGroupButtonSize Size { get; set; } = InputGroupButtonSize.Xs;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetSizeValue() => Size switch
+    {
+        InputGroupButtonSize.Xs => "xs",
+        InputGroupButtonSize.Sm => "sm",
+        InputGroupButtonSize.IconXs => "icon-xs",
+        InputGroupButtonSize.IconSm => "icon-sm",
+        _ => "xs"
+    };
+
+    private string GetClasses() => Css.Cn(
+        "flex items-center gap-2 text-sm shadow-none",
+        Size switch
+        {
+            InputGroupButtonSize.Xs => "h-6 gap-1 rounded-[calc(var(--radius)-3px)] px-1.5 [&>svg:not([class*='size-'])]:size-3.5",
+            InputGroupButtonSize.Sm => "",
+            InputGroupButtonSize.IconXs => "size-6 rounded-[calc(var(--radius)-3px)] p-0 has-[>svg]:p-0",
+            InputGroupButtonSize.IconSm => "size-8 p-0 has-[>svg]:p-0",
+            _ => ""
+        },
+        Class
+    );
+
+    public enum InputGroupButtonSize { Xs, Sm, IconXs, IconSm }
+}

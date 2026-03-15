@@ -1,0 +1,48 @@
+@page "/form-submission"
+@using BlazeUI.Headless.Components.Checkbox
+@using BlazeUI.Headless.Components.Radio
+@using BlazeUI.Headless.Components.Switch
+@using BlazeUI.Headless.Components.Select
+
+@* Native form POST — no @onsubmit, no EditForm. Tests that hidden inputs
+   participate in standard HTTP form submission (the SSR codepath). *@
+<form method="post" action="/api/form-echo" data-testid="form-submission" data-enhance="false">
+    <div data-testid="form-checkbox">
+        <CheckboxRoot Name="agree" Value="yes" DefaultChecked="true" />
+    </div>
+
+    <div data-testid="form-radio">
+        <RadioGroupRoot Name="color" DefaultValue="red">
+            <RadioRoot Value="red">Red</RadioRoot>
+            <RadioRoot Value="green">Green</RadioRoot>
+            <RadioRoot Value="blue">Blue</RadioRoot>
+        </RadioGroupRoot>
+    </div>
+
+    <div data-testid="form-switch">
+        <SwitchRoot Name="notifications" Value="on" UncheckedValue="off">
+            <SwitchThumb />
+        </SwitchRoot>
+    </div>
+
+    <div data-testid="form-select">
+        <SelectRoot Name="fruit" DefaultValue="banana" Placeholder="Choose...">
+            <SelectTrigger>
+                <SelectValue />
+            </SelectTrigger>
+            <SelectPortal>
+                <SelectPositioner>
+                    <SelectPopup>
+                        <SelectList>
+                            <SelectItem Value="apple">Apple</SelectItem>
+                            <SelectItem Value="banana">Banana</SelectItem>
+                            <SelectItem Value="cherry">Cherry</SelectItem>
+                        </SelectList>
+                    </SelectPopup>
+                </SelectPositioner>
+            </SelectPortal>
+        </SelectRoot>
+    </div>
+
+    <button type="submit" data-testid="submit-btn">Submit</button>
+</form>

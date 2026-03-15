@@ -1,0 +1,64 @@
+@namespace __NAMESPACE__
+
+<BlazeUI.Headless.Components.Toast.ToastRoot
+    ToastId="@ToastId"
+    Class="@GetClasses()"
+    @attributes="AdditionalAttributes">
+    <div class="grid gap-1">
+        @if (Title is not null)
+        {
+            <BlazeUI.Headless.Components.Toast.ToastTitle Class="text-sm font-medium">
+                @Title
+            </BlazeUI.Headless.Components.Toast.ToastTitle>
+        }
+        @if (Description is not null)
+        {
+            <BlazeUI.Headless.Components.Toast.ToastDescription Class="text-sm opacity-90">
+                @Description
+            </BlazeUI.Headless.Components.Toast.ToastDescription>
+        }
+    </div>
+    @if (ActionLabel is not null)
+    {
+        <BlazeUI.Headless.Components.Toast.ToastAction
+            Class="inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium transition-colors hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring"
+            @onclick="OnAction">
+            @ActionLabel
+        </BlazeUI.Headless.Components.Toast.ToastAction>
+    }
+    <BlazeUI.Headless.Components.Toast.ToastClose
+        Class="absolute right-1 top-1 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-none group-hover:opacity-100">
+        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+    </BlazeUI.Headless.Components.Toast.ToastClose>
+</BlazeUI.Headless.Components.Toast.ToastRoot>
+
+@code {
+    [Parameter] public string ToastId { get; set; } = "";
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public string? Description { get; set; }
+    [Parameter] public string? ActionLabel { get; set; }
+    [Parameter] public EventCallback OnAction { get; set; }
+    [Parameter] public ToastVariant Variant { get; set; } = ToastVariant.Default;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "group pointer-events-auto relative flex w-full items-center justify-between space-x-2 overflow-hidden rounded-md border p-4 pr-6 shadow-lg transition-all",
+        Variant switch
+        {
+            ToastVariant.Default => "border bg-background text-foreground",
+            ToastVariant.Success => "border-emerald-500/30 bg-emerald-50 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-100 dark:border-emerald-500/30",
+            ToastVariant.Info => "border-blue-500/30 bg-blue-50 text-blue-900 dark:bg-blue-950 dark:text-blue-100 dark:border-blue-500/30",
+            ToastVariant.Warning => "border-amber-500/30 bg-amber-50 text-amber-900 dark:bg-amber-950 dark:text-amber-100 dark:border-amber-500/30",
+            ToastVariant.Destructive => "border-destructive bg-destructive text-destructive-foreground",
+            _ => ""
+        },
+        Class
+    );
+
+    public enum ToastVariant { Default, Success, Info, Warning, Destructive }
+}

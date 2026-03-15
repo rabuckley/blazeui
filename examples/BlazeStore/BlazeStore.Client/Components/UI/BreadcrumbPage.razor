@@ -1,0 +1,22 @@
+@namespace BlazeStore.Client.Components.UI
+
+<span data-slot="breadcrumb-page"
+      role="link"
+      aria-disabled="true"
+      aria-current="page"
+      class="@GetClasses()"
+      @attributes="AdditionalAttributes">
+    @ChildContent
+</span>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "font-normal text-foreground",
+        Class
+    );
+}

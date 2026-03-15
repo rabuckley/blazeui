@@ -1,0 +1,38 @@
+name: Publish NuGet Packages
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    if: startsWith(github.event.release.tag_name, 'v')
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: src/BlazeUI.Headless/js/package-lock.json
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Extract version from tag
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - run: dotnet restore BlazeUI.slnx
+
+      - name: Build and pack
+        run: |
+          version=${{ steps.version.outputs.version }}
+          for proj in src/BlazeUI.Bridge src/BlazeUI.Headless src/BlazeUI.Sonner src/BlazeUI.UI.CLI; do
+            dotnet pack $proj -c Release -p:Version=$version -o ./nupkgs
+          done
+
+      - name: Push to NuGet
+        run: dotnet nuget push ./nupkgs/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate

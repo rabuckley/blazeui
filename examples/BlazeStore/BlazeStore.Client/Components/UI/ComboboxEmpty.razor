@@ -1,0 +1,16 @@
+@namespace BlazeStore.Client.Components.UI
+
+@* Message shown when no combobox items match the filter. *@
+
+<BlazeUI.Headless.Components.Combobox.ComboboxEmpty
+    Class="@Css.Cn("hidden w-full justify-center py-2 text-center text-sm text-muted-foreground group-data-[empty]/combobox-content:flex", Class)"
+    data-slot="combobox-empty">
+    @ChildContent
+</BlazeUI.Headless.Components.Combobox.ComboboxEmpty>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

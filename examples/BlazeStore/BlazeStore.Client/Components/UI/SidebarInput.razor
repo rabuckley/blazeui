@@ -1,0 +1,12 @@
+@namespace BlazeStore.Client.Components.UI
+
+<Input Class="@Css.Cn("h-8 w-full bg-background shadow-none", Class)"
+       data-slot="sidebar-input"
+       data-sidebar="input"
+       @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

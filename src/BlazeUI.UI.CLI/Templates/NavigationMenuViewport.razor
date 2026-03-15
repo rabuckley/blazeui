@@ -1,0 +1,12 @@
+@namespace __NAMESPACE__
+
+<BlazeUI.Headless.Components.NavigationMenu.NavigationMenuViewport
+    data-slot="navigation-menu-viewport"
+    Class="@Css.Cn("absolute left-0 top-full mt-1.5 origin-top-center overflow-hidden rounded-lg bg-popover text-popover-foreground shadow ring-1 ring-foreground/10 h-(--popup-height) w-(--popup-width) transition-[width,height,opacity,transform] duration-[0.35s] ease-[cubic-bezier(0.22,1,0.36,1)] data-[ending-style]:scale-90 data-[ending-style]:opacity-0 data-[ending-style]:duration-150 data-[starting-style]:scale-90 data-[starting-style]:opacity-0", Class)"
+    @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

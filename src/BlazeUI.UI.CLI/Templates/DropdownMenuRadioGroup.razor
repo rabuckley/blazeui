@@ -1,0 +1,19 @@
+@namespace __NAMESPACE__
+
+<BlazeUI.Headless.Components.Menu.MenuRadioGroup
+    data-slot="dropdown-menu-radio-group"
+    Value="@Value"
+    ValueChanged="@ValueChanged"
+    Class="@Class"
+    @attributes="AdditionalAttributes">
+    @ChildContent
+</BlazeUI.Headless.Components.Menu.MenuRadioGroup>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

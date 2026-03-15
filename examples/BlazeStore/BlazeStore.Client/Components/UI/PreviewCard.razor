@@ -1,0 +1,33 @@
+@namespace BlazeStore.Client.Components.UI
+
+<BlazeUI.Headless.Components.PreviewCard.PreviewCardRoot Open="@Open" OpenChanged="@OpenChanged" DefaultOpen="@DefaultOpen" Delay="@Delay" CloseDelay="@CloseDelay">
+    <BlazeUI.Headless.Components.PreviewCard.PreviewCardTrigger
+        As="@TriggerAs"
+        Class="@TriggerClass">
+        @Trigger
+    </BlazeUI.Headless.Components.PreviewCard.PreviewCardTrigger>
+    <BlazeUI.Headless.Components.PreviewCard.PreviewCardPortal>
+        <BlazeUI.Headless.Components.PreviewCard.PreviewCardPositioner Side="@Side" Align="@Align">
+            <BlazeUI.Headless.Components.PreviewCard.PreviewCardPopup
+                Class="z-50 w-80 rounded-lg border bg-popover p-4 text-popover-foreground shadow-lg data-[open]:animate-in data-[open]:fade-in-0 data-[open]:zoom-in-95 data-[closed]:animate-out data-[closed]:fade-out-0 data-[closed]:zoom-out-95">
+                @ChildContent
+            </BlazeUI.Headless.Components.PreviewCard.PreviewCardPopup>
+        </BlazeUI.Headless.Components.PreviewCard.PreviewCardPositioner>
+    </BlazeUI.Headless.Components.PreviewCard.PreviewCardPortal>
+</BlazeUI.Headless.Components.PreviewCard.PreviewCardRoot>
+
+@code {
+    [Parameter] public RenderFragment? Trigger { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool? Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    [Parameter] public bool DefaultOpen { get; set; }
+    [Parameter] public int Delay { get; set; } = 600;
+    [Parameter] public int CloseDelay { get; set; } = 300;
+    [Parameter] public string? TriggerClass { get; set; }
+    [Parameter] public string? TriggerAs { get; set; }
+    [Parameter] public Side Side { get; set; } = Side.Bottom;
+    [Parameter] public Align Align { get; set; } = Align.Center;
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

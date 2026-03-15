@@ -1,0 +1,30 @@
+@namespace __NAMESPACE__
+
+<div data-slot="item-media"
+     data-variant="@Variant.ToString().ToLowerInvariant()"
+     class="@GetClasses()"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public ItemMediaVariant Variant { get; set; } = ItemMediaVariant.Default;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "flex shrink-0 items-center justify-center gap-2 group-has-data-[slot=item-description]/item:translate-y-0.5 group-has-data-[slot=item-description]/item:self-start [&_svg]:pointer-events-none",
+        Variant switch
+        {
+            ItemMediaVariant.Default => "bg-transparent",
+            ItemMediaVariant.Icon => "[&_svg:not([class*='size-'])]:size-4",
+            ItemMediaVariant.Image => "size-10 overflow-hidden rounded-sm group-data-[size=sm]/item:size-8 group-data-[size=xs]/item:size-6 [&_img]:size-full [&_img]:object-cover",
+            _ => ""
+        },
+        Class
+    );
+
+    public enum ItemMediaVariant { Default, Icon, Image }
+}

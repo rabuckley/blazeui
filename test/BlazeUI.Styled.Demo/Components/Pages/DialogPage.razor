@@ -1,0 +1,30 @@
+@page "/dialog"
+
+<div class="space-y-6">
+<h1 class="text-2xl font-bold">Dialog</h1>
+
+<div>
+<Dialog>
+    <DialogTrigger>Open Dialog</DialogTrigger>
+    <DialogContent>
+        <DialogHeader>
+            <DialogTitle>Edit Profile</DialogTitle>
+            <DialogDescription>Make changes to your profile here. Click save when you're done.</DialogDescription>
+        </DialogHeader>
+        <div class="grid gap-4 py-4">
+            <div class="grid grid-cols-4 items-center gap-4">
+                <label class="text-right text-sm">Name</label>
+                <Input Class="col-span-3" placeholder="Enter your name" />
+            </div>
+            <div class="grid grid-cols-4 items-center gap-4">
+                <label class="text-right text-sm">Username</label>
+                <Input Class="col-span-3" placeholder="blazeui_user" />
+            </div>
+        </div>
+        <DialogFooter>
+            <Button>Save changes</Button>
+        </DialogFooter>
+    </DialogContent>
+</Dialog>
+</div>
+</div>

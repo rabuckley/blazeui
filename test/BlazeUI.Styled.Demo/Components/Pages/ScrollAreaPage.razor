@@ -1,0 +1,20 @@
+@page "/scroll-area"
+
+<div class="space-y-6">
+<h1 class="text-2xl font-bold">Scroll Area</h1>
+
+<div>
+<ScrollArea Class="h-72 w-48 rounded-md border">
+    <div class="p-4">
+        <h4 class="mb-4 text-sm font-medium leading-none">Tags</h4>
+        @for (var i = 1; i <= 50; i++)
+        {
+            <div>
+                <div class="text-sm">Tag @i</div>
+                <Separator Class="my-2" />
+            </div>
+        }
+    </div>
+</ScrollArea>
+</div>
+</div>

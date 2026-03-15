@@ -1,0 +1,17 @@
+@namespace BlazeStore.Client.Components.UI
+
+<Separator data-slot="item-separator"
+           Orientation="Orientation.Horizontal"
+           Class="@GetClasses()"
+           @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "my-2",
+        Class
+    );
+}

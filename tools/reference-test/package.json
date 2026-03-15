@@ -1,0 +1,24 @@
+{
+  "name": "reference-test",
+  "version": "1.0.0",
+  "description": "Compare BlazeUI styled components against shadcn/ui reference app",
+  "type": "module",
+  "bin": {
+    "reftest": "./dist/cli.js"
+  },
+  "scripts": {
+    "reftest": "tsx src/cli.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "colord": "^2.9.3",
+    "commander": "^14.0.3",
+    "playwright": "^1.58.2",
+    "postcss-value-parser": "^4.2.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.4",
+    "typescript": "~5.9.3",
+    "@types/node": "^22.15.0"
+  }
+}

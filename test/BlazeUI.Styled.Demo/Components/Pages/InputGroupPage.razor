@@ -1,0 +1,47 @@
+@page "/input-group"
+
+<div class="space-y-6">
+<h1 class="text-2xl font-bold">InputGroup</h1>
+
+<div>
+    <h2 class="text-sm font-medium text-muted-foreground mb-3">With icon addon</h2>
+    <InputGroup Class="max-w-sm">
+        <InputGroupAddon>
+            <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+            </svg>
+        </InputGroupAddon>
+        <InputGroupInput placeholder="Search..." />
+    </InputGroup>
+</div>
+
+<div>
+    <h2 class="text-sm font-medium text-muted-foreground mb-3">With text addon</h2>
+    <InputGroup Class="max-w-sm">
+        <InputGroupAddon>
+            <InputGroupText>https://</InputGroupText>
+        </InputGroupAddon>
+        <InputGroupInput placeholder="example.com" />
+    </InputGroup>
+</div>
+
+<div>
+    <h2 class="text-sm font-medium text-muted-foreground mb-3">With trailing addon</h2>
+    <InputGroup Class="max-w-sm">
+        <InputGroupInput placeholder="Enter amount" />
+        <InputGroupAddon Align="InputGroupAddon.InputGroupAddonAlign.InlineEnd">
+            <InputGroupText>USD</InputGroupText>
+        </InputGroupAddon>
+    </InputGroup>
+</div>
+
+<div>
+    <h2 class="text-sm font-medium text-muted-foreground mb-3">With button</h2>
+    <InputGroup Class="max-w-sm">
+        <InputGroupInput placeholder="Search..." />
+        <InputGroupAddon Align="InputGroupAddon.InputGroupAddonAlign.InlineEnd">
+            <InputGroupButton>Go</InputGroupButton>
+        </InputGroupAddon>
+    </InputGroup>
+</div>
+</div>

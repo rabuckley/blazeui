@@ -1,0 +1,9 @@
+@namespace __NAMESPACE__
+
+<div role="separator" class="@Css.Cn("shrink-0 bg-sidebar-border data-horizontal:h-px data-horizontal:w-full mx-2 w-auto", Class)" data-slot="sidebar-separator" data-orientation="horizontal" data-sidebar="separator" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

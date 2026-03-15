@@ -1,0 +1,21 @@
+@page "/cart"
+
+<PageTitle>Cart — BlazeStore</PageTitle>
+
+<div class="container mx-auto px-4 py-8">
+    <Breadcrumb class="mb-6">
+        <BreadcrumbList>
+            <BreadcrumbItem>
+                <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+                <BreadcrumbPage>Cart</BreadcrumbPage>
+            </BreadcrumbItem>
+        </BreadcrumbList>
+    </Breadcrumb>
+
+    <h1 class="text-3xl font-bold tracking-tight mb-8">Shopping Cart</h1>
+
+    <CartView />
+</div>

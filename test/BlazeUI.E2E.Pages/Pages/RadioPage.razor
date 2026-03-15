@@ -1,0 +1,17 @@
+@page "/radio"
+@using BlazeUI.Headless.Components.Radio
+
+<div data-testid="radio-default">
+    <RadioGroupRoot DefaultValue="banana">
+        <RadioRoot Value="apple">Apple</RadioRoot>
+        <RadioRoot Value="banana">Banana</RadioRoot>
+        <RadioRoot Value="cherry">Cherry</RadioRoot>
+    </RadioGroupRoot>
+</div>
+
+<div data-testid="radio-form">
+    <RadioGroupRoot Name="fruit" DefaultValue="apple">
+        <RadioRoot Value="apple">Apple</RadioRoot>
+        <RadioRoot Value="banana">Banana</RadioRoot>
+    </RadioGroupRoot>
+</div>

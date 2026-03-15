@@ -1,0 +1,19 @@
+@namespace BlazeStore.Client.Components.UI
+
+<thead data-slot="table-header"
+       class="@GetClasses()"
+       @attributes="AdditionalAttributes">
+    @ChildContent
+</thead>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "[&_tr]:border-b",
+        Class
+    );
+}

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\BlazeUI.Headless\BlazeUI.Headless.csproj" />
+    <ProjectReference Include="..\..\BlazeUI.E2E.Pages\BlazeUI.E2E.Pages.csproj" />
+    <ProjectReference Include="..\BlazeUI.E2E.Host.Wasm.Client\BlazeUI.E2E.Host.Wasm.Client.csproj" />
+  </ItemGroup>
+
+</Project>

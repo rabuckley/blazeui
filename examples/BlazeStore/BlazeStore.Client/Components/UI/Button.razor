@@ -1,0 +1,33 @@
+@namespace BlazeStore.Client.Components.UI
+
+<BlazeUI.Headless.Components.Button.Button
+    Class="@GetClasses()"
+    ClassBuilder="@((BlazeUI.Headless.Components.Button.ButtonState s) => s.Disabled ? "opacity-50" : "")"
+    Disabled="@Disabled"
+    FocusableWhenDisabled="@FocusableWhenDisabled"
+    As="@As"
+    @attributes="AdditionalAttributes">
+    @ChildContent
+</BlazeUI.Headless.Components.Button.Button>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public bool FocusableWhenDisabled { get; set; }
+    [Parameter] public string? As { get; set; }
+    [Parameter] public ButtonVariant Variant { get; set; } = ButtonVariant.Default;
+    [Parameter] public ButtonSize Size { get; set; } = ButtonSize.Default;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        ButtonClasses.Base,
+        ButtonClasses.GetVariant(Variant),
+        ButtonClasses.GetSize(Size),
+        Class
+    );
+
+    public enum ButtonVariant { Default, Destructive, Outline, Secondary, Ghost, Link }
+    public enum ButtonSize { Default, Sm, Lg, Icon }
+}

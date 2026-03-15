@@ -1,0 +1,37 @@
+@namespace BlazeUI.Styled.Demo.Components.UI
+
+<BlazeUI.Headless.Components.ScrollArea.ScrollAreaRoot
+    Class="@Css.Cn("relative", Class)"
+    @attributes="AdditionalAttributes">
+    <BlazeUI.Headless.Components.ScrollArea.ScrollAreaViewport Class="size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1">
+        @ChildContent
+    </BlazeUI.Headless.Components.ScrollArea.ScrollAreaViewport>
+    <BlazeUI.Headless.Components.ScrollArea.ScrollAreaScrollbar
+        Orientation="BlazeUI.Headless.Core.Orientation.Vertical"
+        Visibility="Visibility"
+        Class="@Css.Cn(
+            "flex touch-none p-px select-none transition-colors",
+            "data-horizontal:h-2.5 data-horizontal:flex-col data-horizontal:border-t data-horizontal:border-t-transparent",
+            "data-vertical:h-full data-vertical:w-2.5 data-vertical:border-l data-vertical:border-l-transparent",
+            "data-[visibility=hover]:transition-[color,background-color,border-color,opacity] data-[visibility=hover]:opacity-0 data-[visibility=hover]:data-[hovering]:opacity-100 data-[visibility=hover]:data-[scrolling]:opacity-100",
+            "data-[visibility=scroll]:transition-[color,background-color,border-color,opacity] data-[visibility=scroll]:opacity-0 data-[visibility=scroll]:data-[scrolling]:opacity-100")">
+        <BlazeUI.Headless.Components.ScrollArea.ScrollAreaThumb
+            Class="relative flex-1 rounded-full bg-border" />
+    </BlazeUI.Headless.Components.ScrollArea.ScrollAreaScrollbar>
+    <BlazeUI.Headless.Components.ScrollArea.ScrollAreaCorner />
+</BlazeUI.Headless.Components.ScrollArea.ScrollAreaRoot>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+
+    /// <summary>
+    /// Controls when the scrollbar is visible. Defaults to <see cref="BlazeUI.Headless.Core.ScrollbarVisibility.Always"/>.
+    /// Use <see cref="BlazeUI.Headless.Core.ScrollbarVisibility.Hover"/> to fade the scrollbar in only when
+    /// the pointer hovers over the scroll area or during active scrolling.
+    /// </summary>
+    [Parameter] public BlazeUI.Headless.Core.ScrollbarVisibility Visibility { get; set; } = BlazeUI.Headless.Core.ScrollbarVisibility.Always;
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

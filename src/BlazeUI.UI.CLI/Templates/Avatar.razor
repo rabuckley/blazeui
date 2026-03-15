@@ -1,0 +1,26 @@
+@namespace __NAMESPACE__
+
+<BlazeUI.Headless.Components.Avatar.AvatarRoot
+    data-slot="avatar"
+    data-size="@GetSizeName()"
+    Class="@Css.Cn("group/avatar relative flex size-8 shrink-0 rounded-full select-none after:absolute after:inset-0 after:rounded-full after:border after:border-border after:mix-blend-darken data-[size=lg]:size-10 data-[size=sm]:size-6 dark:after:mix-blend-lighten", Class)"
+    @attributes="AdditionalAttributes">
+    @ChildContent
+</BlazeUI.Headless.Components.Avatar.AvatarRoot>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public AvatarSize Size { get; set; } = AvatarSize.Default;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetSizeName() => Size switch
+    {
+        AvatarSize.Sm => "sm",
+        AvatarSize.Lg => "lg",
+        _ => "default"
+    };
+
+    public enum AvatarSize { Default, Sm, Lg }
+}

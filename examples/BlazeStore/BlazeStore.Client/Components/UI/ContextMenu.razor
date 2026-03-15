@@ -1,0 +1,45 @@
+@namespace BlazeStore.Client.Components.UI
+
+@*
+    ContextMenu — wraps BlazeUI.Headless context menu anatomy with default styling.
+    Consumer passes the right-click area as Trigger and menu items as ChildContent.
+
+    Usage:
+    <ContextMenu>
+        <Trigger>
+            <div class="...">Right-click here</div>
+        </Trigger>
+        <ChildContent>
+            <BlazeUI.Headless.Components.ContextMenu.ContextMenuItem
+                Class="group/context-menu-item relative flex cursor-default items-center gap-1.5 rounded-md px-1.5 py-1 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50">
+                Item 1
+            </BlazeUI.Headless.Components.ContextMenu.ContextMenuItem>
+            <BlazeUI.Headless.Components.ContextMenu.ContextMenuSeparator Class="-mx-1 my-1 h-px bg-border" />
+        </ChildContent>
+    </ContextMenu>
+*@
+
+<BlazeUI.Headless.Components.ContextMenu.ContextMenuRoot Open="@Open" OpenChanged="@OpenChanged">
+    <BlazeUI.Headless.Components.ContextMenu.ContextMenuTrigger Class="select-none">
+        @Trigger
+    </BlazeUI.Headless.Components.ContextMenu.ContextMenuTrigger>
+    <BlazeUI.Headless.Components.ContextMenu.ContextMenuPortal>
+        <BlazeUI.Headless.Components.ContextMenu.ContextMenuPositioner
+            Class="isolate z-50 outline-none">
+            <BlazeUI.Headless.Components.ContextMenu.ContextMenuPopup
+                data-slot="context-menu-content"
+                Class="z-50 max-h-(--available-height) min-w-36 origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-lg bg-popover p-1 text-popover-foreground shadow-md ring-1 ring-foreground/10 duration-100 outline-none data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[open]:animate-in data-[open]:fade-in-0 data-[open]:zoom-in-95 data-[closed]:animate-out data-[closed]:fade-out-0 data-[closed]:zoom-out-95">
+                @ChildContent
+            </BlazeUI.Headless.Components.ContextMenu.ContextMenuPopup>
+        </BlazeUI.Headless.Components.ContextMenu.ContextMenuPositioner>
+    </BlazeUI.Headless.Components.ContextMenu.ContextMenuPortal>
+</BlazeUI.Headless.Components.ContextMenu.ContextMenuRoot>
+
+@code {
+    [Parameter] public RenderFragment? Trigger { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool? Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

@@ -1,0 +1,23 @@
+@namespace BlazeStore.Client.Components.UI
+
+<BlazeUI.Headless.Components.ScrollArea.ScrollAreaRoot
+    Class="@Css.Cn("relative", Class)"
+    @attributes="AdditionalAttributes">
+    <BlazeUI.Headless.Components.ScrollArea.ScrollAreaViewport Class="size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1">
+        @ChildContent
+    </BlazeUI.Headless.Components.ScrollArea.ScrollAreaViewport>
+    <BlazeUI.Headless.Components.ScrollArea.ScrollAreaScrollbar
+        Orientation="BlazeUI.Headless.Core.Orientation.Vertical"
+        Class="flex touch-none p-px transition-colors select-none data-horizontal:h-2.5 data-horizontal:flex-col data-horizontal:border-t data-horizontal:border-t-transparent data-vertical:h-full data-vertical:w-2.5 data-vertical:border-l data-vertical:border-l-transparent">
+        <BlazeUI.Headless.Components.ScrollArea.ScrollAreaThumb
+            Class="relative flex-1 rounded-full bg-border" />
+    </BlazeUI.Headless.Components.ScrollArea.ScrollAreaScrollbar>
+    <BlazeUI.Headless.Components.ScrollArea.ScrollAreaCorner />
+</BlazeUI.Headless.Components.ScrollArea.ScrollAreaRoot>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

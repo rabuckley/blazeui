@@ -1,0 +1,164 @@
+@using BlazeUI.Headless.Overlay
+@using BlazeUI.Styled.Demo.Components.UI
+@inherits LayoutComponentBase
+@inject NavigationManager Nav
+
+<div id="root">
+<SidebarProvider>
+    <SidebarComponent>
+        <SidebarHeader>
+            <div class="flex items-center gap-2 px-2 py-1">
+                <span class="text-lg font-bold text-sidebar-foreground">BlazeUI</span>
+            </div>
+        </SidebarHeader>
+        <SidebarContent>
+            <SidebarGroup>
+                <SidebarGroupLabel>Simple</SidebarGroupLabel>
+                <SidebarGroupContent>
+                    <SidebarMenu>
+                        @foreach (var (name, path) in _simpleComponents)
+                        {
+                            <SidebarMenuItem>
+                                <SidebarMenuButton Href="@path" IsActive="@IsActive(path)">
+                                    <span>@name</span>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        }
+                    </SidebarMenu>
+                </SidebarGroupContent>
+            </SidebarGroup>
+            <SidebarSeparator />
+            <SidebarGroup>
+                <SidebarGroupLabel>Overlay</SidebarGroupLabel>
+                <SidebarGroupContent>
+                    <SidebarMenu>
+                        @foreach (var (name, path) in _overlayComponents)
+                        {
+                            <SidebarMenuItem>
+                                <SidebarMenuButton Href="@path" IsActive="@IsActive(path)">
+                                    <span>@name</span>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        }
+                    </SidebarMenu>
+                </SidebarGroupContent>
+            </SidebarGroup>
+            <SidebarSeparator />
+            <SidebarGroup>
+                <SidebarGroupLabel>Layout</SidebarGroupLabel>
+                <SidebarGroupContent>
+                    <SidebarMenu>
+                        @foreach (var (name, path) in _layoutComponents)
+                        {
+                            <SidebarMenuItem>
+                                <SidebarMenuButton Href="@path" IsActive="@IsActive(path)">
+                                    <span>@name</span>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        }
+                    </SidebarMenu>
+                </SidebarGroupContent>
+            </SidebarGroup>
+            <SidebarSeparator />
+            <SidebarGroup>
+                <SidebarGroupLabel>Form</SidebarGroupLabel>
+                <SidebarGroupContent>
+                    <SidebarMenu>
+                        @foreach (var (name, path) in _formComponents)
+                        {
+                            <SidebarMenuItem>
+                                <SidebarMenuButton Href="@path" IsActive="@IsActive(path)">
+                                    <span>@name</span>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        }
+                    </SidebarMenu>
+                </SidebarGroupContent>
+            </SidebarGroup>
+            <SidebarSeparator />
+            <SidebarGroup>
+                <SidebarGroupLabel>Blocks</SidebarGroupLabel>
+                <SidebarGroupContent>
+                    <SidebarMenu>
+                        @foreach (var (name, path) in _blockComponents)
+                        {
+                            <SidebarMenuItem>
+                                <SidebarMenuButton Href="@path" IsActive="@IsActive(path)">
+                                    <span>@name</span>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        }
+                    </SidebarMenu>
+                </SidebarGroupContent>
+            </SidebarGroup>
+        </SidebarContent>
+        <SidebarFooter>
+            <div class="text-xs text-sidebar-foreground/50 px-2">BlazeUI Showcase</div>
+        </SidebarFooter>
+    </SidebarComponent>
+    <SidebarInset>
+        <header class="flex h-12 items-center gap-2 border-b px-4">
+            <SidebarTrigger />
+            <div class="mx-2 h-4 w-px bg-border" />
+            <span class="text-sm text-muted-foreground">Component Showcase</span>
+        </header>
+        <div class="flex-1 p-6">
+            @Body
+        </div>
+    </SidebarInset>
+</SidebarProvider>
+
+</div>
+
+<PortalHost />
+
+@code {
+    private static readonly (string Name, string Path)[] _simpleComponents =
+    [
+        ("Alert", "/alert"), ("AspectRatio", "/aspect-ratio"), ("Avatar", "/avatar"),
+        ("Badge", "/badge"), ("Breadcrumb", "/breadcrumb"), ("Button", "/button"),
+        ("ButtonGroup", "/button-group"), ("Card", "/card"), ("Checkbox", "/checkbox"),
+        ("Empty", "/empty"), ("Input", "/input"),
+        ("InputGroup", "/input-group"), ("Item", "/item"), ("Kbd", "/kbd"),
+        ("Pagination", "/pagination"),
+        ("Progress", "/progress"), ("Radio", "/radio"), ("Separator", "/separator"),
+        ("Skeleton", "/skeleton"), ("Slider", "/slider"), ("Spinner", "/spinner"),
+        ("Switch", "/switch"), ("Table", "/table"), ("Toggle", "/toggle"),
+        ("ToggleGroup", "/toggle-group"), ("Typography", "/typography")
+    ];
+
+    private static readonly (string Name, string Path)[] _overlayComponents =
+    [
+        ("AlertDialog", "/alert-dialog"), ("Combobox", "/combobox"),
+        ("ContextMenu", "/context-menu"), ("Dialog", "/dialog"), ("Drawer", "/drawer"),
+        ("HoverCard", "/preview-card"), ("Menu", "/menu"), ("Popover", "/popover"),
+        ("Select", "/select"), ("Sheet", "/sheet"), ("Toast", "/toast"),
+        ("Tooltip", "/tooltip")
+    ];
+
+    private static readonly (string Name, string Path)[] _layoutComponents =
+    [
+        ("Accordion", "/accordion"), ("Collapsible", "/collapsible"),
+        ("Menubar", "/menubar"), ("NavigationMenu", "/navigation-menu"),
+        ("ScrollArea", "/scroll-area"), ("Sidebar", "/sidebar"), ("Tabs", "/tabs")
+    ];
+
+    private static readonly (string Name, string Path)[] _formComponents =
+    [
+        ("Field", "/field"), ("InputOTP", "/input-otp"), ("Label", "/label"),
+        ("NativeSelect", "/native-select"), ("Textarea", "/textarea")
+    ];
+
+    private static readonly (string Name, string Path)[] _blockComponents =
+    [
+        ("Login-02", "/blocks/login-02"),
+        ("Sidebar-01", "/blocks/sidebar-01"),
+        ("Sidebar-07", "/blocks/sidebar-07")
+    ];
+
+    private bool IsActive(string path)
+    {
+        var relativePath = Nav.ToBaseRelativePath(Nav.Uri);
+        return $"/{relativePath}" == path || (path == "/" && string.IsNullOrEmpty(relativePath));
+    }
+}

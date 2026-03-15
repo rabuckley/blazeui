@@ -1,0 +1,17 @@
+@namespace __NAMESPACE__
+
+<BlazeUI.Headless.Components.Popover.PopoverTrigger
+    data-slot="popover-trigger"
+    Render="@Render"
+    Class="@Css.Cn(Class)"
+    @attributes="AdditionalAttributes">
+    @ChildContent
+</BlazeUI.Headless.Components.Popover.PopoverTrigger>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public RenderFragment<BlazeUI.Headless.Core.ElementProps>? Render { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

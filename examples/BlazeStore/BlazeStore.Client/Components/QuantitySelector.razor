@@ -1,0 +1,31 @@
+@inject ICartService CartService
+
+<div class="flex items-center gap-2">
+    <button @onclick="Decrement"
+            class="inline-flex items-center justify-center rounded-md text-sm font-medium h-8 w-8 border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors">
+        &minus;
+    </button>
+    <span class="w-8 text-center text-sm font-medium">@Quantity</span>
+    <button @onclick="Increment"
+            class="inline-flex items-center justify-center rounded-md text-sm font-medium h-8 w-8 border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors">
+        +
+    </button>
+</div>
+
+@code {
+    [Parameter] public int ProductId { get; set; }
+    [Parameter] public int Quantity { get; set; }
+
+    private async Task Decrement()
+    {
+        if (Quantity <= 1)
+            await CartService.RemoveAsync(ProductId);
+        else
+            await CartService.UpdateQuantityAsync(ProductId, Quantity - 1);
+    }
+
+    private async Task Increment()
+    {
+        await CartService.UpdateQuantityAsync(ProductId, Quantity + 1);
+    }
+}

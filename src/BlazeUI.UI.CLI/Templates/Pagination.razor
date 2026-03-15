@@ -1,0 +1,21 @@
+@namespace __NAMESPACE__
+
+<nav role="navigation"
+     aria-label="pagination"
+     data-slot="pagination"
+     class="@GetClasses()"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+</nav>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "mx-auto flex w-full justify-center",
+        Class
+    );
+}

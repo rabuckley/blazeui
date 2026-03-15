@@ -1,0 +1,48 @@
+@namespace BlazeUI.Headless.Overlay
+@inject PortalService PortalService
+@implements IDisposable
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public int ZIndex { get; set; }
+
+    /// <summary>
+    /// When false, the PortalHost renders this entry with <c>display: none</c>.
+    /// Overlay portals set this to false after exit animations complete so closed
+    /// overlay content doesn't leave empty containers in the DOM.
+    /// </summary>
+    [Parameter]
+    public bool Active { get; set; } = true;
+
+    private string? _entryId;
+
+    protected override void OnInitialized()
+    {
+        if (ChildContent is not null)
+        {
+            _entryId = PortalService.Mount(ChildContent, ZIndex);
+        }
+    }
+
+    // Re-publish the (possibly updated) fragment on every parent re-render so
+    // that cascading value changes propagate through PortalHost.
+    protected override void OnParametersSet()
+    {
+        if (_entryId is not null && ChildContent is not null)
+        {
+            PortalService.Update(_entryId, ChildContent, ZIndex);
+            PortalService.SetActive(_entryId, Active);
+        }
+    }
+
+    public void Dispose()
+    {
+        if (_entryId is not null)
+        {
+            PortalService.Unmount(_entryId);
+        }
+    }
+}

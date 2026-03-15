@@ -1,0 +1,31 @@
+@namespace BlazeUI.Headless.Components.Dialog
+@using BlazeUI.Headless.Overlay
+
+@* Re-cascade the context so children rendered through PortalHost retain
+   access to the DialogRoot's cascading value. The portal wrapper div and
+   inert overlay match Base UI's Portal rendering — the wrapper provides a
+   structural container for the overlay stack, and the inert overlay prevents
+   mouse interaction with content behind the dialog while open. *@
+<Portal ZIndex="ZIndex">
+    <CascadingValue Value="Context">
+        <div data-slot="@(Context.Role is "alertdialog" ? "alert-dialog-portal" : "dialog-portal")">
+            @if (Context.Open)
+            {
+                <div role="presentation" aria-hidden="true"
+                     style="position: fixed; inset: 0px; user-select: none;"></div>
+            }
+            @ChildContent
+        </div>
+    </CascadingValue>
+</Portal>
+
+@code {
+    [CascadingParameter]
+    internal DialogContext Context { get; set; } = default!;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public int ZIndex { get; set; } = 1000;
+}

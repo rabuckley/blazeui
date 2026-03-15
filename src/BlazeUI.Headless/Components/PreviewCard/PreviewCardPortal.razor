@@ -1,0 +1,16 @@
+@namespace BlazeUI.Headless.Components.PreviewCard
+@using BlazeUI.Headless.Overlay
+
+<Portal ZIndex="ZIndex">
+    <CascadingValue Value="Context">
+        @ChildContent
+    </CascadingValue>
+</Portal>
+
+@code {
+    [CascadingParameter]
+    internal PreviewCardContext Context { get; set; } = default!;
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public int ZIndex { get; set; } = 1000;
+}

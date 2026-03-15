@@ -1,0 +1,16 @@
+@namespace BlazeStore.Client.Components.UI
+
+<Input data-slot="input-group-control"
+       Class="@GetClasses()"
+       @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "flex-1 rounded-none border-0 bg-transparent shadow-none ring-0 focus-visible:ring-0 disabled:bg-transparent aria-invalid:ring-0 dark:bg-transparent dark:disabled:bg-transparent",
+        Class
+    );
+}

@@ -1,0 +1,15 @@
+@namespace __NAMESPACE__
+
+<BlazeUI.Headless.Components.Menu.MenuRoot
+    Open="@Open"
+    OpenChanged="@OpenChanged"
+    DefaultOpen="@DefaultOpen">
+    @ChildContent
+</BlazeUI.Headless.Components.Menu.MenuRoot>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool? Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    [Parameter] public bool DefaultOpen { get; set; }
+}

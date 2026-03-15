@@ -1,0 +1,30 @@
+@namespace BlazeUI.Styled.Demo.Components.UI
+
+<div role="group"
+     data-slot="button-group"
+     data-orientation="@Orientation.ToString().ToLowerInvariant()"
+     class="@GetClasses()"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public ButtonGroupOrientation Orientation { get; set; } = ButtonGroupOrientation.Horizontal;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "flex w-fit items-stretch *:focus-visible:relative *:focus-visible:z-10 has-[>[data-slot=button-group]]:gap-2 [&>input]:flex-1",
+        Orientation switch
+        {
+            ButtonGroupOrientation.Horizontal => "*:data-slot:rounded-r-none [&>[data-slot]:not(:has(~[data-slot]))]:rounded-r-lg! [&>[data-slot]~[data-slot]]:rounded-l-none [&>[data-slot]~[data-slot]]:border-l-0",
+            ButtonGroupOrientation.Vertical => "flex-col *:data-slot:rounded-b-none [&>[data-slot]:not(:has(~[data-slot]))]:rounded-b-lg! [&>[data-slot]~[data-slot]]:rounded-t-none [&>[data-slot]~[data-slot]]:border-t-0",
+            _ => ""
+        },
+        Class
+    );
+
+    public enum ButtonGroupOrientation { Horizontal, Vertical }
+}

@@ -1,0 +1,21 @@
+@namespace BlazeStore.Client.Components.UI
+
+<BlazeUI.Headless.Components.Separator.Separator
+    Class="@GetClasses()"
+    Orientation="@Orientation"
+    @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter] public Orientation Orientation { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "shrink-0 bg-border",
+        Orientation is Orientation.Horizontal
+            ? "h-px w-full"
+            : "w-px self-stretch",
+        Class
+    );
+}

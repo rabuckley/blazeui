@@ -1,0 +1,21 @@
+@page "/alert-dialog"
+
+<div class="space-y-6">
+<h1 class="text-2xl font-bold">Alert Dialog</h1>
+
+<div>
+<AlertDialog>
+    <AlertDialogTrigger Variant="Button.ButtonVariant.Destructive">Delete Account</AlertDialogTrigger>
+    <AlertDialogContent>
+        <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>This action cannot be undone. This will permanently delete your account and remove your data from our servers.</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction Variant="Button.ButtonVariant.Destructive">Yes, delete account</AlertDialogAction>
+        </AlertDialogFooter>
+    </AlertDialogContent>
+</AlertDialog>
+</div>
+</div>

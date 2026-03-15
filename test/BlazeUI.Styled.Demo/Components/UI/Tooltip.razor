@@ -1,0 +1,13 @@
+@namespace BlazeUI.Styled.Demo.Components.UI
+
+<BlazeUI.Headless.Components.Tooltip.TooltipRoot
+    Delay="@Delay"
+    CloseDelay="@CloseDelay">
+    @ChildContent
+</BlazeUI.Headless.Components.Tooltip.TooltipRoot>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public int Delay { get; set; } = 300;
+    [Parameter] public int CloseDelay { get; set; } = 0;
+}

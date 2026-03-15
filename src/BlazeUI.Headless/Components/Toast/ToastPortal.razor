@@ -1,0 +1,21 @@
+@namespace BlazeUI.Headless.Components.Toast
+@using BlazeUI.Headless.Overlay
+
+@* Re-cascade the context so children rendered through PortalHost retain
+   access to the ToastRoot's cascading value. *@
+<Portal ZIndex="ZIndex">
+    <CascadingValue Value="Context">
+        @ChildContent
+    </CascadingValue>
+</Portal>
+
+@code {
+    [CascadingParameter]
+    internal ToastContext Context { get; set; } = default!;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public int ZIndex { get; set; } = 1000;
+}

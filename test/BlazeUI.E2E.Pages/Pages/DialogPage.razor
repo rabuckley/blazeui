@@ -1,0 +1,17 @@
+@page "/dialog"
+@using BlazeUI.Headless.Components.Dialog
+
+<div data-testid="dialog-default">
+    <DialogRoot>
+        <DialogTrigger>Open Dialog</DialogTrigger>
+        <DialogPortal>
+            <DialogBackdrop />
+            <DialogPopup>
+                <DialogTitle>Test Dialog</DialogTitle>
+                <DialogDescription>Dialog description text.</DialogDescription>
+                <button data-testid="dialog-focusable">Focusable button</button>
+                <DialogClose>Close</DialogClose>
+            </DialogPopup>
+        </DialogPortal>
+    </DialogRoot>
+</div>

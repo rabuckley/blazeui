@@ -1,0 +1,50 @@
+@page "/card"
+
+<div class="space-y-6">
+<h1 class="text-2xl font-bold">Card</h1>
+
+<div>
+    <h2 class="text-sm font-medium text-muted-foreground mb-3">Default</h2>
+    <Card Class="w-[380px]">
+        <CardHeader>
+            <CardTitle>Notifications</CardTitle>
+            <CardDescription>You have 3 unread messages.</CardDescription>
+        </CardHeader>
+        <CardContent>
+            <p>Card content goes here.</p>
+        </CardContent>
+        <CardFooter>
+            <div class="w-full"><Button>Mark all as read</Button></div>
+        </CardFooter>
+    </Card>
+</div>
+
+<div>
+    <h2 class="text-sm font-medium text-muted-foreground mb-3">Small size</h2>
+    <Card Size="Card.CardSize.Sm" Class="w-[350px]">
+        <CardHeader>
+            <CardTitle>Small Card</CardTitle>
+            <CardDescription>A more compact card variant.</CardDescription>
+        </CardHeader>
+        <CardContent>
+            <p>Compact content.</p>
+        </CardContent>
+    </Card>
+</div>
+
+<div>
+    <h2 class="text-sm font-medium text-muted-foreground mb-3">With action</h2>
+    <Card Class="w-[380px]">
+        <CardHeader>
+            <CardTitle>Project Settings</CardTitle>
+            <CardDescription>Manage your project configuration.</CardDescription>
+            <CardAction>
+                <Button Variant="Button.ButtonVariant.Outline" Size="Button.ButtonSize.Sm">Edit</Button>
+            </CardAction>
+        </CardHeader>
+        <CardContent>
+            <p>Configure project settings here.</p>
+        </CardContent>
+    </Card>
+</div>
+</div>

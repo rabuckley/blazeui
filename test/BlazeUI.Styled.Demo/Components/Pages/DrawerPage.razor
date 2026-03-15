@@ -1,0 +1,66 @@
+@page "/drawer"
+
+<div class="space-y-6">
+<h1 class="text-2xl font-bold">Drawer</h1>
+    <div class="flex gap-3">
+        <Drawer SwipeDirection="SwipeDirection.Right">
+            <DrawerTrigger>
+                <Render>
+                    <Button Variant="Button.ButtonVariant.Outline" @attributes="context.Attributes">
+                        @context.ChildContent
+                    </Button>
+                </Render>
+                <ChildContent>Right</ChildContent>
+            </DrawerTrigger>
+            <DrawerContent>
+                <DrawerHeader>
+                    <DrawerTitle>Right Drawer</DrawerTitle>
+                    <DrawerDescription>This drawer slides in from the right.</DrawerDescription>
+                </DrawerHeader>
+                <div class="p-4">
+                    <p class="text-sm text-muted-foreground">Drawer body content goes here.</p>
+                </div>
+            </DrawerContent>
+        </Drawer>
+
+        <Drawer SwipeDirection="SwipeDirection.Left">
+            <DrawerTrigger>
+                <Render>
+                    <Button Variant="Button.ButtonVariant.Outline" @attributes="context.Attributes">
+                        @context.ChildContent
+                    </Button>
+                </Render>
+                <ChildContent>Left</ChildContent>
+            </DrawerTrigger>
+            <DrawerContent>
+                <DrawerHeader>
+                    <DrawerTitle>Left Drawer</DrawerTitle>
+                    <DrawerDescription>This drawer slides in from the left.</DrawerDescription>
+                </DrawerHeader>
+                <div class="p-4">
+                    <p class="text-sm text-muted-foreground">Drawer body content goes here.</p>
+                </div>
+            </DrawerContent>
+        </Drawer>
+
+        <Drawer SwipeDirection="SwipeDirection.Down">
+            <DrawerTrigger>
+                <Render>
+                    <Button Variant="Button.ButtonVariant.Outline" @attributes="context.Attributes">
+                        @context.ChildContent
+                    </Button>
+                </Render>
+                <ChildContent>Bottom</ChildContent>
+            </DrawerTrigger>
+            <DrawerContent>
+                <DrawerHeader>
+                    <DrawerTitle>Bottom Drawer</DrawerTitle>
+                    <DrawerDescription>This drawer slides in from the bottom.</DrawerDescription>
+                </DrawerHeader>
+                <div class="p-4">
+                    <p class="text-sm text-muted-foreground">Drawer body content goes here.</p>
+                </div>
+            </DrawerContent>
+        </Drawer>
+    </div>
+</div>

@@ -1,0 +1,89 @@
+@page "/sheet"
+
+<div class="space-y-6">
+<h1 class="text-2xl font-bold">Sheet</h1>
+
+<div>
+    <div class="flex gap-3">
+        <Sheet>
+            <SheetTrigger>
+                <Render>
+                    <Button Variant="Button.ButtonVariant.Outline" @attributes="context.Attributes">
+                        @context.ChildContent
+                    </Button>
+                </Render>
+                <ChildContent>Right</ChildContent>
+            </SheetTrigger>
+            <SheetContent Side="SheetContent.SheetSide.Right">
+                <SheetHeader>
+                    <SheetTitle>Right Sheet</SheetTitle>
+                    <SheetDescription>This sheet slides in from the right.</SheetDescription>
+                </SheetHeader>
+                <div class="p-4">
+                    <p class="text-sm text-muted-foreground">Sheet body content goes here.</p>
+                </div>
+            </SheetContent>
+        </Sheet>
+
+        <Sheet>
+            <SheetTrigger>
+                <Render>
+                    <Button Variant="Button.ButtonVariant.Outline" @attributes="context.Attributes">
+                        @context.ChildContent
+                    </Button>
+                </Render>
+                <ChildContent>Left</ChildContent>
+            </SheetTrigger>
+            <SheetContent Side="SheetContent.SheetSide.Left">
+                <SheetHeader>
+                    <SheetTitle>Left Sheet</SheetTitle>
+                    <SheetDescription>This sheet slides in from the left.</SheetDescription>
+                </SheetHeader>
+                <div class="p-4">
+                    <p class="text-sm text-muted-foreground">Sheet body content goes here.</p>
+                </div>
+            </SheetContent>
+        </Sheet>
+
+        <Sheet>
+            <SheetTrigger>
+                <Render>
+                    <Button Variant="Button.ButtonVariant.Outline" @attributes="context.Attributes">
+                        @context.ChildContent
+                    </Button>
+                </Render>
+                <ChildContent>Top</ChildContent>
+            </SheetTrigger>
+            <SheetContent Side="SheetContent.SheetSide.Top">
+                <SheetHeader>
+                    <SheetTitle>Top Sheet</SheetTitle>
+                    <SheetDescription>This sheet slides in from the top.</SheetDescription>
+                </SheetHeader>
+                <div class="p-4">
+                    <p class="text-sm text-muted-foreground">Sheet body content goes here.</p>
+                </div>
+            </SheetContent>
+        </Sheet>
+
+        <Sheet>
+            <SheetTrigger>
+                <Render>
+                    <Button Variant="Button.ButtonVariant.Outline" @attributes="context.Attributes">
+                        @context.ChildContent
+                    </Button>
+                </Render>
+                <ChildContent>Bottom</ChildContent>
+            </SheetTrigger>
+            <SheetContent Side="SheetContent.SheetSide.Bottom">
+                <SheetHeader>
+                    <SheetTitle>Bottom Sheet</SheetTitle>
+                    <SheetDescription>This sheet slides in from the bottom.</SheetDescription>
+                </SheetHeader>
+                <div class="p-4">
+                    <p class="text-sm text-muted-foreground">Sheet body content goes here.</p>
+                </div>
+            </SheetContent>
+        </Sheet>
+    </div>
+</div>
+</div>

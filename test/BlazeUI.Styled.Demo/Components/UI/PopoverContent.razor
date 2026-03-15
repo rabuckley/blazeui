@@ -1,0 +1,28 @@
+@namespace BlazeUI.Styled.Demo.Components.UI
+
+<BlazeUI.Headless.Components.Popover.PopoverPortal>
+    <BlazeUI.Headless.Components.Popover.PopoverPositioner
+        Class="isolate z-50"
+        Side="@Side"
+        SideOffset="@SideOffset"
+        Align="@Align"
+        AlignOffset="@AlignOffset">
+        <BlazeUI.Headless.Components.Popover.PopoverPopup
+            data-slot="popover-content"
+            Class="@Css.Cn("z-50 flex w-72 origin-(--transform-origin) flex-col gap-2.5 rounded-lg bg-popover p-2.5 text-sm text-popover-foreground shadow-md ring-1 ring-foreground/10 outline-hidden duration-100 opacity-0 data-open:opacity-100 data-closed:opacity-100 data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95", Class)"
+            @attributes="AdditionalAttributes">
+            @ChildContent
+        </BlazeUI.Headless.Components.Popover.PopoverPopup>
+    </BlazeUI.Headless.Components.Popover.PopoverPositioner>
+</BlazeUI.Headless.Components.Popover.PopoverPortal>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public Side Side { get; set; } = Side.Bottom;
+    [Parameter] public int SideOffset { get; set; } = 4;
+    [Parameter] public Align Align { get; set; } = Align.Center;
+    [Parameter] public int AlignOffset { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

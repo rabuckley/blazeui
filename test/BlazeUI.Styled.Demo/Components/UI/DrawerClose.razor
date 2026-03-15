@@ -1,0 +1,15 @@
+@namespace BlazeUI.Styled.Demo.Components.UI
+
+<BlazeUI.Headless.Components.Drawer.DrawerClose
+    data-slot="drawer-close"
+    Class="@Class"
+    @attributes="AdditionalAttributes">
+    @ChildContent
+</BlazeUI.Headless.Components.Drawer.DrawerClose>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

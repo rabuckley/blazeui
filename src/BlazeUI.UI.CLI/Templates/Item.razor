@@ -1,0 +1,39 @@
+@namespace __NAMESPACE__
+
+<div data-slot="item"
+     data-size="@Size.ToString().ToLowerInvariant()"
+     class="@GetClasses()"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public ItemVariant Variant { get; set; } = ItemVariant.Default;
+    [Parameter] public ItemSize Size { get; set; } = ItemSize.Default;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "group/item flex w-full flex-wrap items-center rounded-lg border text-sm transition-colors duration-100 outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50",
+        Variant switch
+        {
+            ItemVariant.Default => "border-transparent",
+            ItemVariant.Outline => "border-border",
+            ItemVariant.Muted => "border-transparent bg-muted/50",
+            _ => ""
+        },
+        Size switch
+        {
+            ItemSize.Default => "gap-2.5 px-3 py-2.5",
+            ItemSize.Sm => "gap-2.5 px-3 py-2.5",
+            ItemSize.Xs => "gap-2 px-2.5 py-2",
+            _ => ""
+        },
+        Class
+    );
+
+    public enum ItemVariant { Default, Outline, Muted }
+    public enum ItemSize { Default, Sm, Xs }
+}

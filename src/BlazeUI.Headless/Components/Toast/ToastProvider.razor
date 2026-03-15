@@ -1,0 +1,76 @@
+@namespace BlazeUI.Headless.Components.Toast
+@using BlazeUI.Headless.Overlay.Toast
+@inject IToastService ToastServicePublic
+@implements IDisposable
+
+<ToastViewport>
+    @foreach (var toast in _activeToasts)
+    {
+        <ToastRoot @key="toast.Id" ToastId="@toast.Id">
+            <DynamicComponent Type="@toast.ComponentType" Parameters="@GetParameters(toast)" />
+        </ToastRoot>
+    }
+</ToastViewport>
+
+@code {
+    private readonly List<ToastReference> _activeToasts = [];
+    private ToastService? _service;
+
+    protected override void OnInitialized()
+    {
+        _service = ToastServicePublic as ToastService;
+        if (_service is not null)
+        {
+            _service.RegisterProvider();
+            _service.OnShow += HandleShow;
+            _service.OnClose += HandleClose;
+        }
+    }
+
+    private void HandleShow(ToastReference toast)
+    {
+        InvokeAsync(() =>
+        {
+            _activeToasts.Add(toast);
+            StateHasChanged();
+        });
+    }
+
+    private void HandleClose(ToastReference toast)
+    {
+        InvokeAsync(() =>
+        {
+            _activeToasts.Remove(toast);
+            StateHasChanged();
+        });
+    }
+
+    private static Dictionary<string, object?> GetParameters(ToastReference toast)
+    {
+        var parameters = new Dictionary<string, object?>();
+        if (toast.Parameters.Message is not null)
+            parameters["Message"] = toast.Parameters.Message;
+        foreach (var kvp in toast.Parameters.Data)
+            parameters[kvp.Key] = kvp.Value;
+        return parameters;
+    }
+
+    public void Dispose()
+    {
+        if (_service is not null)
+        {
+            _service.OnShow -= HandleShow;
+            _service.OnClose -= HandleClose;
+            _service.UnregisterProvider();
+        }
+
+        // Cancel all active toast timers.
+        foreach (var toast in _activeToasts)
+        {
+            toast.DismissCts?.Cancel();
+            toast.DismissCts?.Dispose();
+        }
+
+        _activeToasts.Clear();
+    }
+}

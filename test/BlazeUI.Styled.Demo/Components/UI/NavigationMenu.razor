@@ -1,0 +1,50 @@
+@namespace BlazeUI.Styled.Demo.Components.UI
+
+@*
+    NavigationMenu — wraps BlazeUI.Headless navigation menu anatomy with default styling.
+    Consumer composes the full tree as ChildContent.
+
+    Usage:
+    <NavigationMenu>
+        <BlazeUI.Headless.Components.NavigationMenu.NavigationMenuList
+            Class="group flex flex-1 list-none items-center justify-center space-x-1">
+            <BlazeUI.Headless.Components.NavigationMenu.NavigationMenuItem Value="item-1">
+                <BlazeUI.Headless.Components.NavigationMenu.NavigationMenuTrigger
+                    Class="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
+                    Getting Started
+                </BlazeUI.Headless.Components.NavigationMenu.NavigationMenuTrigger>
+                <BlazeUI.Headless.Components.NavigationMenu.NavigationMenuContent
+                    Class="left-0 top-0 w-full data-[open]:animate-in data-[open]:fade-in-0 data-[closed]:animate-out data-[closed]:fade-out-0 md:absolute md:w-auto">
+                    Content here
+                </BlazeUI.Headless.Components.NavigationMenu.NavigationMenuContent>
+            </BlazeUI.Headless.Components.NavigationMenu.NavigationMenuItem>
+        </BlazeUI.Headless.Components.NavigationMenu.NavigationMenuList>
+        <BlazeUI.Headless.Components.NavigationMenu.NavigationMenuViewport
+            Class="origin-top-center relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-md border bg-popover text-popover-foreground shadow" />
+    </NavigationMenu>
+*@
+
+<BlazeUI.Headless.Components.NavigationMenu.NavigationMenuRoot
+    Value="@Value"
+    ValueChanged="@ValueChanged"
+    DefaultValue="@DefaultValue"
+    Orientation="@Orientation"
+    EnterDelay="@EnterDelay"
+    ExitDelay="@ExitDelay"
+    data-slot="navigation-menu"
+    Class="@Css.Cn("group/navigation-menu relative flex max-w-max flex-1 items-center justify-center", Class)">
+    @ChildContent
+</BlazeUI.Headless.Components.NavigationMenu.NavigationMenuRoot>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+    [Parameter] public string? DefaultValue { get; set; }
+    [Parameter] public BlazeUI.Headless.Core.Orientation Orientation { get; set; }
+    [Parameter] public int EnterDelay { get; set; } = 200;
+    [Parameter] public int ExitDelay { get; set; } = 300;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

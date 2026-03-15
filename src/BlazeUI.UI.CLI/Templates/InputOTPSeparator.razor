@@ -1,0 +1,16 @@
+@namespace __NAMESPACE__
+
+<BlazeUI.Headless.Components.InputOTP.InputOTPSeparator
+    Class="@Css.Cn("flex items-center [&_svg:not([class*='size-'])]:size-4", Class)"
+    @attributes="AdditionalAttributes">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"/>
+    </svg>
+</BlazeUI.Headless.Components.InputOTP.InputOTPSeparator>
+
+@code {
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

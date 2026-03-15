@@ -1,0 +1,58 @@
+@namespace BlazeStore.Client.Components.UI
+
+@*
+    Select — wraps BlazeUI.Headless select anatomy with default styling.
+    Consumer passes SelectItem components as ChildContent.
+
+    Usage:
+    <Select Placeholder="Choose an option...">
+        <BlazeUI.Headless.Components.Select.SelectItem
+            Value="option-1"
+            Class="relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+            Option 1
+        </BlazeUI.Headless.Components.Select.SelectItem>
+    </Select>
+*@
+
+<BlazeUI.Headless.Components.Select.SelectRoot
+    Value="@Value"
+    ValueChanged="@ValueChanged"
+    DefaultValue="@DefaultValue"
+    Open="@Open"
+    OpenChanged="@OpenChanged"
+    DefaultOpen="@DefaultOpen"
+    Disabled="@Disabled"
+    Required="@Required"
+    Placeholder="@Placeholder">
+    <BlazeUI.Headless.Components.Select.SelectTrigger
+        Class="@Css.Cn("flex h-8 w-fit items-center justify-between gap-1.5 rounded-lg border border-input bg-transparent py-2 pr-2 pl-2.5 text-sm whitespace-nowrap transition-colors outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 data-placeholder:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 dark:bg-input/30 dark:hover:bg-input/50", Class)">
+        <BlazeUI.Headless.Components.Select.SelectValue Class="flex flex-1 items-center gap-1.5 text-left line-clamp-1" />
+        <svg class="pointer-events-none size-4 text-muted-foreground" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m6 9 6 6 6-6" />
+        </svg>
+    </BlazeUI.Headless.Components.Select.SelectTrigger>
+    <BlazeUI.Headless.Components.Select.SelectPortal>
+        <BlazeUI.Headless.Components.Select.SelectPositioner>
+            <BlazeUI.Headless.Components.Select.SelectPopup
+                Class="z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[open]:animate-in data-[open]:fade-in-0 data-[open]:zoom-in-95 data-[closed]:animate-out data-[closed]:fade-out-0 data-[closed]:zoom-out-95">
+                @ChildContent
+            </BlazeUI.Headless.Components.Select.SelectPopup>
+        </BlazeUI.Headless.Components.Select.SelectPositioner>
+    </BlazeUI.Headless.Components.Select.SelectPortal>
+</BlazeUI.Headless.Components.Select.SelectRoot>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+    [Parameter] public string? DefaultValue { get; set; }
+    [Parameter] public string? Placeholder { get; set; }
+    [Parameter] public bool? Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    [Parameter] public bool DefaultOpen { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

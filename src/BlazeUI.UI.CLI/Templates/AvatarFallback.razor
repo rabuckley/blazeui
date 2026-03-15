@@ -1,0 +1,17 @@
+@namespace __NAMESPACE__
+
+<BlazeUI.Headless.Components.Avatar.AvatarFallback
+    data-slot="avatar-fallback"
+    Delay="@Delay"
+    Class="@Css.Cn("flex size-full items-center justify-center rounded-full bg-muted text-sm text-muted-foreground group-data-[size=sm]/avatar:text-xs", Class)"
+    @attributes="AdditionalAttributes">
+    @ChildContent
+</BlazeUI.Headless.Components.Avatar.AvatarFallback>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public int? Delay { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

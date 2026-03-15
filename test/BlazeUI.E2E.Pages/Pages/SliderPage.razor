@@ -1,0 +1,32 @@
+@page "/slider"
+@using BlazeUI.Headless.Components.Slider
+
+<div data-testid="slider-default">
+    <SliderRoot DefaultValue="50">
+        <SliderControl>
+            <SliderTrack>
+                <SliderThumb />
+            </SliderTrack>
+        </SliderControl>
+    </SliderRoot>
+</div>
+
+<div data-testid="slider-disabled">
+    <SliderRoot DefaultValue="50" Disabled="true">
+        <SliderControl>
+            <SliderTrack>
+                <SliderThumb />
+            </SliderTrack>
+        </SliderControl>
+    </SliderRoot>
+</div>
+
+<div data-testid="slider-custom-step">
+    <SliderRoot DefaultValue="0" Min="0" Max="10" Step="2">
+        <SliderControl>
+            <SliderTrack>
+                <SliderThumb />
+            </SliderTrack>
+        </SliderControl>
+    </SliderRoot>
+</div>

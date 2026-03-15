@@ -1,0 +1,49 @@
+@page "/tooltip"
+
+<div class="space-y-6">
+<h1 class="text-2xl font-bold">Tooltip</h1>
+
+<div class="flex gap-6">
+    <Tooltip>
+        <TooltipTrigger>
+            <Render>
+                <Button Variant="Button.ButtonVariant.Outline" @attributes="context.Attributes">
+                    @context.ChildContent
+                </Button>
+            </Render>
+            <ChildContent>Hover me</ChildContent>
+        </TooltipTrigger>
+        <TooltipContent>
+            This is a tooltip
+        </TooltipContent>
+    </Tooltip>
+
+    <Tooltip>
+        <TooltipTrigger>
+            <Render>
+                <Button Variant="Button.ButtonVariant.Outline" @attributes="context.Attributes">
+                    @context.ChildContent
+                </Button>
+            </Render>
+            <ChildContent>Right</ChildContent>
+        </TooltipTrigger>
+        <TooltipContent Side="Side.Right">
+            Right-side tooltip
+        </TooltipContent>
+    </Tooltip>
+
+    <Tooltip>
+        <TooltipTrigger>
+            <Render>
+                <Button Variant="Button.ButtonVariant.Outline" @attributes="context.Attributes">
+                    @context.ChildContent
+                </Button>
+            </Render>
+            <ChildContent>Bottom</ChildContent>
+        </TooltipTrigger>
+        <TooltipContent Side="Side.Bottom">
+            Bottom tooltip
+        </TooltipContent>
+    </Tooltip>
+</div>
+</div>

@@ -1,0 +1,67 @@
+@page "/products/{Slug}"
+@inject IProductService ProductService
+
+<PageTitle>@(_product?.Name ?? "Product") — BlazeStore</PageTitle>
+
+<div class="container mx-auto px-4 py-8">
+    <Breadcrumb class="mb-6">
+        <BreadcrumbList>
+            <BreadcrumbItem>
+                <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+                <BreadcrumbLink href="/products">Products</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+                <BreadcrumbPage>@_product?.Name</BreadcrumbPage>
+            </BreadcrumbItem>
+        </BreadcrumbList>
+    </Breadcrumb>
+
+    @if (_product is not null)
+    {
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="aspect-square overflow-hidden rounded-lg border border-border">
+                <img src="@_product.ImageUrl" alt="@_product.Name" class="h-full w-full object-cover" />
+            </div>
+
+            <div class="flex flex-col">
+                <div class="flex items-center gap-3 mb-2">
+                    <Badge class="bg-secondary text-secondary-foreground text-xs">
+                        @_product.Category
+                    </Badge>
+                    <span class="text-sm text-muted-foreground">
+                        @_product.Rating.ToString("0.0") stars &middot; @_product.ReviewCount reviews
+                    </span>
+                </div>
+
+                <h1 class="text-3xl font-bold tracking-tight">@_product.Name</h1>
+                <p class="text-3xl font-bold mt-4">@_product.Price.ToString("C")</p>
+
+                <Separator class="my-6" />
+
+                <p class="text-muted-foreground leading-relaxed">@_product.Description</p>
+
+                @* Quantity selector, add-to-cart, and tabs are interactive WASM islands. *@
+                <ProductActions ProductId="@_product.Id" Description="@_product.Description" />
+            </div>
+        </div>
+    }
+    else
+    {
+        <p class="text-muted-foreground">Product not found.</p>
+    }
+</div>
+
+@code {
+    [Parameter] public string Slug { get; set; } = "";
+
+    private Product? _product;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _product = await ProductService.GetBySlugAsync(Slug);
+    }
+}

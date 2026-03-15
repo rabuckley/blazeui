@@ -1,0 +1,7 @@
+@import "tailwindcss";
+@import "@fontsource-variable/geist";
+@import "../wwwroot/css/blazeui.css";
+
+/* Scan component directories in both server and client projects. */
+@source "../Components";
+@source "../../BlazeStore.Client/Components";

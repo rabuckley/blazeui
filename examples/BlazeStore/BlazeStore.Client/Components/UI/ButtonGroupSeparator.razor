@@ -1,0 +1,18 @@
+@namespace BlazeStore.Client.Components.UI
+
+<Separator data-slot="button-group-separator"
+           Orientation="@Orientation"
+           Class="@GetClasses()"
+           @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter] public Orientation Orientation { get; set; } = Orientation.Vertical;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "relative self-stretch bg-input data-horizontal:mx-px data-horizontal:w-auto data-vertical:my-px data-vertical:h-auto",
+        Class
+    );
+}

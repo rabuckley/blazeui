@@ -1,0 +1,19 @@
+@namespace BlazeStore.Client.Components.UI
+
+<td data-slot="table-cell"
+    class="@GetClasses()"
+    @attributes="AdditionalAttributes">
+    @ChildContent
+</td>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0",
+        Class
+    );
+}

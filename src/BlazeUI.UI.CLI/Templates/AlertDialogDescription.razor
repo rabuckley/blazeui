@@ -1,0 +1,15 @@
+@namespace __NAMESPACE__
+
+<BlazeUI.Headless.Components.Dialog.DialogDescription
+    data-slot="alert-dialog-description"
+    Class="@Css.Cn("text-sm text-balance text-muted-foreground md:text-pretty *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground", Class)"
+    @attributes="AdditionalAttributes">
+    @ChildContent
+</BlazeUI.Headless.Components.Dialog.DialogDescription>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

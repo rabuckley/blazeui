@@ -1,0 +1,17 @@
+@namespace BlazeUI.Styled.Demo.Components.UI
+
+<BlazeUI.Headless.Components.NavigationMenu.NavigationMenuContent
+    Value="@Value"
+    data-slot="navigation-menu-content"
+    Class="@Css.Cn("h-full w-auto p-1 transition-[opacity,transform,translate] duration-[0.35s] ease-[cubic-bezier(0.22,1,0.36,1)] data-[starting-style]:opacity-0 data-[closed]:opacity-0 data-[starting-style]:data-[activation-direction=left]:-translate-x-1/2 data-[starting-style]:data-[activation-direction=right]:translate-x-1/2 data-[closed]:data-[activation-direction=left]:translate-x-1/2 data-[closed]:data-[activation-direction=right]:-translate-x-1/2", Class)"
+    @attributes="AdditionalAttributes">
+    @ChildContent
+</BlazeUI.Headless.Components.NavigationMenu.NavigationMenuContent>
+
+@code {
+    [Parameter, EditorRequired] public string Value { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

@@ -1,0 +1,80 @@
+@page "/"
+@inject IProductService ProductService
+
+<PageTitle>BlazeStore — Demo E-commerce</PageTitle>
+
+<section class="py-16 md:py-24">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+            Tech essentials,<br />beautifully built.
+        </h1>
+        <p class="mt-4 max-w-xl mx-auto text-lg text-muted-foreground">
+            A demo e-commerce site showcasing BlazeUI styled components with SSR + Interactive WebAssembly islands.
+        </p>
+        <div class="mt-8 flex justify-center gap-4">
+            <a href="/products" class="inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-6 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+                Browse Products
+            </a>
+            <a href="https://github.com/rabuckley/blazeui" target="_blank" class="inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-6 border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors">
+                View Source
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="pb-16">
+    <div class="container mx-auto px-4">
+        <h2 class="text-2xl font-bold tracking-tight mb-8">Featured Products</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            @foreach (var product in _featured)
+            {
+                <a href="/products/@product.Slug" class="group">
+                    <Card class="overflow-hidden transition-colors hover:border-foreground/20">
+                        <div class="aspect-square overflow-hidden">
+                            <img src="@product.ImageUrl" alt="@product.Name"
+                                 class="h-full w-full object-cover transition-transform group-hover:scale-105" />
+                        </div>
+                        <CardHeader>
+                            <div class="flex items-center justify-between">
+                                <CardTitle class="text-base">@product.Name</CardTitle>
+                                <Badge class="bg-secondary text-secondary-foreground text-xs">
+                                    @product.Category
+                                </Badge>
+                            </div>
+                        </CardHeader>
+                        <CardContent>
+                            <p class="text-lg font-semibold">@product.Price.ToString("C")</p>
+                        </CardContent>
+                    </Card>
+                </a>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="pb-16">
+    <div class="container mx-auto px-4">
+        <h2 class="text-2xl font-bold tracking-tight mb-8">Shop by Category</h2>
+        <div class="flex flex-wrap gap-3">
+            @foreach (var category in _categories)
+            {
+                <a href="/products?category=@Uri.EscapeDataString(category)"
+                   class="inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-6 border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors">
+                    @category
+                </a>
+            }
+        </div>
+    </div>
+</section>
+
+@code {
+    private IReadOnlyList<Product> _featured = [];
+    private IReadOnlyList<string> _categories = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        var all = await ProductService.GetAllAsync();
+        _featured = all.OrderByDescending(p => p.Rating).Take(4).ToList();
+        _categories = await ProductService.GetCategoriesAsync();
+    }
+}

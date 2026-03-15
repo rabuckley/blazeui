@@ -1,0 +1,28 @@
+@namespace __NAMESPACE__
+
+<div class="@Css.Cn("flex h-8 items-center gap-2 rounded-md px-2", Class)"
+     data-slot="sidebar-menu-skeleton"
+     data-sidebar="menu-skeleton"
+     @attributes="AdditionalAttributes">
+    @if (ShowIcon)
+    {
+        <Skeleton Class="size-4 rounded-md" data-sidebar="menu-skeleton-icon" />
+    }
+    <Skeleton Class="h-4 max-w-(--skeleton-width) flex-1"
+              data-sidebar="menu-skeleton-text"
+              style="@($"--skeleton-width: {_width}")" />
+</div>
+
+@code {
+    [Parameter] public bool ShowIcon { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string _width = "70%";
+
+    protected override void OnInitialized()
+    {
+        _width = $"{Random.Shared.Next(50, 91)}%";
+    }
+}

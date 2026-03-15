@@ -1,0 +1,21 @@
+@namespace __NAMESPACE__
+
+<div data-slot="aspect-ratio"
+     style="--ratio: @Ratio"
+     class="@GetClasses()"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter, EditorRequired] public double Ratio { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "relative aspect-(--ratio)",
+        Class
+    );
+}

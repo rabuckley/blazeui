@@ -1,0 +1,29 @@
+@namespace __NAMESPACE__
+
+@* Styled combobox item with check indicator for selected state. *@
+
+<BlazeUI.Headless.Components.Combobox.ComboboxItem
+    Value="@Value"
+    Label="@Label"
+    Disabled="@Disabled"
+    Hidden="@Hidden"
+    Class="@Css.Cn("relative flex w-full cursor-default items-center gap-2 rounded-md py-1 pr-8 pl-1.5 text-sm outline-hidden select-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground not-data-[variant=destructive]:data-[highlighted]:**:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4", Class)"
+    data-slot="combobox-item">
+    @ChildContent
+    <BlazeUI.Headless.Components.Combobox.ComboboxItemIndicator
+        Value="@Value"
+        Class="pointer-events-none absolute right-2 flex size-4 items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none size-4"><path d="M20 6 9 17l-5-5"/></svg>
+    </BlazeUI.Headless.Components.Combobox.ComboboxItemIndicator>
+</BlazeUI.Headless.Components.Combobox.ComboboxItem>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter, EditorRequired] public string Value { get; set; } = default!;
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public bool Hidden { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

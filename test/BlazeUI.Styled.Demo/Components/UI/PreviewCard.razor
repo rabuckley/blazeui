@@ -1,0 +1,21 @@
+@namespace BlazeUI.Styled.Demo.Components.UI
+
+<BlazeUI.Headless.Components.PreviewCard.PreviewCardRoot
+    Open="@Open"
+    OpenChanged="@OpenChanged"
+    DefaultOpen="@DefaultOpen"
+    Delay="@Delay"
+    CloseDelay="@CloseDelay">
+    @ChildContent
+</BlazeUI.Headless.Components.PreviewCard.PreviewCardRoot>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool? Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    [Parameter] public bool DefaultOpen { get; set; }
+    [Parameter] public int Delay { get; set; } = 600;
+    [Parameter] public int CloseDelay { get; set; } = 300;
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

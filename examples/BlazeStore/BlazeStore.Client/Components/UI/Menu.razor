@@ -1,0 +1,61 @@
+@namespace BlazeStore.Client.Components.UI
+
+@*
+    Menu — wraps BlazeUI.Headless menu anatomy with default styling.
+    Consumer passes menu items as ChildContent.
+
+    Usage:
+    <Menu>
+        <Trigger>
+            <Button>Open Menu</Button>
+        </Trigger>
+        <ChildContent>
+            <BlazeUI.Headless.Components.Menu.MenuItem
+                Class="relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                Item 1
+            </BlazeUI.Headless.Components.Menu.MenuItem>
+            <BlazeUI.Headless.Components.Menu.MenuSeparator Class="-mx-1 my-1 h-px bg-muted" />
+        </ChildContent>
+    </Menu>
+*@
+
+<BlazeUI.Headless.Components.Menu.MenuRoot Open="@Open" OpenChanged="@OpenChanged" DefaultOpen="@DefaultOpen">
+    @if (Trigger is not null)
+    {
+        <BlazeUI.Headless.Components.Menu.MenuTrigger
+            Class="@GetTriggerClasses()"
+            data-slot="dropdown-menu-trigger">
+            @Trigger
+        </BlazeUI.Headless.Components.Menu.MenuTrigger>
+    }
+    <BlazeUI.Headless.Components.Menu.MenuPortal>
+        <BlazeUI.Headless.Components.Menu.MenuPositioner Side="@Side" Align="@Align">
+            <BlazeUI.Headless.Components.Menu.MenuPopup
+                Class="z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[open]:animate-in data-[open]:fade-in-0 data-[open]:zoom-in-95 data-[closed]:animate-out data-[closed]:fade-out-0 data-[closed]:zoom-out-95">
+                @ChildContent
+            </BlazeUI.Headless.Components.Menu.MenuPopup>
+        </BlazeUI.Headless.Components.Menu.MenuPositioner>
+    </BlazeUI.Headless.Components.Menu.MenuPortal>
+</BlazeUI.Headless.Components.Menu.MenuRoot>
+
+@code {
+    [Parameter] public RenderFragment? Trigger { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool? Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    [Parameter] public bool DefaultOpen { get; set; }
+    [Parameter] public string? TriggerClass { get; set; }
+    [Parameter] public Button.ButtonVariant TriggerVariant { get; set; } = Button.ButtonVariant.Default;
+    [Parameter] public Button.ButtonSize TriggerSize { get; set; } = Button.ButtonSize.Default;
+    [Parameter] public Side Side { get; set; } = Side.Bottom;
+    [Parameter] public Align Align { get; set; } = Align.Start;
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetTriggerClasses() => Css.Cn(
+        ButtonClasses.Base,
+        ButtonClasses.GetVariant(TriggerVariant),
+        ButtonClasses.GetSize(TriggerSize),
+        TriggerClass
+    );
+}

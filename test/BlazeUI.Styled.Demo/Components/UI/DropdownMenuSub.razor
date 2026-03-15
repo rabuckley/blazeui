@@ -1,0 +1,9 @@
+@namespace BlazeUI.Styled.Demo.Components.UI
+
+<BlazeUI.Headless.Components.Menu.MenuSubmenuRoot>
+    @ChildContent
+</BlazeUI.Headless.Components.Menu.MenuSubmenuRoot>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

@@ -1,0 +1,48 @@
+@page "/toast"
+@using BlazeUI.Sonner
+@inject ISonnerService Sonner
+
+<div class="space-y-6">
+    <h1 class="text-2xl font-bold">Toast</h1>
+    <div class="flex flex-wrap gap-3">
+        <Button Variant="Button.ButtonVariant.Outline"
+                @onclick="@(() => Sonner.Show("Event has been created", new ToastOptions { Description = "Monday, January 3rd at 6:00pm" }))">
+            Default
+        </Button>
+        <Button Variant="Button.ButtonVariant.Outline"
+                @onclick="@(() => Sonner.Success("Event has been created", new ToastOptions { Description = "Monday, January 3rd at 6:00pm" }))">
+            Success
+        </Button>
+        <Button Variant="Button.ButtonVariant.Outline"
+                @onclick="@(() => Sonner.Info("Be at the area 10 minutes before the event time", new ToastOptions { Description = "Monday, January 3rd at 6:00pm" }))">
+            Info
+        </Button>
+        <Button Variant="Button.ButtonVariant.Outline"
+                @onclick="@(() => Sonner.Warning("Event start time is in the past", new ToastOptions { Description = "Monday, January 3rd at 6:00pm" }))">
+            Warning
+        </Button>
+        <Button Variant="Button.ButtonVariant.Outline"
+                @onclick="@(() => Sonner.Error("Event has not been created", new ToastOptions { Description = "Monday, January 3rd at 6:00pm" }))">
+            Error
+        </Button>
+        <Button Variant="Button.ButtonVariant.Outline"
+                @onclick="@(() => Sonner.Show("Event has been created", new ToastOptions { Description = "Monday, January 3rd at 6:00pm", Action = new ToastAction { Label = "Undo", OnClick = () => { } } }))">
+            With Action
+        </Button>
+        <Button Variant="Button.ButtonVariant.Outline"
+                @onclick="@(() => Sonner.Promise(CreateEventAsync(), new PromiseToastOptions<EventResult> { Loading = "Loading...", Success = data => $"{data.Name} has been created", Error = _ => "Error" }))">
+            Promise
+        </Button>
+    </div>
+    <BlazeUI.Sonner.Toaster Position="BlazeUI.Sonner.Position.BottomRight" />
+</div>
+
+@code {
+    private sealed record EventResult(string Name);
+
+    private static async Task<EventResult> CreateEventAsync()
+    {
+        await Task.Delay(2000);
+        return new EventResult("Event");
+    }
+}

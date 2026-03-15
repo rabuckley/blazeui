@@ -1,0 +1,33 @@
+@page "/button-group"
+
+<div class="space-y-6">
+<h1 class="text-2xl font-bold">ButtonGroup</h1>
+
+<div>
+    <h2 class="text-sm font-medium text-muted-foreground mb-3">Horizontal</h2>
+    <ButtonGroup>
+        <Button Variant="Button.ButtonVariant.Outline">Left</Button>
+        <Button Variant="Button.ButtonVariant.Outline">Center</Button>
+        <Button Variant="Button.ButtonVariant.Outline">Right</Button>
+    </ButtonGroup>
+</div>
+
+<div>
+    <h2 class="text-sm font-medium text-muted-foreground mb-3">Vertical</h2>
+    <ButtonGroup Orientation="ButtonGroup.ButtonGroupOrientation.Vertical">
+        <Button Variant="Button.ButtonVariant.Outline">Top</Button>
+        <Button Variant="Button.ButtonVariant.Outline">Middle</Button>
+        <Button Variant="Button.ButtonVariant.Outline">Bottom</Button>
+    </ButtonGroup>
+</div>
+
+<div>
+    <h2 class="text-sm font-medium text-muted-foreground mb-3">With text</h2>
+    <ButtonGroup>
+        <ButtonGroupText>Filter:</ButtonGroupText>
+        <Button Variant="Button.ButtonVariant.Outline">All</Button>
+        <Button Variant="Button.ButtonVariant.Outline">Active</Button>
+        <Button Variant="Button.ButtonVariant.Outline">Inactive</Button>
+    </ButtonGroup>
+</div>
+</div>

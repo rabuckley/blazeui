@@ -1,0 +1,61 @@
+@page "/avatar"
+
+<div class="space-y-6">
+<h1 class="text-2xl font-bold">Avatar</h1>
+    <div>
+        <h2 class="text-sm font-medium text-muted-foreground mb-3">Sizes</h2>
+        <div class="flex items-center gap-4">
+            <Avatar Size="Avatar.AvatarSize.Sm">
+                <AvatarFallback>SM</AvatarFallback>
+            </Avatar>
+            <Avatar>
+                <AvatarFallback>MD</AvatarFallback>
+            </Avatar>
+            <Avatar Size="Avatar.AvatarSize.Lg">
+                <AvatarFallback>LG</AvatarFallback>
+            </Avatar>
+        </div>
+    </div>
+
+    <div>
+        <h2 class="text-sm font-medium text-muted-foreground mb-3">With fallback</h2>
+        <Avatar>
+            <AvatarImage Src="https://invalid-url.example" Alt="User" />
+            <AvatarFallback>JD</AvatarFallback>
+        </Avatar>
+    </div>
+
+    <div>
+        <h2 class="text-sm font-medium text-muted-foreground mb-3">With badge</h2>
+        <div class="flex items-center gap-4">
+            <Avatar Size="Avatar.AvatarSize.Sm">
+                <AvatarFallback>SM</AvatarFallback>
+                <AvatarBadge />
+            </Avatar>
+            <Avatar>
+                <AvatarFallback>MD</AvatarFallback>
+                <AvatarBadge />
+            </Avatar>
+            <Avatar Size="Avatar.AvatarSize.Lg">
+                <AvatarFallback>LG</AvatarFallback>
+                <AvatarBadge />
+            </Avatar>
+        </div>
+    </div>
+
+    <div>
+        <h2 class="text-sm font-medium text-muted-foreground mb-3">Group</h2>
+        <AvatarGroup>
+            <Avatar>
+                <AvatarFallback>AB</AvatarFallback>
+            </Avatar>
+            <Avatar>
+                <AvatarFallback>CD</AvatarFallback>
+            </Avatar>
+            <Avatar>
+                <AvatarFallback>EF</AvatarFallback>
+            </Avatar>
+            <AvatarGroupCount>+3</AvatarGroupCount>
+        </AvatarGroup>
+    </div>
+</div>

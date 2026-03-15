@@ -1,0 +1,14 @@
+@namespace BlazeStore.Client.Components.UI
+
+<BlazeUI.Headless.Components.Menubar.MenubarRoot
+    data-slot="menubar"
+    Class="@Css.Cn("flex h-8 items-center gap-0.5 rounded-lg border p-[3px]", Class)">
+    @ChildContent
+</BlazeUI.Headless.Components.Menubar.MenubarRoot>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

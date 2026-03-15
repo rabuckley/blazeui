@@ -1,0 +1,39 @@
+@rendermode InteractiveWebAssembly
+@inject ICartService CartService
+@implements IDisposable
+
+<a href="/cart" class="relative inline-flex items-center justify-center rounded-md text-sm font-medium h-9 w-9 hover:bg-accent hover:text-accent-foreground transition-colors">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+        <circle cx="8" cy="21" r="1" /><circle cx="19" cy="21" r="1" />
+        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+    </svg>
+    @if (_count > 0)
+    {
+        <Badge class="absolute -top-1 -right-1 h-5 min-w-5 flex items-center justify-center rounded-full bg-primary text-primary-foreground text-[10px] font-bold px-1">
+            @_count
+        </Badge>
+    }
+</a>
+
+@code {
+    private int _count;
+
+    protected override async Task OnInitializedAsync()
+    {
+        CartService.OnChange += OnCartChanged;
+        var cart = await CartService.GetCartAsync();
+        _count = cart.TotalCount;
+    }
+
+    private async void OnCartChanged()
+    {
+        var cart = await CartService.GetCartAsync();
+        _count = cart.TotalCount;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        CartService.OnChange -= OnCartChanged;
+    }
+}

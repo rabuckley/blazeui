@@ -1,0 +1,22 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>0.1.0</Version>
+    <Authors>Ryan Buckley</Authors>
+    <PackageProjectUrl>https://github.com/rabuckley/blazeui</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/rabuckley/blazeui</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(MSBuildProjectFullPath.Contains('test')) OR $(MSBuildProjectFullPath.Contains('examples'))">
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+</Project>

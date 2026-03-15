@@ -1,0 +1,17 @@
+@page "/popover"
+@using BlazeUI.Headless.Components.Popover
+
+<div data-testid="popover-default">
+    <PopoverRoot>
+        <PopoverTrigger>Open Popover</PopoverTrigger>
+        <PopoverPortal>
+            <PopoverPositioner>
+                <PopoverPopup>
+                    <PopoverTitle>Popover Title</PopoverTitle>
+                    <PopoverDescription>Popover content goes here.</PopoverDescription>
+                    <PopoverClose>Close</PopoverClose>
+                </PopoverPopup>
+            </PopoverPositioner>
+        </PopoverPortal>
+    </PopoverRoot>
+</div>

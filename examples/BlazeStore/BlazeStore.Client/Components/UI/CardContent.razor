@@ -1,0 +1,19 @@
+@namespace BlazeStore.Client.Components.UI
+
+<div data-slot="card-content"
+     class="@GetClasses()"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "px-4 group-data-[size=sm]/card:px-3",
+        Class
+    );
+}

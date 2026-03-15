@@ -1,0 +1,43 @@
+@namespace BlazeStore.Client.Components.UI
+
+<BlazeUI.Headless.Components.Slider.SliderRoot
+    Class="@Css.Cn("data-horizontal:w-full data-vertical:h-full", Class)"
+    Value="@Value"
+    ValueChanged="@ValueChanged"
+    DefaultValue="@DefaultValue"
+    Min="@Min"
+    Max="@Max"
+    Step="@Step"
+    LargeStep="@LargeStep"
+    Orientation="@Orientation"
+    Disabled="@Disabled"
+    data-slot="slider"
+    @attributes="AdditionalAttributes">
+    <BlazeUI.Headless.Components.Slider.SliderControl Class="relative flex w-full touch-none items-center select-none data-[disabled]:opacity-50 data-vertical:h-full data-vertical:min-h-40 data-vertical:w-auto data-vertical:flex-col">
+        <BlazeUI.Headless.Components.Slider.SliderTrack
+            data-slot="slider-track"
+            Class="relative grow overflow-hidden rounded-full bg-muted select-none data-horizontal:h-1 data-horizontal:w-full data-vertical:h-full data-vertical:w-1">
+            <BlazeUI.Headless.Components.Slider.SliderIndicator
+                data-slot="slider-range"
+                Class="bg-primary select-none data-horizontal:h-full data-vertical:w-full" />
+        </BlazeUI.Headless.Components.Slider.SliderTrack>
+        <BlazeUI.Headless.Components.Slider.SliderThumb
+            data-slot="slider-thumb"
+            Class="relative block size-3 shrink-0 rounded-full border border-ring bg-white ring-ring/50 transition-[color,box-shadow] select-none after:absolute after:-inset-2 hover:ring-3 focus-visible:ring-3 focus-visible:outline-hidden active:ring-3 disabled:pointer-events-none disabled:opacity-50" />
+    </BlazeUI.Headless.Components.Slider.SliderControl>
+</BlazeUI.Headless.Components.Slider.SliderRoot>
+
+@code {
+    [Parameter] public double? Value { get; set; }
+    [Parameter] public EventCallback<double> ValueChanged { get; set; }
+    [Parameter] public double? DefaultValue { get; set; }
+    [Parameter] public double Min { get; set; }
+    [Parameter] public double Max { get; set; } = 100;
+    [Parameter] public double Step { get; set; } = 1;
+    [Parameter] public double? LargeStep { get; set; }
+    [Parameter] public BlazeUI.Headless.Core.Orientation Orientation { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

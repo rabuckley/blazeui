@@ -1,0 +1,29 @@
+@namespace BlazeUI.Headless.Components.Menu
+@using BlazeUI.Headless.Overlay
+
+<Portal ZIndex="ZIndex" Active="_portalActive">
+    <CascadingValue Value="Context">
+        @ChildContent
+    </CascadingValue>
+</Portal>
+
+@code {
+    [CascadingParameter]
+    internal MenuContext Context { get; set; } = default!;
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public int ZIndex { get; set; } = 1000;
+
+    private bool _portalActive;
+    private bool _hasBeenOpened;
+
+    protected override void OnParametersSet()
+    {
+        if (Context.Open)
+            _hasBeenOpened = true;
+
+        // Active when the menu has been opened and is either currently open
+        // or the exit animation hasn't finished yet.
+        _portalActive = _hasBeenOpened && (Context.Open || !Context.ExitComplete);
+    }
+}

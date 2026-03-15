@@ -1,0 +1,92 @@
+@namespace BlazeStore.Client.Components.UI
+
+<BlazeUI.Headless.Components.Dialog.DialogRoot Open="@Open" OpenChanged="@OpenChanged" DefaultOpen="@DefaultOpen">
+    @if (Trigger is not null)
+    {
+        <BlazeUI.Headless.Components.Dialog.DialogTrigger
+            Class="@GetTriggerClasses()"
+            data-slot="sheet-trigger">
+            @Trigger
+        </BlazeUI.Headless.Components.Dialog.DialogTrigger>
+    }
+    <BlazeUI.Headless.Components.Dialog.DialogPortal>
+        <BlazeUI.Headless.Components.Dialog.DialogBackdrop
+            Class="fixed inset-0 z-50 bg-black/50 data-[open]:animate-in data-[open]:fade-in-0 data-[closed]:animate-out data-[closed]:fade-out-0 data-[closed]:hidden" />
+        <BlazeUI.Headless.Components.Dialog.DialogPopup
+            Class="@GetPopupClasses()">
+            <div data-slot="sheet-header" class="flex flex-col gap-0.5 p-4">
+                @if (Title is not null)
+                {
+                    <BlazeUI.Headless.Components.Dialog.DialogTitle
+                        Class="text-base font-medium text-foreground">
+                        @Title
+                    </BlazeUI.Headless.Components.Dialog.DialogTitle>
+                }
+                @if (Description is not null)
+                {
+                    <BlazeUI.Headless.Components.Dialog.DialogDescription
+                        Class="text-sm text-muted-foreground">
+                        @Description
+                    </BlazeUI.Headless.Components.Dialog.DialogDescription>
+                }
+            </div>
+            @ChildContent
+            @if (Footer is not null)
+            {
+                <div data-slot="sheet-footer" class="mt-auto flex flex-col gap-2 p-4">
+                    @Footer
+                </div>
+            }
+            @if (ShowCloseButton)
+            {
+                <BlazeUI.Headless.Components.Dialog.DialogClose
+                    Class="absolute right-3 top-3 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+                    <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                    <span class="sr-only">Close</span>
+                </BlazeUI.Headless.Components.Dialog.DialogClose>
+            }
+        </BlazeUI.Headless.Components.Dialog.DialogPopup>
+    </BlazeUI.Headless.Components.Dialog.DialogPortal>
+</BlazeUI.Headless.Components.Dialog.DialogRoot>
+
+@code {
+    [Parameter] public RenderFragment? Trigger { get; set; }
+    [Parameter] public RenderFragment? Title { get; set; }
+    [Parameter] public RenderFragment? Description { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public RenderFragment? Footer { get; set; }
+    [Parameter] public bool? Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    [Parameter] public bool DefaultOpen { get; set; }
+    [Parameter] public SheetSide Side { get; set; } = SheetSide.Right;
+    [Parameter] public bool ShowCloseButton { get; set; } = true;
+    [Parameter] public string? TriggerClass { get; set; }
+    [Parameter] public Button.ButtonVariant TriggerVariant { get; set; } = Button.ButtonVariant.Default;
+    [Parameter] public Button.ButtonSize TriggerSize { get; set; } = Button.ButtonSize.Default;
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetTriggerClasses() => Css.Cn(
+        ButtonClasses.Base,
+        ButtonClasses.GetVariant(TriggerVariant),
+        ButtonClasses.GetSize(TriggerSize),
+        TriggerClass
+    );
+
+    private string GetPopupClasses() => Css.Cn(
+        "fixed z-50 flex flex-col gap-4 bg-background text-sm shadow-lg data-[closed]:hidden",
+        Side switch
+        {
+            SheetSide.Right => "inset-y-0 right-0 h-full w-3/4 sm:max-w-sm border-l data-[open]:animate-in data-[open]:slide-in-from-right data-[closed]:animate-out data-[closed]:slide-out-to-right",
+            SheetSide.Left => "inset-y-0 left-0 h-full w-3/4 sm:max-w-sm border-r data-[open]:animate-in data-[open]:slide-in-from-left data-[closed]:animate-out data-[closed]:slide-out-to-left",
+            SheetSide.Top => "inset-x-0 top-0 h-auto border-b data-[open]:animate-in data-[open]:slide-in-from-top data-[closed]:animate-out data-[closed]:slide-out-to-top",
+            SheetSide.Bottom => "inset-x-0 bottom-0 h-auto border-t data-[open]:animate-in data-[open]:slide-in-from-bottom data-[closed]:animate-out data-[closed]:slide-out-to-bottom",
+            _ => ""
+        }
+    );
+
+    public enum SheetSide { Top, Right, Bottom, Left }
+}

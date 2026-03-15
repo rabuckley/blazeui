@@ -1,0 +1,31 @@
+@namespace __NAMESPACE__
+
+<BlazeUI.Headless.Components.Select.SelectRoot
+    Value="@Value"
+    ValueChanged="@ValueChanged"
+    DefaultValue="@DefaultValue"
+    Open="@Open"
+    OpenChanged="@OpenChanged"
+    DefaultOpen="@DefaultOpen"
+    Disabled="@Disabled"
+    Required="@Required"
+    Placeholder="@Placeholder"
+    Name="@Name">
+    @ChildContent
+</BlazeUI.Headless.Components.Select.SelectRoot>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+    [Parameter] public string? DefaultValue { get; set; }
+    [Parameter] public string? Placeholder { get; set; }
+    [Parameter] public string? Name { get; set; }
+    [Parameter] public bool? Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    [Parameter] public bool DefaultOpen { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

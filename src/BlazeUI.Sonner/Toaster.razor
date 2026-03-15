@@ -1,0 +1,56 @@
+@implements IAsyncDisposable
+@inject ToastService _service
+@inject IJSRuntime JS
+
+@* Accessibility: live region announces new toasts to screen readers *@
+<section aria-label="@AriaLabel"
+         tabindex="-1"
+         aria-live="polite"
+         aria-relevant="additions text"
+         aria-atomic="false">
+
+    @foreach (var pos in ActivePositions)
+    {
+        var (yPos, xPos) = pos.ToDataValues();
+        var toastsForPosition = GetToastsForPosition(pos);
+        if (toastsForPosition.Count is 0) continue;
+
+        <ol @key="pos" id="@($"{_sectionId}-{yPos}-{xPos}")"
+            dir="@_dir"
+            tabindex="-1"
+            data-sonner-toaster=""
+            data-sonner-theme="@_actualTheme"
+            data-y-position="@yPos"
+            data-x-position="@xPos"
+            data-lifted="@(_expanded ? "true" : "false")"
+            style="@GetToasterStyle(toastsForPosition)"
+            @onmouseenter="OnMouseEnter"
+            @onmousemove="OnMouseMove"
+            @onmouseleave="OnMouseLeave"
+            @onpointerdown="OnPointerDown"
+            @onpointerup="OnPointerUp">
+
+            @for (var i = 0; i < toastsForPosition.Count; i++)
+            {
+                var toast = toastsForPosition[i];
+                var index = i;
+                var toastOffset = ComputeOffset(toastsForPosition, index);
+                <Toast @key="toast.Id" ToastState="toast" SectionId="@_sectionId"
+                       Index="index"
+                       TotalCount="toastsForPosition.Count"
+                       Expanded="@(_expanded || Expand)"
+                       VisibleToasts="VisibleToasts"
+                       Position="pos"
+                       Gap="Gap"
+                       CloseButton="CloseButton"
+                       RichColors="RichColors"
+                       FrontToastHeight="@_frontToastHeight"
+                       Offset="toastOffset"
+                       PauseOnHover="true"
+                       DocumentHidden="@_documentHidden"
+                       OnHeightReported="OnToastHeightReported"
+                       OnRemoveRequested="OnToastRemoveRequested" />
+            }
+        </ol>
+    }
+</section>

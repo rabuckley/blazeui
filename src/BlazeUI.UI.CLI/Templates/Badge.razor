@@ -1,0 +1,30 @@
+@namespace __NAMESPACE__
+
+<span data-slot="badge"
+      class="@GetClasses()"
+      @attributes="AdditionalAttributes">
+    @ChildContent
+</span>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public BadgeVariant Variant { get; set; } = BadgeVariant.Default;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-transparent px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3!",
+        Variant switch
+        {
+            BadgeVariant.Default => "bg-primary text-primary-foreground",
+            BadgeVariant.Secondary => "bg-secondary text-secondary-foreground",
+            BadgeVariant.Destructive => "bg-destructive/10 text-destructive focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:focus-visible:ring-destructive/40",
+            BadgeVariant.Outline => "border-border text-foreground",
+            _ => ""
+        },
+        Class
+    );
+
+    public enum BadgeVariant { Default, Secondary, Destructive, Outline }
+}

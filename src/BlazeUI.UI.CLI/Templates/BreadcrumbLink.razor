@@ -1,0 +1,19 @@
+@namespace __NAMESPACE__
+
+<a data-slot="breadcrumb-link"
+   class="@GetClasses()"
+   @attributes="AdditionalAttributes">
+    @ChildContent
+</a>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "transition-colors hover:text-foreground",
+        Class
+    );
+}

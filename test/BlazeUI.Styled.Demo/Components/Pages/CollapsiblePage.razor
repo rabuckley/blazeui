@@ -1,0 +1,36 @@
+@page "/collapsible"
+
+<div class="space-y-6">
+    <h1 class="text-2xl font-bold">Collapsible</h1>
+    <div class="w-80 space-y-2">
+        <CollapsibleRoot>
+            <div class="flex items-center justify-between space-x-4 rounded-md border px-4 py-2">
+                <h4 class="text-sm font-semibold">
+                    @@peduarte starred 3 repositories
+                </h4>
+                <CollapsibleTrigger>
+                    <Render>
+                        <Button Variant="Button.ButtonVariant.Ghost" Size="Button.ButtonSize.Icon" @attributes="context.Attributes">
+                            @context.ChildContent
+                        </Button>
+                    </Render>
+                    <ChildContent>
+                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+                        <span class="sr-only">Toggle</span>
+                    </ChildContent>
+                </CollapsibleTrigger>
+            </div>
+            <div class="rounded-md border px-4 py-2 text-sm font-mono">
+                @@radix-ui/primitives
+            </div>
+            <CollapsibleContent Class="space-y-2">
+                <div class="rounded-md border px-4 py-2 text-sm font-mono">
+                    @@radix-ui/colors
+                </div>
+                <div class="rounded-md border px-4 py-2 text-sm font-mono">
+                    @@stitches/react
+                </div>
+            </CollapsibleContent>
+        </CollapsibleRoot>
+    </div>
+</div>

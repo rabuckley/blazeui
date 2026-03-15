@@ -1,0 +1,35 @@
+@page "/button"
+
+<section class="space-y-6">
+<h1 class="text-2xl font-bold">Button</h1>
+    <div>
+        <h2 class="text-sm font-medium text-muted-foreground mb-3">Variants</h2>
+        <div class="flex flex-wrap gap-3">
+            <Button>Default</Button>
+            <Button Variant="Button.ButtonVariant.Destructive">Destructive</Button>
+            <Button Variant="Button.ButtonVariant.Outline">Outline</Button>
+            <Button Variant="Button.ButtonVariant.Secondary">Secondary</Button>
+            <Button Variant="Button.ButtonVariant.Ghost">Ghost</Button>
+            <Button Variant="Button.ButtonVariant.Link">Link</Button>
+        </div>
+    </div>
+
+    <div>
+        <h2 class="text-sm font-medium text-muted-foreground mb-3">Sizes</h2>
+        <div class="flex items-center gap-3">
+            <Button Size="Button.ButtonSize.Sm">Small</Button>
+            <Button>Default</Button>
+            <Button Size="Button.ButtonSize.Lg">Large</Button>
+            <Button Size="Button.ButtonSize.Icon">
+                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+            </Button>
+        </div>
+    </div>
+
+    <div>
+        <h2 class="text-sm font-medium text-muted-foreground mb-3">Disabled</h2>
+        <Button Disabled="true">Disabled</Button>
+    </div>
+</section>

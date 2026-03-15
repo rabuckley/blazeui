@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <ItemGroup>
+    <ProjectReference Include="..\BlazeStore.Client\BlazeStore.Client.csproj" />
+    <ProjectReference Include="../../../src/BlazeUI.Headless/BlazeUI.Headless.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
+    <PackageReference Include="TailwindMerge.NET" />
+  </ItemGroup>
+  <Target Name="BuildCSS" BeforeTargets="Build" Inputs="Styles/input.css" Outputs="wwwroot/css/app.css">
+    <Exec Command="pnpm install --frozen-lockfile" />
+    <Exec Command="pnpx @tailwindcss/cli -i Styles/input.css -o wwwroot/css/app.css --minify" />
+  </Target>
+</Project>

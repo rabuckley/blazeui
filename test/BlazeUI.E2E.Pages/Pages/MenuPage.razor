@@ -1,0 +1,17 @@
+@page "/menu"
+@using BlazeUI.Headless.Components.Menu
+
+<div data-testid="menu-default">
+    <MenuRoot>
+        <MenuTrigger>Open Menu</MenuTrigger>
+        <MenuPortal>
+            <MenuPositioner>
+                <MenuPopup>
+                    <MenuItem>Cut</MenuItem>
+                    <MenuItem>Copy</MenuItem>
+                    <MenuItem>Paste</MenuItem>
+                </MenuPopup>
+            </MenuPositioner>
+        </MenuPortal>
+    </MenuRoot>
+</div>

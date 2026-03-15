@@ -1,0 +1,41 @@
+@namespace BlazeUI.Styled.Demo.Components.UI
+
+<div role="group"
+     data-slot="input-group-addon"
+     data-align="@GetAlignValue()"
+     class="@GetClasses()"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public InputGroupAddonAlign Align { get; set; } = InputGroupAddonAlign.InlineStart;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetAlignValue() => Align switch
+    {
+        InputGroupAddonAlign.InlineStart => "inline-start",
+        InputGroupAddonAlign.InlineEnd => "inline-end",
+        InputGroupAddonAlign.BlockStart => "block-start",
+        InputGroupAddonAlign.BlockEnd => "block-end",
+        _ => "inline-start"
+    };
+
+    private string GetClasses() => Css.Cn(
+        "flex h-auto cursor-text items-center justify-center gap-2 py-1.5 text-sm font-medium text-muted-foreground select-none group-data-[disabled]/input-group:opacity-50 [&>kbd]:rounded-[calc(var(--radius)-5px)] [&>svg:not([class*='size-'])]:size-4",
+        Align switch
+        {
+            InputGroupAddonAlign.InlineStart => "order-first pl-2 has-[>button]:ml-[-0.3rem] has-[>kbd]:ml-[-0.15rem]",
+            InputGroupAddonAlign.InlineEnd => "order-last pr-2 has-[>button]:mr-[-0.3rem] has-[>kbd]:mr-[-0.15rem]",
+            InputGroupAddonAlign.BlockStart => "order-first w-full justify-start px-2.5 pt-2 group-has-[>input]/input-group:pt-2 [.border-b]:pb-2",
+            InputGroupAddonAlign.BlockEnd => "order-last w-full justify-start px-2.5 pb-2 group-has-[>input]/input-group:pb-2 [.border-t]:pt-2",
+            _ => ""
+        },
+        Class
+    );
+
+    public enum InputGroupAddonAlign { InlineStart, InlineEnd, BlockStart, BlockEnd }
+}

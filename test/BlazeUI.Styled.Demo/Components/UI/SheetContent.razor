@@ -1,0 +1,54 @@
+@namespace BlazeUI.Styled.Demo.Components.UI
+
+<BlazeUI.Headless.Components.Dialog.DialogPortal>
+    <BlazeUI.Headless.Components.Dialog.DialogBackdrop
+        data-slot="sheet-overlay"
+        Class="fixed inset-0 z-50 bg-black/10 transition-opacity duration-150 data-starting-style:opacity-0 data-[closed]:opacity-0 supports-backdrop-filter:backdrop-blur-xs" />
+    <BlazeUI.Headless.Components.Dialog.DialogPopup
+        data-slot="sheet-content"
+        data-side="@GetSideName()"
+        Class="@Css.Cn(
+            "fixed z-50 flex flex-col gap-4 bg-background bg-clip-padding text-sm shadow-lg transition duration-200 ease-in-out data-starting-style:opacity-0 data-[closed]:opacity-0 data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=bottom]:border-t data-[side=bottom]:data-starting-style:translate-y-[2.5rem] data-[side=bottom]:data-[closed]:translate-y-[2.5rem] data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=left]:border-r data-[side=left]:data-starting-style:translate-x-[-2.5rem] data-[side=left]:data-[closed]:translate-x-[-2.5rem] data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=right]:border-l data-[side=right]:data-starting-style:translate-x-[2.5rem] data-[side=right]:data-[closed]:translate-x-[2.5rem] data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=top]:border-b data-[side=top]:data-starting-style:translate-y-[-2.5rem] data-[side=top]:data-[closed]:translate-y-[-2.5rem] data-[side=left]:sm:max-w-sm data-[side=right]:sm:max-w-sm",
+            Class)">
+        @ChildContent
+        @if (ShowCloseButton)
+        {
+            <BlazeUI.Headless.Components.Dialog.DialogClose
+                data-slot="sheet-close"
+                Class="@GetCloseClasses()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                </svg>
+                <span class="sr-only">Close</span>
+            </BlazeUI.Headless.Components.Dialog.DialogClose>
+        }
+    </BlazeUI.Headless.Components.Dialog.DialogPopup>
+</BlazeUI.Headless.Components.Dialog.DialogPortal>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public SheetSide Side { get; set; } = SheetSide.Right;
+    [Parameter] public bool ShowCloseButton { get; set; } = true;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetSideName() => Side switch
+    {
+        SheetSide.Top => "top",
+        SheetSide.Right => "right",
+        SheetSide.Bottom => "bottom",
+        SheetSide.Left => "left",
+        _ => "right"
+    };
+
+    private static string GetCloseClasses() => Css.Cn(
+        ButtonClasses.Base,
+        ButtonClasses.GetVariant(Button.ButtonVariant.Ghost),
+        ButtonClasses.GetSize(Button.ButtonSize.IconSm),
+        "absolute top-3 right-3"
+    );
+
+    public enum SheetSide { Top, Right, Bottom, Left }
+}

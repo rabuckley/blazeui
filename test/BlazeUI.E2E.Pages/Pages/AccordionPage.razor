@@ -1,0 +1,15 @@
+@page "/accordion"
+@using BlazeUI.Headless.Components.Accordion
+
+<div data-testid="accordion-default">
+    <AccordionRoot>
+        <AccordionItem Value="item1">
+            <AccordionTrigger>Section 1</AccordionTrigger>
+            <AccordionPanel>Content for section 1</AccordionPanel>
+        </AccordionItem>
+        <AccordionItem Value="item2">
+            <AccordionTrigger>Section 2</AccordionTrigger>
+            <AccordionPanel>Content for section 2</AccordionPanel>
+        </AccordionItem>
+    </AccordionRoot>
+</div>

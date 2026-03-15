@@ -1,0 +1,47 @@
+@namespace BlazeUI.Styled.Demo.Components.UI
+
+<BlazeUI.Headless.Components.Toggle.ToggleRoot
+    Class="@GetClasses()"
+    Pressed="@Pressed"
+    PressedChanged="@PressedChanged"
+    DefaultPressed="@DefaultPressed"
+    Disabled="@Disabled"
+    Value="@Value"
+    @attributes="AdditionalAttributes">
+    @ChildContent
+</BlazeUI.Headless.Components.Toggle.ToggleRoot>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool? Pressed { get; set; }
+    [Parameter] public EventCallback<bool> PressedChanged { get; set; }
+    [Parameter] public bool DefaultPressed { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public ToggleVariant Variant { get; set; } = ToggleVariant.Default;
+    [Parameter] public ToggleSize Size { get; set; } = ToggleSize.Default;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "group/toggle inline-flex items-center justify-center gap-1 rounded-lg text-sm font-medium whitespace-nowrap transition-all outline-none hover:bg-muted hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-[pressed]:bg-muted dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        Variant switch
+        {
+            ToggleVariant.Default => "bg-transparent",
+            ToggleVariant.Outline => "border border-input bg-transparent hover:bg-muted",
+            _ => ""
+        },
+        Size switch
+        {
+            ToggleSize.Default => "h-8 min-w-8 px-2",
+            ToggleSize.Sm => "h-7 min-w-7 rounded-[min(var(--radius-md),12px)] px-1.5 text-[0.8rem]",
+            ToggleSize.Lg => "h-9 min-w-9 px-2.5",
+            _ => ""
+        },
+        Class
+    );
+
+    public enum ToggleVariant { Default, Outline }
+    public enum ToggleSize { Default, Sm, Lg }
+}

@@ -1,0 +1,17 @@
+@namespace BlazeUI.Styled.Demo.Components.UI
+
+<BlazeUI.Headless.Components.Menu.MenuGroupLabel
+    data-slot="dropdown-menu-label"
+    data-inset="@(Inset ? "" : null)"
+    Class="@Css.Cn("px-1.5 py-1 text-xs font-medium text-muted-foreground data-inset:pl-7", Class)"
+    @attributes="AdditionalAttributes">
+    @ChildContent
+</BlazeUI.Headless.Components.Menu.MenuGroupLabel>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool Inset { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

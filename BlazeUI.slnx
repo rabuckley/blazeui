@@ -1,0 +1,20 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/BlazeUI.Bridge/BlazeUI.Bridge.csproj" />
+    <Project Path="src/BlazeUI.Headless/BlazeUI.Headless.csproj" />
+    <Project Path="src/BlazeUI.UI.CLI/BlazeUI.UI.CLI.csproj" />
+    <Project Path="src/BlazeUI.Sonner/BlazeUI.Sonner.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/BlazeUI.Bridge.Tests/BlazeUI.Bridge.Tests.csproj" />
+    <Project Path="test/BlazeUI.Headless.Tests/BlazeUI.Headless.Tests.csproj" />
+    <Project Path="test/BlazeUI.Styled.Demo/BlazeUI.Styled.Demo.csproj" />
+    <Project Path="test/BlazeUI.UI.CLI.Tests/BlazeUI.UI.CLI.Tests.csproj" />
+    <Project Path="test/BlazeUI.Sonner.Tests/BlazeUI.Sonner.Tests.csproj" />
+    <Project Path="test/BlazeUI.E2E/BlazeUI.E2E.csproj" />
+    <Project Path="test/BlazeUI.E2E.Pages/BlazeUI.E2E.Pages.csproj" />
+    <Project Path="test/BlazeUI.E2E.Host.Server/BlazeUI.E2E.Host.Server.csproj" />
+    <Project Path="test/BlazeUI.E2E.Host.Wasm/BlazeUI.E2E.Host.Wasm/BlazeUI.E2E.Host.Wasm.csproj" />
+    <Project Path="test/BlazeUI.E2E.Host.Wasm/BlazeUI.E2E.Host.Wasm.Client/BlazeUI.E2E.Host.Wasm.Client.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,126 @@
+@page "/navigation-menu"
+
+<div class="space-y-6">
+    <h1 class="text-2xl font-bold">NavigationMenu</h1>
+    <div>
+        <NavigationMenu>
+            <NavigationMenuList>
+                <NavigationMenuItem Value="getting-started">
+                    <NavigationMenuTrigger Value="getting-started">Getting started</NavigationMenuTrigger>
+                    <NavigationMenuContent Value="getting-started">
+                        <ul class="w-96">
+                            <li>
+                                <NavigationMenuLink Href="/">
+                                    <div class="flex flex-col gap-1 text-sm">
+                                        <div class="font-medium leading-none">Introduction</div>
+                                        <div class="line-clamp-2 text-muted-foreground">Re-usable components built with Tailwind CSS.</div>
+                                    </div>
+                                </NavigationMenuLink>
+                            </li>
+                            <li>
+                                <NavigationMenuLink Href="/">
+                                    <div class="flex flex-col gap-1 text-sm">
+                                        <div class="font-medium leading-none">Installation</div>
+                                        <div class="line-clamp-2 text-muted-foreground">How to install dependencies and structure your app.</div>
+                                    </div>
+                                </NavigationMenuLink>
+                            </li>
+                            <li>
+                                <NavigationMenuLink Href="/">
+                                    <div class="flex flex-col gap-1 text-sm">
+                                        <div class="font-medium leading-none">Typography</div>
+                                        <div class="line-clamp-2 text-muted-foreground">Styles for headings, paragraphs, lists...etc</div>
+                                    </div>
+                                </NavigationMenuLink>
+                            </li>
+                        </ul>
+                    </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem Value="components">
+                    <NavigationMenuTrigger Value="components">Components</NavigationMenuTrigger>
+                    <NavigationMenuContent Value="components">
+                        <ul class="grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                            <li>
+                                <NavigationMenuLink Href="/alert-dialog">
+                                    <div class="flex flex-col gap-1 text-sm">
+                                        <div class="font-medium leading-none">Alert Dialog</div>
+                                        <div class="line-clamp-2 text-muted-foreground">A modal dialog that interrupts the user with important content and expects a response.</div>
+                                    </div>
+                                </NavigationMenuLink>
+                            </li>
+                            <li>
+                                <NavigationMenuLink Href="/preview-card">
+                                    <div class="flex flex-col gap-1 text-sm">
+                                        <div class="font-medium leading-none">Hover Card</div>
+                                        <div class="line-clamp-2 text-muted-foreground">For sighted users to preview content available behind a link.</div>
+                                    </div>
+                                </NavigationMenuLink>
+                            </li>
+                            <li>
+                                <NavigationMenuLink Href="/progress">
+                                    <div class="flex flex-col gap-1 text-sm">
+                                        <div class="font-medium leading-none">Progress</div>
+                                        <div class="line-clamp-2 text-muted-foreground">Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.</div>
+                                    </div>
+                                </NavigationMenuLink>
+                            </li>
+                            <li>
+                                <NavigationMenuLink Href="/scroll-area">
+                                    <div class="flex flex-col gap-1 text-sm">
+                                        <div class="font-medium leading-none">Scroll-area</div>
+                                        <div class="line-clamp-2 text-muted-foreground">Visually or semantically separates content.</div>
+                                    </div>
+                                </NavigationMenuLink>
+                            </li>
+                            <li>
+                                <NavigationMenuLink Href="/tabs">
+                                    <div class="flex flex-col gap-1 text-sm">
+                                        <div class="font-medium leading-none">Tabs</div>
+                                        <div class="line-clamp-2 text-muted-foreground">A set of layered sections of content—known as tab panels—that are displayed one at a time.</div>
+                                    </div>
+                                </NavigationMenuLink>
+                            </li>
+                            <li>
+                                <NavigationMenuLink Href="/tooltip">
+                                    <div class="flex flex-col gap-1 text-sm">
+                                        <div class="font-medium leading-none">Tooltip</div>
+                                        <div class="line-clamp-2 text-muted-foreground">A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.</div>
+                                    </div>
+                                </NavigationMenuLink>
+                            </li>
+                        </ul>
+                    </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem Value="with-icon">
+                    <NavigationMenuTrigger Value="with-icon">With Icon</NavigationMenuTrigger>
+                    <NavigationMenuContent Value="with-icon">
+                        <ul class="grid w-[200px]">
+                            <li>
+                                <NavigationMenuLink Href="/" Class="flex-row items-center gap-2">
+                                    <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+                                    Backlog
+                                </NavigationMenuLink>
+                                <NavigationMenuLink Href="/" Class="flex-row items-center gap-2">
+                                    <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" stroke-dasharray="1 3"/></svg>
+                                    To Do
+                                </NavigationMenuLink>
+                                <NavigationMenuLink Href="/" Class="flex-row items-center gap-2">
+                                    <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                                    Done
+                                </NavigationMenuLink>
+                            </li>
+                        </ul>
+                    </NavigationMenuContent>
+                </NavigationMenuItem>
+                @* Docs link — uses NavigationMenuLink styled as a trigger *@
+                <NavigationMenuItem Value="docs">
+                    <NavigationMenuLink Href="/"
+                        Class="@NavigationMenuTrigger.TriggerStyle">
+                        Docs
+                    </NavigationMenuLink>
+                </NavigationMenuItem>
+            </NavigationMenuList>
+            <NavigationMenuViewport />
+        </NavigationMenu>
+    </div>
+</div>

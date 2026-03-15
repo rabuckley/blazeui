@@ -1,0 +1,22 @@
+@page "/toggle-group"
+
+<div class="space-y-6">
+<h1 class="text-2xl font-bold">ToggleGroup</h1>
+    <div>
+        <h2 class="text-sm font-medium text-muted-foreground mb-3">Single selection</h2>
+        <ToggleGroup DefaultValue='new[] { "center" }'>
+            <ToggleGroupItem Value="left" aria-label="Left">Left</ToggleGroupItem>
+            <ToggleGroupItem Value="center" aria-label="Center">Center</ToggleGroupItem>
+            <ToggleGroupItem Value="right" aria-label="Right">Right</ToggleGroupItem>
+        </ToggleGroup>
+    </div>
+
+    <div>
+        <h2 class="text-sm font-medium text-muted-foreground mb-3">Multiple selection</h2>
+        <ToggleGroup Multiple="true">
+            <ToggleGroupItem Value="bold" aria-label="Bold">Bold</ToggleGroupItem>
+            <ToggleGroupItem Value="italic" aria-label="Italic">Italic</ToggleGroupItem>
+            <ToggleGroupItem Value="underline" aria-label="Underline">Underline</ToggleGroupItem>
+        </ToggleGroup>
+    </div>
+</div>

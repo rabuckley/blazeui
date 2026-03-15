@@ -1,0 +1,24 @@
+@page "/native-select"
+
+<div class="space-y-6">
+<h1 class="text-2xl font-bold">Native Select</h1>
+
+<div>
+    <h2 class="text-sm font-medium text-muted-foreground mb-3">Default</h2>
+    <NativeSelect>
+        <NativeSelectOption value="">Select a fruit</NativeSelectOption>
+        <NativeSelectOption value="apple">Apple</NativeSelectOption>
+        <NativeSelectOption value="banana">Banana</NativeSelectOption>
+        <NativeSelectOption value="blueberry">Blueberry</NativeSelectOption>
+        <NativeSelectOption value="pineapple">Pineapple</NativeSelectOption>
+    </NativeSelect>
+</div>
+
+<div>
+    <h2 class="text-sm font-medium text-muted-foreground mb-3">Disabled</h2>
+    <NativeSelect Disabled="true">
+        <NativeSelectOption value="">Select a fruit</NativeSelectOption>
+        <NativeSelectOption value="apple">Apple</NativeSelectOption>
+    </NativeSelect>
+</div>
+</div>

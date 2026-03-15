@@ -1,0 +1,15 @@
+@namespace __NAMESPACE__
+
+<BlazeUI.Headless.Components.Accordion.AccordionHeader
+    data-slot="accordion-header"
+    Class="@Css.Cn("flex", Class)"
+    @attributes="AdditionalAttributes">
+    @ChildContent
+</BlazeUI.Headless.Components.Accordion.AccordionHeader>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

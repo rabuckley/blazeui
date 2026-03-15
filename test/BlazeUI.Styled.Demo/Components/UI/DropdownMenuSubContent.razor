@@ -1,0 +1,28 @@
+@namespace BlazeUI.Styled.Demo.Components.UI
+
+<BlazeUI.Headless.Components.Menu.MenuPortal>
+    <BlazeUI.Headless.Components.Menu.MenuPositioner
+        Class="isolate z-50 outline-none"
+        Side="@Side"
+        SideOffset="@SideOffset"
+        Align="@Align"
+        AlignOffset="@AlignOffset">
+        <BlazeUI.Headless.Components.Menu.MenuPopup
+            data-slot="dropdown-menu-sub-content"
+            Class="@Css.Cn("z-50 max-h-(--available-height) w-max min-w-24 origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-lg bg-popover p-1 text-popover-foreground shadow-lg ring-1 ring-foreground/10 duration-100 opacity-0 data-open:opacity-100 data-closed:opacity-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95", Class)"
+            @attributes="AdditionalAttributes">
+            @ChildContent
+        </BlazeUI.Headless.Components.Menu.MenuPopup>
+    </BlazeUI.Headless.Components.Menu.MenuPositioner>
+</BlazeUI.Headless.Components.Menu.MenuPortal>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public Side Side { get; set; } = Side.Right;
+    [Parameter] public int SideOffset { get; set; }
+    [Parameter] public Align Align { get; set; } = Align.Start;
+    [Parameter] public int AlignOffset { get; set; } = -3;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

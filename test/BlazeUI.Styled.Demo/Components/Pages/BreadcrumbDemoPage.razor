@@ -1,0 +1,43 @@
+@page "/breadcrumb"
+
+<div class="space-y-6">
+<h1 class="text-2xl font-bold">Breadcrumb</h1>
+
+<div>
+    <h2 class="text-sm font-medium text-muted-foreground mb-3">Default</h2>
+    <Breadcrumb>
+        <BreadcrumbList>
+            <BreadcrumbItem>
+                <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+                <BreadcrumbLink href="/breadcrumb">Components</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+                <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+            </BreadcrumbItem>
+        </BreadcrumbList>
+    </Breadcrumb>
+</div>
+
+<div>
+    <h2 class="text-sm font-medium text-muted-foreground mb-3">With ellipsis</h2>
+    <Breadcrumb>
+        <BreadcrumbList>
+            <BreadcrumbItem>
+                <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+                <BreadcrumbEllipsis />
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+                <BreadcrumbPage>Current Page</BreadcrumbPage>
+            </BreadcrumbItem>
+        </BreadcrumbList>
+    </Breadcrumb>
+</div>
+</div>

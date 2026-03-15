@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <Description>Headless UI components for Blazor, inspired by Base UI.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="BlazeUI.Headless.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+    <PackageReference Include="TailwindMerge.NET" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BlazeUI.Bridge\BlazeUI.Bridge.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+  <Target Name="BuildJS" BeforeTargets="Build" Inputs="js/core.js;js/package.json" Outputs="wwwroot/blazeui.core.js">
+    <Exec Command="npm ci --prefix js" />
+    <Exec Command="npx --prefix js esbuild js/core.js --bundle --minify --format=esm --outfile=wwwroot/blazeui.core.js" />
+  </Target>
+
+</Project>

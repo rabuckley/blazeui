@@ -1,0 +1,42 @@
+@namespace BlazeStore.Client.Components.UI
+
+@*
+    Radio — wraps BlazeUI.Headless radio group anatomy with default styling.
+    Consumer passes RadioRoot items as ChildContent using the headless sub-components directly.
+
+    Usage:
+    <Radio>
+        <BlazeUI.Headless.Components.Radio.RadioRoot
+            Value="option-1"
+            Class="group/radio-group-item peer relative flex aspect-square size-4 shrink-0 rounded-full border border-input outline-none after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-[checked]:border-primary data-[checked]:bg-primary data-[checked]:text-primary-foreground dark:data-[checked]:bg-primary">
+            <BlazeUI.Headless.Components.Radio.RadioIndicator Class="flex size-4 items-center justify-center">
+                <span class="absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-foreground"></span>
+            </BlazeUI.Headless.Components.Radio.RadioIndicator>
+        </BlazeUI.Headless.Components.Radio.RadioRoot>
+    </Radio>
+*@
+
+<BlazeUI.Headless.Components.Radio.RadioGroupRoot
+    Class="@Css.Cn("grid w-full gap-2", Class)"
+    Value="@Value"
+    ValueChanged="@ValueChanged"
+    DefaultValue="@DefaultValue"
+    Disabled="@Disabled"
+    ReadOnly="@ReadOnly"
+    Orientation="@Orientation"
+    @attributes="AdditionalAttributes">
+    @ChildContent
+</BlazeUI.Headless.Components.Radio.RadioGroupRoot>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+    [Parameter] public string? DefaultValue { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public bool ReadOnly { get; set; }
+    [Parameter] public BlazeUI.Headless.Core.Orientation Orientation { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

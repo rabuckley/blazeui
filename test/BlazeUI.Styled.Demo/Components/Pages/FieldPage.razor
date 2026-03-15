@@ -1,0 +1,33 @@
+@page "/field"
+
+<div class="space-y-6">
+    <h1 class="text-2xl font-bold">Field</h1>
+    <div class="max-w-sm">
+        <FieldGroup>
+            <Field>
+                <FieldLabel for="field-username">Username</FieldLabel>
+                <Input id="field-username" type="text" placeholder="Enter your username" />
+                <FieldDescription>Choose a unique username for your account.</FieldDescription>
+            </Field>
+            <Field>
+                <FieldLabel>Email</FieldLabel>
+                <Input type="email" placeholder="@("name@example.com")" />
+                <FieldDescription>We'll send updates to this address.</FieldDescription>
+            </Field>
+            <Field Invalid="true">
+                <FieldLabel>Invalid Input</FieldLabel>
+                <Input placeholder="Error" />
+                <FieldError>This field contains validation errors.</FieldError>
+            </Field>
+            <Field Disabled="true">
+                <FieldLabel>Email</FieldLabel>
+                <Input type="email" placeholder="Email" disabled />
+                <FieldDescription>This field is currently disabled.</FieldDescription>
+            </Field>
+            <Field Orientation="Field.FieldOrientation.Horizontal">
+                <Button Variant="Button.ButtonVariant.Outline" type="button">Cancel</Button>
+                <Button type="submit">Submit</Button>
+            </Field>
+        </FieldGroup>
+    </div>
+</div>

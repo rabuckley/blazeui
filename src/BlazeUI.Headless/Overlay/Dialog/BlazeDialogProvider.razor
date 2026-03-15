@@ -1,0 +1,63 @@
+@namespace BlazeUI.Headless.Overlay.Dialog
+@inject IDialogService DialogServiceInterface
+@implements IDisposable
+
+@foreach (var dialog in _dialogs)
+{
+    <DynamicComponent @key="dialog.Id" Type="dialog.ComponentType"
+                      Parameters="@BuildParameters(dialog)" />
+}
+
+@code {
+    private DialogService DialogService => (DialogService)DialogServiceInterface;
+    private readonly List<DialogReference> _dialogs = [];
+
+    protected override void OnInitialized()
+    {
+        DialogService.RegisterProvider();
+        DialogService.OnShow += HandleShow;
+        DialogService.OnClose += HandleClose;
+    }
+
+    private void HandleShow(DialogReference reference)
+    {
+        InvokeAsync(() =>
+        {
+            _dialogs.Add(reference);
+            StateHasChanged();
+        });
+    }
+
+    private void HandleClose(DialogReference reference)
+    {
+        InvokeAsync(() =>
+        {
+            _dialogs.Remove(reference);
+            StateHasChanged();
+        });
+    }
+
+    private static Dictionary<string, object?> BuildParameters(DialogReference reference)
+    {
+        return new Dictionary<string, object?>
+        {
+            ["DialogReference"] = reference,
+            ["Parameters"] = reference.Parameters
+        };
+    }
+
+    public void Dispose()
+    {
+        DialogService.OnShow -= HandleShow;
+        DialogService.OnClose -= HandleClose;
+        DialogService.UnregisterProvider();
+
+        // Cancel all pending dialogs to prevent leaked awaiters.
+        foreach (var dialog in _dialogs)
+        {
+            dialog.Cancel();
+        }
+
+        _dialogs.Clear();
+    }
+}

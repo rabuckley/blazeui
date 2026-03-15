@@ -1,0 +1,142 @@
+@rendermode InteractiveWebAssembly
+@inject ICartService CartService
+@implements IDisposable
+
+@if (_loading)
+{
+    <div class="space-y-4">
+        @for (var i = 0; i < 3; i++)
+        {
+            <div class="flex gap-4">
+                <Skeleton class="h-20 w-20 rounded-md" />
+                <div class="flex-1 space-y-2">
+                    <Skeleton class="h-4 w-1/2" />
+                    <Skeleton class="h-4 w-1/4" />
+                </div>
+            </div>
+        }
+    </div>
+}
+else if (_cart.Items.Count == 0)
+{
+    <div class="text-center py-12">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mx-auto h-12 w-12 text-muted-foreground/50">
+            <circle cx="8" cy="21" r="1" /><circle cx="19" cy="21" r="1" />
+            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+        </svg>
+        <p class="mt-4 text-muted-foreground">Your cart is empty.</p>
+        <a href="/products" class="mt-4 inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-6 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+            Browse Products
+        </a>
+    </div>
+}
+else
+{
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 space-y-4">
+            @foreach (var item in _cart.Items)
+            {
+                <Card @key="item.Product.Id">
+                    <CardContent>
+                        <div class="flex gap-4">
+                            <img src="@item.Product.ImageUrl" alt="@item.Product.Name"
+                                 class="h-20 w-20 rounded-md object-cover" />
+                            <div class="flex-1">
+                                <div class="flex items-start justify-between">
+                                    <div>
+                                        <a href="/products/@item.Product.Slug" class="font-medium hover:underline">
+                                            @item.Product.Name
+                                        </a>
+                                        <p class="text-sm text-muted-foreground">@item.Product.Category</p>
+                                    </div>
+                                    <p class="font-semibold">@((item.Product.Price * item.Quantity).ToString("C"))</p>
+                                </div>
+                                <div class="mt-3 flex items-center justify-between">
+                                    <QuantitySelector ProductId="@item.Product.Id" Quantity="@item.Quantity" />
+                                    <button @onclick="() => RemoveItem(item.Product.Id)"
+                                            class="inline-flex items-center justify-center rounded-md text-sm font-medium h-8 px-3 text-destructive hover:bg-destructive/10 transition-colors">
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+            }
+
+            <div class="flex justify-end">
+                <button @onclick="ClearCart"
+                        class="inline-flex items-center justify-center rounded-md text-sm font-medium h-9 px-4 border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors">
+                    Clear Cart
+                </button>
+            </div>
+        </div>
+
+        <div>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Order Summary</CardTitle>
+                </CardHeader>
+                <CardContent class="space-y-3">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-muted-foreground">Items (@_cart.TotalCount)</span>
+                        <span>@_cart.TotalPrice.ToString("C")</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-muted-foreground">Shipping</span>
+                        <span>Free</span>
+                    </div>
+                    <Separator />
+                    <div class="flex justify-between font-semibold">
+                        <span>Total</span>
+                        <span>@_cart.TotalPrice.ToString("C")</span>
+                    </div>
+                </CardContent>
+                <CardFooter>
+                    <Tooltip>
+                        <TooltipTrigger>
+                            <Render>
+                                <Button Class="w-full" @attributes="context.Attributes">
+                                    @context.ChildContent
+                                </Button>
+                            </Render>
+                            <ChildContent>Checkout</ChildContent>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            This is a demo — checkout is not implemented.
+                        </TooltipContent>
+                    </Tooltip>
+                </CardFooter>
+            </Card>
+        </div>
+    </div>
+}
+
+@code {
+    private Cart _cart = new([]);
+    private bool _loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        CartService.OnChange += OnCartChanged;
+        _cart = await CartService.GetCartAsync();
+        _loading = false;
+    }
+
+    private async void OnCartChanged()
+    {
+        _cart = await CartService.GetCartAsync();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task RemoveItem(int productId) =>
+        await CartService.RemoveAsync(productId);
+
+    private async Task ClearCart() =>
+        await CartService.ClearAsync();
+
+    public void Dispose()
+    {
+        CartService.OnChange -= OnCartChanged;
+    }
+}

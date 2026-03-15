@@ -1,0 +1,24 @@
+@page "/products"
+
+<PageTitle>Products — BlazeStore</PageTitle>
+
+<div class="container mx-auto px-4 py-8">
+    <Breadcrumb class="mb-6">
+        <BreadcrumbList>
+            <BreadcrumbItem>
+                <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+                <BreadcrumbPage>Products</BreadcrumbPage>
+            </BreadcrumbItem>
+        </BreadcrumbList>
+    </Breadcrumb>
+
+    <ProductBrowser InitialCategory="@_category" />
+</div>
+
+@code {
+    [SupplyParameterFromQuery(Name = "category")]
+    private string? _category { get; set; }
+}

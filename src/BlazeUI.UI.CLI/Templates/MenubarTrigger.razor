@@ -1,0 +1,15 @@
+@namespace __NAMESPACE__
+
+<BlazeUI.Headless.Components.Menu.MenuTrigger
+    data-slot="menubar-trigger"
+    Class="@Css.Cn("flex items-center rounded-sm px-1.5 py-[2px] text-sm font-medium outline-hidden select-none hover:bg-muted aria-expanded:bg-muted", Class)"
+    @attributes="AdditionalAttributes">
+    @ChildContent
+</BlazeUI.Headless.Components.Menu.MenuTrigger>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

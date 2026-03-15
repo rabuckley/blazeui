@@ -1,0 +1,84 @@
+@namespace __NAMESPACE__
+
+@*
+    Sidebar — the main sidebar panel. Renders as a fixed sidebar on desktop
+    and as a slide-out overlay on mobile. Must be a child of SidebarProvider.
+*@
+
+@if (Collapsible is SidebarCollapsible.None)
+{
+    <div data-slot="sidebar"
+         class="@Css.Cn("flex h-full w-(--sidebar-width) flex-col bg-sidebar text-sidebar-foreground", Class)"
+         @attributes="AdditionalAttributes">
+        @ChildContent
+    </div>
+}
+else if (Context.IsMobile)
+{
+    @* Mobile: sidebar as a fixed overlay with CSS transition.
+       The backdrop and panel are always in the DOM but visually
+       hidden when closed via opacity/translate + pointer-events-none. *@
+    <div class="@Css.Cn(
+             "fixed inset-0 z-50 bg-black/50 transition-opacity duration-200",
+             Context.OpenMobile ? "opacity-100" : "opacity-0 pointer-events-none")"
+         @onclick="@(() => Context.SetOpenMobile.InvokeAsync(false))"></div>
+    <div data-sidebar="sidebar"
+         data-slot="sidebar"
+         data-mobile="true"
+         class="@Css.Cn(
+             "fixed inset-y-0 z-50 flex h-svh flex-col bg-sidebar text-sidebar-foreground transition-[translate,opacity] duration-200 ease-in-out",
+             Context.OpenMobile ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0 pointer-events-none",
+             Side is SidebarSide.Left ? "left-0 border-r" : "right-0 border-l")"
+         style="--sidebar-width: 18rem; width: var(--sidebar-width);">
+        @ChildContent
+    </div>
+}
+else
+{
+    <div class="@Css.Cn("group peer hidden text-sidebar-foreground md:block", Class)"
+         data-slot="sidebar"
+         data-state="@Context.State"
+         data-collapsible="@(Context.Open ? "" : Collapsible.ToString().ToLowerInvariant())"
+         data-variant="@Variant.ToString().ToLowerInvariant()"
+         data-side="@Side.ToString().ToLowerInvariant()">
+        @* Gap element that reserves space for the sidebar *@
+        <div data-slot="sidebar-gap"
+             class="@Css.Cn(
+                 "relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear group-data-[collapsible=offcanvas]:w-0 group-data-[side=right]:rotate-180",
+                 Variant is SidebarVariant.Floating or SidebarVariant.Inset
+                     ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4)))]"
+                     : "group-data-[collapsible=icon]:w-(--sidebar-width-icon)")" />
+        @* Fixed sidebar container *@
+        <div data-slot="sidebar-container"
+             data-side="@Side.ToString().ToLowerInvariant()"
+             class="@Css.Cn(
+                 "fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear data-[side=left]:left-0 data-[side=left]:group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)] data-[side=right]:right-0 data-[side=right]:group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)] md:flex",
+                 Variant is SidebarVariant.Floating or SidebarVariant.Inset
+                     ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]"
+                     : "group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r group-data-[side=right]:border-l",
+                 Class)">
+            <div data-slot="sidebar-inner"
+                 data-sidebar="sidebar"
+                 class="flex size-full flex-col bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:shadow-sm group-data-[variant=floating]:ring-1 group-data-[variant=floating]:ring-sidebar-border">
+                @ChildContent
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [CascadingParameter]
+    public SidebarContext Context { get; set; } = default!;
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public SidebarSide Side { get; set; } = SidebarSide.Left;
+    [Parameter] public SidebarVariant Variant { get; set; } = SidebarVariant.Sidebar;
+    [Parameter] public SidebarCollapsible Collapsible { get; set; } = SidebarCollapsible.Offcanvas;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    public enum SidebarSide { Left, Right }
+    public enum SidebarVariant { Sidebar, Floating, Inset }
+    public enum SidebarCollapsible { Offcanvas, Icon, None }
+}

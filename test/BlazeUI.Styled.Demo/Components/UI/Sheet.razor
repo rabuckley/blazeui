@@ -1,0 +1,17 @@
+@namespace BlazeUI.Styled.Demo.Components.UI
+
+<BlazeUI.Headless.Components.Dialog.DialogRoot
+    Open="@Open"
+    OpenChanged="@OpenChanged"
+    DefaultOpen="@DefaultOpen">
+    @ChildContent
+</BlazeUI.Headless.Components.Dialog.DialogRoot>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool? Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    [Parameter] public bool DefaultOpen { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

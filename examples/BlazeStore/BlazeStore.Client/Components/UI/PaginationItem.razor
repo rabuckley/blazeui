@@ -1,0 +1,11 @@
+@namespace BlazeStore.Client.Components.UI
+
+<li data-slot="pagination-item" @attributes="AdditionalAttributes">
+    @ChildContent
+</li>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

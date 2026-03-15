@@ -1,0 +1,39 @@
+@namespace __NAMESPACE__
+
+<BlazeUI.Headless.Components.Dialog.DialogPortal>
+    <BlazeUI.Headless.Components.Dialog.DialogBackdrop
+        data-slot="dialog-overlay"
+        Class="fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-[open]:animate-in data-[open]:fade-in-0 data-[closed]:animate-out data-[closed]:fade-out-0 data-[closed]:pointer-events-none" />
+    <BlazeUI.Headless.Components.Dialog.DialogPopup
+        data-slot="dialog-content"
+        Class="@Css.Cn("fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-background p-4 text-sm ring-1 ring-foreground/10 duration-100 outline-none sm:max-w-sm data-[open]:animate-in data-[open]:fade-in-0 data-[open]:zoom-in-95 data-[closed]:animate-out data-[closed]:fade-out-0 data-[closed]:zoom-out-95", Class)">
+        @ChildContent
+        @if (ShowCloseButton)
+        {
+            <BlazeUI.Headless.Components.Dialog.DialogClose
+                data-slot="dialog-close"
+                Class="@GetCloseClasses()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                </svg>
+                <span class="sr-only">Close</span>
+            </BlazeUI.Headless.Components.Dialog.DialogClose>
+        }
+    </BlazeUI.Headless.Components.Dialog.DialogPopup>
+</BlazeUI.Headless.Components.Dialog.DialogPortal>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool ShowCloseButton { get; set; } = true;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private static string GetCloseClasses() => Css.Cn(
+        ButtonClasses.Base,
+        ButtonClasses.GetVariant(Button.ButtonVariant.Ghost),
+        ButtonClasses.GetSize(Button.ButtonSize.IconSm),
+        "absolute top-2 right-2"
+    );
+}

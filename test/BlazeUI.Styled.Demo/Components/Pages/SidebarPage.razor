@@ -1,0 +1,92 @@
+@page "/sidebar"
+@using BlazeUI.Styled.Demo.Components.UI
+
+<div class="space-y-6">
+<h1 class="text-2xl font-bold">Sidebar</h1>
+
+<div data-testid="sidebar-demo">
+    <SidebarProvider>
+        <SidebarComponent Collapsible="SidebarComponent.SidebarCollapsible.None">
+            <SidebarHeader>
+                <SidebarInput placeholder="Search..." />
+            </SidebarHeader>
+            <SidebarContent>
+                <SidebarGroup>
+                    <SidebarGroupLabel>Projects</SidebarGroupLabel>
+                    <SidebarGroupAction title="Add Project">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                    </SidebarGroupAction>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton IsActive="true">
+                                    <span>Design System</span>
+                                </SidebarMenuButton>
+                                <SidebarMenuAction ShowOnHover="true">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                                </SidebarMenuAction>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton>
+                                    <span>Marketing Site</span>
+                                </SidebarMenuButton>
+                                <SidebarMenuBadge>24</SidebarMenuBadge>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton>
+                                    <span>Mobile App</span>
+                                </SidebarMenuButton>
+                                <SidebarMenuAction>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                                </SidebarMenuAction>
+                            </SidebarMenuItem>
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+                <SidebarSeparator />
+                <SidebarGroup>
+                    <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton>
+                                    <span>Dashboard</span>
+                                </SidebarMenuButton>
+                                <SidebarMenuSub>
+                                    <SidebarMenuSubItem>
+                                        <SidebarMenuSubButton>
+                                            <span>Overview</span>
+                                        </SidebarMenuSubButton>
+                                    </SidebarMenuSubItem>
+                                    <SidebarMenuSubItem>
+                                        <SidebarMenuSubButton IsActive="true">
+                                            <span>Analytics</span>
+                                        </SidebarMenuSubButton>
+                                    </SidebarMenuSubItem>
+                                </SidebarMenuSub>
+                            </SidebarMenuItem>
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+                <SidebarSeparator />
+                <SidebarGroup>
+                    <SidebarGroupLabel>Loading</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            <SidebarMenuSkeleton ShowIcon="true" />
+                            <SidebarMenuSkeleton ShowIcon="true" />
+                            <SidebarMenuSkeleton />
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+            </SidebarContent>
+            <SidebarFooter>
+                <div class="px-2 text-xs text-sidebar-foreground/50">
+                    Sidebar Demo
+                </div>
+            </SidebarFooter>
+            <SidebarRail />
+        </SidebarComponent>
+    </SidebarProvider>
+</div>
+</div>

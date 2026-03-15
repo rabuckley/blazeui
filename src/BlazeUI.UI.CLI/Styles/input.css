@@ -1,0 +1,8 @@
+@import "tailwindcss";
+@import "@fontsource-variable/geist";
+@import "../wwwroot/css/blazeui.css";
+
+/* Scan component directories for Tailwind classes.
+   Adjust the path if your components live elsewhere. */
+@source "../Components/UI";
+@source "../Components";

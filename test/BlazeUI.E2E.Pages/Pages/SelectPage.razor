@@ -1,0 +1,76 @@
+@page "/select"
+@using BlazeUI.Headless.Components.Select
+
+<div data-testid="select-default">
+    <SelectRoot Placeholder="Choose a fruit...">
+        <SelectTrigger>
+            <SelectValue />
+        </SelectTrigger>
+        <SelectPortal>
+            <SelectPositioner>
+                <SelectPopup>
+                    <SelectList>
+                        <SelectItem Value="apple">Apple</SelectItem>
+                        <SelectItem Value="banana">Banana</SelectItem>
+                        <SelectItem Value="cherry" Disabled="true">Cherry</SelectItem>
+                        <SelectItem Value="date">Date</SelectItem>
+                    </SelectList>
+                </SelectPopup>
+            </SelectPositioner>
+        </SelectPortal>
+    </SelectRoot>
+</div>
+
+<div data-testid="select-form">
+    <form data-testid="select-form-element" @onsubmit="HandleFormSubmit" @onsubmit:preventDefault>
+        <SelectRoot Name="fruit" Placeholder="Choose...">
+            <SelectTrigger>
+                <SelectValue />
+            </SelectTrigger>
+            <SelectPortal>
+                <SelectPositioner>
+                    <SelectPopup>
+                        <SelectList>
+                            <SelectItem Value="apple">Apple</SelectItem>
+                            <SelectItem Value="banana">Banana</SelectItem>
+                        </SelectList>
+                    </SelectPopup>
+                </SelectPositioner>
+            </SelectPortal>
+        </SelectRoot>
+        <button type="submit" data-testid="submit-btn">Submit</button>
+    </form>
+    <span data-testid="form-result">@_formResult</span>
+</div>
+
+<div data-testid="select-controlled">
+    <SelectRoot Value="@_controlledValue" ValueChanged="v => _controlledValue = v">
+        <SelectTrigger>
+            <SelectValue />
+        </SelectTrigger>
+        <SelectPortal>
+            <SelectPositioner>
+                <SelectPopup>
+                    <SelectList>
+                        <SelectItem Value="apple">Apple</SelectItem>
+                        <SelectItem Value="banana">Banana</SelectItem>
+                        <SelectItem Value="cherry">Cherry</SelectItem>
+                    </SelectList>
+                </SelectPopup>
+            </SelectPositioner>
+        </SelectPortal>
+    </SelectRoot>
+    <span data-testid="controlled-value">@_controlledValue</span>
+</div>
+
+@code {
+    private string? _controlledValue = "banana";
+    private string _formResult = "";
+
+    private void HandleFormSubmit()
+    {
+        // In real forms, hidden input value would be posted.
+        // For E2E testing, we read the hidden input value via JS instead.
+        _formResult = "submitted";
+    }
+}

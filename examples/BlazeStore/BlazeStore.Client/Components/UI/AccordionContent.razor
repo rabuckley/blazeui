@@ -1,0 +1,17 @@
+@namespace BlazeStore.Client.Components.UI
+
+<BlazeUI.Headless.Components.Accordion.AccordionPanel
+    data-slot="accordion-content"
+    Class="@Css.Cn("overflow-hidden text-sm data-[open]:animate-accordion-down data-[closed]:animate-accordion-up", Class)"
+    @attributes="AdditionalAttributes">
+    <div class="pt-0 pb-2.5">
+        @ChildContent
+    </div>
+</BlazeUI.Headless.Components.Accordion.AccordionPanel>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

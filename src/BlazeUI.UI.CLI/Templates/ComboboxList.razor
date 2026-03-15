@@ -1,0 +1,17 @@
+@namespace __NAMESPACE__
+
+@* Scrollable list container inside the combobox popup. *@
+
+<BlazeUI.Headless.Components.Combobox.ComboboxList
+    data-slot="combobox-list"
+    Class="@Css.Cn("no-scrollbar max-h-[min(calc(--spacing(72)---spacing(9)),calc(var(--available-height)---spacing(9)))] scroll-py-1 overflow-y-auto overscroll-contain p-1 data-[empty]:p-0", Class)"
+    @attributes="AdditionalAttributes">
+    @ChildContent
+</BlazeUI.Headless.Components.Combobox.ComboboxList>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

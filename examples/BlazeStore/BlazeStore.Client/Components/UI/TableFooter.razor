@@ -1,0 +1,19 @@
+@namespace BlazeStore.Client.Components.UI
+
+<tfoot data-slot="table-footer"
+       class="@GetClasses()"
+       @attributes="AdditionalAttributes">
+    @ChildContent
+</tfoot>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "border-t bg-muted/50 font-medium [&>tr]:last:border-b-0",
+        Class
+    );
+}

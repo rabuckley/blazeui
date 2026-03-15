@@ -1,0 +1,74 @@
+@namespace BlazeStore.Client.Components.UI
+
+<BlazeUI.Headless.Components.Drawer.DrawerRoot Open="@Open" OpenChanged="@OpenChanged" DefaultOpen="@DefaultOpen" SwipeDirection="@SwipeDirection">
+    @if (Trigger is not null)
+    {
+        <BlazeUI.Headless.Components.Drawer.DrawerTrigger
+            Class="@GetTriggerClasses()"
+            data-slot="drawer-trigger">
+            @Trigger
+        </BlazeUI.Headless.Components.Drawer.DrawerTrigger>
+    }
+    <BlazeUI.Headless.Components.Drawer.DrawerPortal>
+        <BlazeUI.Headless.Components.Drawer.DrawerBackdrop
+            Class="fixed inset-0 z-50 bg-black/10 supports-backdrop-filter:backdrop-blur-xs data-[open]:animate-vaul-fade-in data-[open]:fade-in-0 data-[closed]:animate-vaul-fade-out data-[closed]:pointer-events-none data-[closed]:opacity-0" />
+        <BlazeUI.Headless.Components.Drawer.DrawerPopup
+            Class="@GetPopupClasses()">
+            @* Bottom-direction drag handle — hidden for all other directions *@
+            <div class="mx-auto mt-4 hidden h-1 w-[100px] shrink-0 rounded-full bg-muted group-data-[side=bottom]/drawer-content:block" />
+            <div class="flex flex-col gap-0.5 p-4 group-data-[side=bottom]/drawer-content:text-center group-data-[side=top]/drawer-content:text-center md:gap-0.5 md:text-left">
+                @if (Title is not null)
+                {
+                    <BlazeUI.Headless.Components.Drawer.DrawerTitle
+                        Class="text-base font-medium text-foreground">
+                        @Title
+                    </BlazeUI.Headless.Components.Drawer.DrawerTitle>
+                }
+                @if (Description is not null)
+                {
+                    <BlazeUI.Headless.Components.Drawer.DrawerDescription
+                        Class="text-sm text-muted-foreground">
+                        @Description
+                    </BlazeUI.Headless.Components.Drawer.DrawerDescription>
+                }
+            </div>
+            @ChildContent
+        </BlazeUI.Headless.Components.Drawer.DrawerPopup>
+    </BlazeUI.Headless.Components.Drawer.DrawerPortal>
+</BlazeUI.Headless.Components.Drawer.DrawerRoot>
+
+@code {
+    [Parameter] public RenderFragment? Trigger { get; set; }
+    [Parameter] public RenderFragment? Title { get; set; }
+    [Parameter] public RenderFragment? Description { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool? Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    [Parameter] public bool DefaultOpen { get; set; }
+    [Parameter] public BlazeUI.Headless.Core.SwipeDirection SwipeDirection { get; set; } = BlazeUI.Headless.Core.SwipeDirection.Right;
+    [Parameter] public string? TriggerClass { get; set; }
+    [Parameter] public Button.ButtonVariant TriggerVariant { get; set; } = Button.ButtonVariant.Default;
+    [Parameter] public Button.ButtonSize TriggerSize { get; set; } = Button.ButtonSize.Default;
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetTriggerClasses() => Css.Cn(
+        ButtonClasses.Base,
+        ButtonClasses.GetVariant(TriggerVariant),
+        ButtonClasses.GetSize(TriggerSize),
+        TriggerClass
+    );
+
+    private string GetPopupClasses() => Css.Cn(
+        "group/drawer-content fixed z-50 flex h-auto flex-col bg-background text-sm data-[closed]:hidden after:absolute after:bg-inherit",
+        // SwipeDirection is the dismiss direction. The anchor side is the opposite.
+        SwipeDirection switch
+        {
+            BlazeUI.Headless.Core.SwipeDirection.Right => "inset-y-0 right-0 w-3/4 rounded-l-xl border-l sm:max-w-sm data-[open]:animate-vaul-slide-from-right data-[closed]:animate-vaul-slide-to-right after:inset-y-0 after:left-full after:w-[200%]",
+            BlazeUI.Headless.Core.SwipeDirection.Left => "inset-y-0 left-0 w-3/4 rounded-r-xl border-r sm:max-w-sm data-[open]:animate-vaul-slide-from-left data-[closed]:animate-vaul-slide-to-left after:inset-y-0 after:right-full after:w-[200%]",
+            BlazeUI.Headless.Core.SwipeDirection.Up => "inset-x-0 top-0 mb-24 max-h-[80vh] rounded-b-xl border-b data-[open]:animate-vaul-slide-from-top data-[closed]:animate-vaul-slide-to-top after:inset-x-0 after:bottom-full after:h-[200%]",
+            BlazeUI.Headless.Core.SwipeDirection.Down => "inset-x-0 bottom-0 mt-24 max-h-[80vh] rounded-t-xl border-t data-[open]:animate-vaul-slide-from-bottom data-[closed]:animate-vaul-slide-to-bottom after:inset-x-0 after:top-full after:h-[200%]",
+            _ => ""
+        }
+    );
+}

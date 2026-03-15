@@ -1,0 +1,52 @@
+@namespace BlazeUI.Styled.Demo.Components.UI
+
+@*
+    Field — wraps BlazeUI.Headless field anatomy with default styling.
+    Consumer passes label, description, input, and error as ChildContent.
+
+    Usage:
+    <Field>
+        <BlazeUI.Headless.Components.Field.FieldLabel
+            Class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+            Email
+        </BlazeUI.Headless.Components.Field.FieldLabel>
+        <Input type="email" />
+        <BlazeUI.Headless.Components.Field.FieldDescription
+            Class="text-sm text-muted-foreground">
+            Enter your email address.
+        </BlazeUI.Headless.Components.Field.FieldDescription>
+        <BlazeUI.Headless.Components.Field.FieldError
+            Class="text-sm font-medium text-destructive" />
+    </Field>
+*@
+
+<BlazeUI.Headless.Components.Field.FieldRoot
+    Class="@GetClasses()"
+    Disabled="@Disabled"
+    Invalid="@Invalid"
+    @attributes="AdditionalAttributes">
+    @ChildContent
+</BlazeUI.Headless.Components.Field.FieldRoot>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public bool? Invalid { get; set; }
+    [Parameter] public FieldOrientation Orientation { get; set; } = FieldOrientation.Vertical;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "group/field flex w-full gap-2 data-[invalid]:text-destructive",
+        Orientation switch
+        {
+            FieldOrientation.Vertical => "flex-col *:w-full [&>.sr-only]:w-auto",
+            FieldOrientation.Horizontal => "flex-row items-center has-[>[data-slot=field-content]]:items-start *:data-[slot=field-label]:flex-auto",
+            _ => "flex-col *:w-full [&>.sr-only]:w-auto"
+        },
+        Class
+    );
+
+    public enum FieldOrientation { Vertical, Horizontal }
+}

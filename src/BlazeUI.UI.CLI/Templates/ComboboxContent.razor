@@ -1,0 +1,22 @@
+@namespace __NAMESPACE__
+
+<BlazeUI.Headless.Components.Combobox.ComboboxPortal>
+    <BlazeUI.Headless.Components.Combobox.ComboboxPositioner SideOffset="6" Class="isolate z-50">
+        <BlazeUI.Headless.Components.Combobox.ComboboxPopup
+            Class="@Css.Cn("group/combobox-content relative max-h-(--available-height) w-(--anchor-width) max-w-(--available-width) min-w-[calc(var(--anchor-width)+--spacing(7))] origin-(--transform-origin) overflow-hidden rounded-lg bg-popover text-popover-foreground shadow-md ring-1 ring-foreground/10 duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[open]:animate-in data-[open]:fade-in-0 data-[open]:zoom-in-95 data-[closed]:animate-out data-[closed]:fade-out-0 data-[closed]:zoom-out-95", Class)"
+            data-slot="combobox-content"
+            @attributes="AdditionalAttributes">
+            @ChildContent
+        </BlazeUI.Headless.Components.Combobox.ComboboxPopup>
+        @* Visually hidden dismiss button — matches Base UI's internal clear element. *@
+        <span role="button" aria-label="Dismiss"
+              style="clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: -1px; position: absolute;"></span>
+    </BlazeUI.Headless.Components.Combobox.ComboboxPositioner>
+</BlazeUI.Headless.Components.Combobox.ComboboxPortal>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

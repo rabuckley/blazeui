@@ -1,0 +1,15 @@
+@namespace BlazeStore.Client.Components.UI
+
+<ul class="@Css.Cn("mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l border-sidebar-border px-2.5 py-0.5 group-data-[collapsible=icon]:hidden", Class)"
+    data-slot="sidebar-menu-sub"
+    data-sidebar="menu-sub"
+    @attributes="AdditionalAttributes">
+    @ChildContent
+</ul>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

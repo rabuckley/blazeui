@@ -1,0 +1,15 @@
+@page "/tabs"
+@using BlazeUI.Headless.Components.Tabs
+
+<div data-testid="tabs-default">
+    <TabsRoot DefaultValue="tab1">
+        <TabsList>
+            <TabsTab Value="tab1">Tab 1</TabsTab>
+            <TabsTab Value="tab2">Tab 2</TabsTab>
+            <TabsTab Value="tab3">Tab 3</TabsTab>
+        </TabsList>
+        <TabsPanel Value="tab1">Content for tab 1</TabsPanel>
+        <TabsPanel Value="tab2">Content for tab 2</TabsPanel>
+        <TabsPanel Value="tab3">Content for tab 3</TabsPanel>
+    </TabsRoot>
+</div>

@@ -1,0 +1,27 @@
+@page "/toggle"
+
+<div class="space-y-6">
+<h1 class="text-2xl font-bold mb-6">Toggle</h1>
+    <div>
+        <h2 class="text-sm font-medium text-muted-foreground mb-3">Default</h2>
+        <Toggle aria-label="Toggle sliders">
+            <svg class="lucide lucide-sliders-horizontal h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M10 5H3"/><path d="M12 19H3"/><path d="M14 3v4"/><path d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path d="M8 10v4"/><path d="M8 12H3"/>
+            </svg>
+        </Toggle>
+    </div>
+
+    <div>
+        <h2 class="text-sm font-medium text-muted-foreground mb-3">Outline variant</h2>
+        <Toggle Variant="Toggle.ToggleVariant.Outline" aria-label="Toggle bold">Bold</Toggle>
+    </div>
+
+    <div>
+        <h2 class="text-sm font-medium text-muted-foreground mb-3">Sizes</h2>
+        <div class="flex items-center gap-3">
+            <Toggle Size="Toggle.ToggleSize.Sm" aria-label="Small toggle">S</Toggle>
+            <Toggle aria-label="Default toggle">M</Toggle>
+            <Toggle Size="Toggle.ToggleSize.Lg" aria-label="Large toggle">L</Toggle>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,104 @@
+@rendermode InteractiveWebAssembly
+@inject ICartService CartService
+
+<div class="flex items-center gap-4 mt-8">
+    <div class="flex items-center gap-2">
+        <button @onclick="DecrementQty" disabled="@(_quantity <= 1)"
+                class="inline-flex items-center justify-center rounded-md text-sm font-medium h-10 w-10 border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors disabled:opacity-50 disabled:pointer-events-none">
+            &minus;
+        </button>
+        <span class="w-10 text-center text-sm font-medium">@_quantity</span>
+        <button @onclick="IncrementQty"
+                class="inline-flex items-center justify-center rounded-md text-sm font-medium h-10 w-10 border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors">
+            +
+        </button>
+    </div>
+
+    <button @onclick="AddToCart" disabled="@_adding"
+            class="inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-6 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50">
+        @if (_added)
+        {
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-4 w-4">
+                <polyline points="20 6 9 17 4 12" />
+            </svg>
+            <span>Added!</span>
+        }
+        else if (_adding)
+        {
+            <Spinner class="mr-2 h-4 w-4 animate-spin" />
+            <span>Adding...</span>
+        }
+        else
+        {
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-4 w-4">
+                <circle cx="8" cy="21" r="1" /><circle cx="19" cy="21" r="1" />
+                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+            </svg>
+            <span>Add to Cart</span>
+        }
+    </button>
+</div>
+
+<Separator class="my-6" />
+
+<Tabs DefaultValue="description">
+    <TabsList>
+        <TabsTrigger Value="description">Description</TabsTrigger>
+        <TabsTrigger Value="reviews">Reviews</TabsTrigger>
+    </TabsList>
+    <TabsContent Value="description">
+        <p class="text-sm text-muted-foreground leading-relaxed mt-4">
+            @Description
+        </p>
+    </TabsContent>
+    <TabsContent Value="reviews">
+        <div class="space-y-4 mt-4">
+            <div class="flex items-start gap-3">
+                <Avatar FallbackText="JD" />
+                <div>
+                    <p class="text-sm font-medium">Jane Doe</p>
+                    <p class="text-xs text-muted-foreground">Verified purchase</p>
+                    <p class="mt-1 text-sm text-muted-foreground">
+                        Excellent quality and great value for the price. Highly recommended!
+                    </p>
+                </div>
+            </div>
+            <Separator />
+            <div class="flex items-start gap-3">
+                <Avatar FallbackText="AS" />
+                <div>
+                    <p class="text-sm font-medium">Alex Smith</p>
+                    <p class="text-xs text-muted-foreground">Verified purchase</p>
+                    <p class="mt-1 text-sm text-muted-foreground">
+                        Works exactly as described. The build quality is impressive for the price point.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </TabsContent>
+</Tabs>
+
+@code {
+    [Parameter] public int ProductId { get; set; }
+    [Parameter] public string Description { get; set; } = "";
+
+    private int _quantity = 1;
+    private bool _adding;
+    private bool _added;
+
+    private void IncrementQty() => _quantity++;
+    private void DecrementQty() { if (_quantity > 1) _quantity--; }
+
+    private async Task AddToCart()
+    {
+        _adding = true;
+        await CartService.AddAsync(ProductId, _quantity);
+        _adding = false;
+        _added = true;
+        StateHasChanged();
+
+        await Task.Delay(1500);
+        _added = false;
+        _quantity = 1;
+    }
+}

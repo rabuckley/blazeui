@@ -1,0 +1,24 @@
+@namespace BlazeStore.Client.Components.UI
+
+<BlazeUI.Headless.Components.InputOTP.InputOTPSlot
+    Index="@Index"
+    data-slot="input-otp-slot"
+    Class="@Css.Cn("relative flex size-8 items-center justify-center border-y border-r border-input text-sm transition-all outline-none first:rounded-l-lg first:border-l last:rounded-r-lg aria-invalid:border-destructive data-[active=true]:z-10 data-[active=true]:border-ring data-[active=true]:ring-3 data-[active=true]:ring-ring/50 data-[active=true]:aria-invalid:border-destructive data-[active=true]:aria-invalid:ring-destructive/20 dark:bg-input/30 dark:data-[active=true]:aria-invalid:ring-destructive/40", Class)">
+    @{
+        var ctx = _context;
+        if (ctx?.Slots is not null && Index >= 0 && Index < ctx.Slots.Length && ctx.Slots[Index].HasFakeCaret)
+        {
+            <div class="pointer-events-none absolute inset-0 flex items-center justify-center">
+                <div class="h-4 w-px animate-caret-blink bg-foreground duration-1000"></div>
+            </div>
+        }
+    }
+</BlazeUI.Headless.Components.InputOTP.InputOTPSlot>
+
+@code {
+    [CascadingParameter] private BlazeUI.Headless.Components.InputOTP.InputOTPContext? _context { get; set; }
+    [Parameter, EditorRequired] public int Index { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

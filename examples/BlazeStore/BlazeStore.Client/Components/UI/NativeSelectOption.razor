@@ -1,0 +1,12 @@
+@namespace BlazeStore.Client.Components.UI
+
+<option data-slot="native-select-option"
+        @attributes="AdditionalAttributes">
+    @ChildContent
+</option>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

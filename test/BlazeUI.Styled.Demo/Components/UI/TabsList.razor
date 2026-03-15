@@ -1,0 +1,16 @@
+@namespace BlazeUI.Styled.Demo.Components.UI
+
+<BlazeUI.Headless.Components.Tabs.TabsList
+    data-slot="tabs-list"
+    data-variant="default"
+    Class="@Css.Cn("group/tabs-list inline-flex w-fit items-center justify-center rounded-lg p-[3px] text-muted-foreground group-data-[horizontal]/tabs:h-8 group-data-[vertical]/tabs:h-fit group-data-[vertical]/tabs:flex-col data-[variant=line]:rounded-none bg-muted", Class)"
+    @attributes="AdditionalAttributes">
+    @ChildContent
+</BlazeUI.Headless.Components.Tabs.TabsList>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

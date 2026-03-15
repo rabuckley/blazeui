@@ -1,0 +1,48 @@
+@namespace BlazeStore.Client.Components.UI
+
+<BlazeUI.Headless.Components.Avatar.AvatarRoot
+    Class="@GetClasses()"
+    data-size="@GetSizeName()"
+    @attributes="AdditionalAttributes">
+    <BlazeUI.Headless.Components.Avatar.AvatarImage
+        Src="@Src"
+        Alt="@Alt"
+        Class="aspect-square size-full rounded-full object-cover" />
+    <BlazeUI.Headless.Components.Avatar.AvatarFallback
+        Delay="@FallbackDelay"
+        Class="flex size-full items-center justify-center rounded-full bg-muted text-sm text-muted-foreground group-data-[size=sm]/avatar:text-xs">
+        @FallbackText
+    </BlazeUI.Headless.Components.Avatar.AvatarFallback>
+</BlazeUI.Headless.Components.Avatar.AvatarRoot>
+
+@code {
+    [Parameter] public string? Src { get; set; }
+    [Parameter] public string? Alt { get; set; }
+    [Parameter] public string? FallbackText { get; set; }
+    [Parameter] public int? FallbackDelay { get; set; }
+    [Parameter] public AvatarSize Size { get; set; } = AvatarSize.Default;
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "group/avatar relative flex shrink-0 rounded-full select-none after:absolute after:inset-0 after:rounded-full after:border after:border-border after:mix-blend-darken dark:after:mix-blend-lighten",
+        Size switch
+        {
+            AvatarSize.Default => "size-8",
+            AvatarSize.Sm => "size-6",
+            AvatarSize.Lg => "size-10",
+            _ => ""
+        },
+        Class
+    );
+
+    private string GetSizeName() => Size switch
+    {
+        AvatarSize.Sm => "sm",
+        AvatarSize.Lg => "lg",
+        _ => "default"
+    };
+
+    public enum AvatarSize { Default, Sm, Lg }
+}

@@ -1,0 +1,134 @@
+@rendermode InteractiveWebAssembly
+@inject IProductService ProductService
+
+<div>
+    <h1 class="text-3xl font-bold tracking-tight mb-6">Products</h1>
+
+    <div class="flex flex-col sm:flex-row gap-4 mb-8">
+        <Input type="text" placeholder="Search products..." value="@_search"
+               @oninput="OnSearchInput"
+               class="h-10 w-full sm:w-64" />
+
+        <div class="flex flex-wrap gap-2">
+            <button @onclick="() => FilterByCategory(null)"
+                    class="@CategoryButtonClass(null)">
+                All
+            </button>
+            @foreach (var category in _categories)
+            {
+                var cat = category;
+                <button @onclick="() => FilterByCategory(cat)"
+                        class="@CategoryButtonClass(cat)">
+                    @cat
+                </button>
+            }
+        </div>
+    </div>
+
+    @if (_loading)
+    {
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            @for (var i = 0; i < 8; i++)
+            {
+                <Card class="overflow-hidden">
+                    <Skeleton class="aspect-square w-full" />
+                    <CardHeader>
+                        <Skeleton class="h-4 w-3/4" />
+                    </CardHeader>
+                    <CardContent>
+                        <Skeleton class="h-4 w-1/4" />
+                    </CardContent>
+                </Card>
+            }
+        </div>
+    }
+    else if (_filtered.Count == 0)
+    {
+        <p class="text-muted-foreground text-center py-12">No products found.</p>
+    }
+    else
+    {
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            @foreach (var product in _filtered)
+            {
+                <a href="/products/@product.Slug" class="group">
+                    <Card class="overflow-hidden transition-colors hover:border-foreground/20">
+                        <div class="aspect-square overflow-hidden">
+                            <img src="@product.ImageUrl" alt="@product.Name"
+                                 class="h-full w-full object-cover transition-transform group-hover:scale-105" />
+                        </div>
+                        <CardHeader>
+                            <div class="flex items-center justify-between">
+                                <CardTitle class="text-base">@product.Name</CardTitle>
+                                <Badge class="bg-secondary text-secondary-foreground text-xs">
+                                    @product.Category
+                                </Badge>
+                            </div>
+                            <CardDescription class="line-clamp-2">@product.Description</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div class="flex items-center justify-between">
+                                <p class="text-lg font-semibold">@product.Price.ToString("C")</p>
+                                <span class="text-xs text-muted-foreground">@product.Rating.ToString("0.0") stars</span>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </a>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public string? InitialCategory { get; set; }
+
+    private IReadOnlyList<Product> _all = [];
+    private IReadOnlyList<Product> _filtered = [];
+    private IReadOnlyList<string> _categories = [];
+    private string? _activeCategory;
+    private string _search = "";
+    private bool _loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _all = await ProductService.GetAllAsync();
+        _categories = await ProductService.GetCategoriesAsync();
+        _activeCategory = InitialCategory;
+        ApplyFilter();
+        _loading = false;
+    }
+
+    private void FilterByCategory(string? category)
+    {
+        _activeCategory = category;
+        _search = "";
+        ApplyFilter();
+    }
+
+    private void OnSearchInput(ChangeEventArgs e)
+    {
+        _search = e.Value?.ToString() ?? "";
+        _activeCategory = null;
+        ApplyFilter();
+    }
+
+    private void ApplyFilter()
+    {
+        var results = _all.AsEnumerable();
+
+        if (!string.IsNullOrWhiteSpace(_activeCategory))
+            results = results.Where(p => p.Category.Equals(_activeCategory, StringComparison.OrdinalIgnoreCase));
+
+        if (!string.IsNullOrWhiteSpace(_search))
+            results = results.Where(p =>
+                p.Name.Contains(_search, StringComparison.OrdinalIgnoreCase) ||
+                p.Description.Contains(_search, StringComparison.OrdinalIgnoreCase));
+
+        _filtered = results.ToList();
+    }
+
+    private string CategoryButtonClass(string? category) =>
+        category == _activeCategory
+            ? "inline-flex items-center justify-center rounded-md text-sm font-medium h-9 px-4 bg-primary text-primary-foreground transition-colors"
+            : "inline-flex items-center justify-center rounded-md text-sm font-medium h-9 px-4 border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors";
+}

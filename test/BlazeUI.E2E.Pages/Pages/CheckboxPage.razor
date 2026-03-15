@@ -1,0 +1,18 @@
+@page "/checkbox"
+@using BlazeUI.Headless.Components.Checkbox
+
+<div data-testid="checkbox-default">
+    <CheckboxRoot />
+</div>
+
+<div data-testid="checkbox-default-checked">
+    <CheckboxRoot DefaultChecked="true" />
+</div>
+
+<div data-testid="checkbox-disabled">
+    <CheckboxRoot Disabled="true" />
+</div>
+
+<div data-testid="checkbox-form">
+    <CheckboxRoot Id="terms" Name="terms" Value="accepted" />
+</div>

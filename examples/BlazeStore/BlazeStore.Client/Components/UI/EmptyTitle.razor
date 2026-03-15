@@ -1,0 +1,19 @@
+@namespace BlazeStore.Client.Components.UI
+
+<div data-slot="empty-title"
+     class="@GetClasses()"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        "text-sm font-medium tracking-tight",
+        Class
+    );
+}

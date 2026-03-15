@@ -1,0 +1,45 @@
+@rendermode InteractiveWebAssembly
+@inject ICartService CartService
+
+<button @onclick="AddToCart" disabled="@_adding"
+        class="inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-6 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50">
+    @if (_added)
+    {
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-4 w-4">
+            <polyline points="20 6 9 17 4 12" />
+        </svg>
+        <span>Added!</span>
+    }
+    else if (_adding)
+    {
+        <Spinner class="mr-2 h-4 w-4 animate-spin" />
+        <span>Adding...</span>
+    }
+    else
+    {
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-4 w-4">
+            <circle cx="8" cy="21" r="1" /><circle cx="19" cy="21" r="1" />
+            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+        </svg>
+        <span>Add to Cart</span>
+    }
+</button>
+
+@code {
+    [Parameter] public int ProductId { get; set; }
+
+    private bool _adding;
+    private bool _added;
+
+    private async Task AddToCart()
+    {
+        _adding = true;
+        await CartService.AddAsync(ProductId);
+        _adding = false;
+        _added = true;
+        StateHasChanged();
+
+        await Task.Delay(1500);
+        _added = false;
+    }
+}

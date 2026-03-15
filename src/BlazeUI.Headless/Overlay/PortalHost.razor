@@ -1,0 +1,46 @@
+@namespace BlazeUI.Headless.Overlay
+@inject PortalService PortalService
+@implements IDisposable
+
+@foreach (var entry in PortalService.Entries)
+{
+    @* React portals inject content without a wrapper element. We need a Blazor
+       element for @key diffing, so use display:contents to make the wrapper
+       structurally transparent — matching React's portal behavior. *@
+    <div @key="entry.Id" data-portal-entry style="@(entry.Active ? "display: contents" : "display: none")">
+        @entry.Content
+    </div>
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        PortalService.OnChanged += HandleChanged;
+    }
+
+    /// <remarks>
+    /// Not called on the very first render, but the first render is before any
+    /// portals are mounted so there are no nested Portal components to trigger
+    /// the loop.
+    /// </remarks>
+    protected override bool ShouldRender()
+    {
+        PortalService.IsHostRendering = true;
+        return true;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        PortalService.IsHostRendering = false;
+    }
+
+    private void HandleChanged()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        PortalService.OnChanged -= HandleChanged;
+    }
+}

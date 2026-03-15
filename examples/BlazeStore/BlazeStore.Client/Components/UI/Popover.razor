@@ -1,0 +1,39 @@
+@namespace BlazeStore.Client.Components.UI
+
+<BlazeUI.Headless.Components.Popover.PopoverRoot Open="@Open" OpenChanged="@OpenChanged" DefaultOpen="@DefaultOpen">
+    <BlazeUI.Headless.Components.Popover.PopoverTrigger
+        Class="@GetTriggerClasses()"
+        data-slot="popover-trigger">
+        @Trigger
+    </BlazeUI.Headless.Components.Popover.PopoverTrigger>
+    <BlazeUI.Headless.Components.Popover.PopoverPortal>
+        <BlazeUI.Headless.Components.Popover.PopoverPositioner Side="@Side" Align="@Align">
+            <BlazeUI.Headless.Components.Popover.PopoverPopup
+                Class="z-50 w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[open]:animate-in data-[open]:fade-in-0 data-[open]:zoom-in-95 data-[closed]:animate-out data-[closed]:fade-out-0 data-[closed]:zoom-out-95">
+                @ChildContent
+            </BlazeUI.Headless.Components.Popover.PopoverPopup>
+        </BlazeUI.Headless.Components.Popover.PopoverPositioner>
+    </BlazeUI.Headless.Components.Popover.PopoverPortal>
+</BlazeUI.Headless.Components.Popover.PopoverRoot>
+
+@code {
+    [Parameter] public RenderFragment? Trigger { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool? Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    [Parameter] public bool DefaultOpen { get; set; }
+    [Parameter] public string? TriggerClass { get; set; }
+    [Parameter] public Button.ButtonVariant TriggerVariant { get; set; } = Button.ButtonVariant.Default;
+    [Parameter] public Button.ButtonSize TriggerSize { get; set; } = Button.ButtonSize.Default;
+    [Parameter] public Side Side { get; set; } = Side.Bottom;
+    [Parameter] public Align Align { get; set; } = Align.Center;
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetTriggerClasses() => Css.Cn(
+        ButtonClasses.Base,
+        ButtonClasses.GetVariant(TriggerVariant),
+        ButtonClasses.GetSize(TriggerSize),
+        TriggerClass
+    );
+}

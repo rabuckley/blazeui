@@ -1,0 +1,17 @@
+@namespace BlazeStore.Client.Components.UI
+
+<BlazeUI.Headless.Components.NavigationMenu.NavigationMenuContent
+    Value="@Value"
+    data-slot="navigation-menu-content"
+    Class="@Css.Cn("h-full w-auto p-1 data-[current]:animate-in data-[current]:fade-in data-[previous]:animate-out data-[previous]:fade-out", Class)"
+    @attributes="AdditionalAttributes">
+    @ChildContent
+</BlazeUI.Headless.Components.NavigationMenu.NavigationMenuContent>
+
+@code {
+    [Parameter, EditorRequired] public string Value { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

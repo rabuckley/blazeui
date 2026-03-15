@@ -1,0 +1,27 @@
+@namespace __NAMESPACE__
+
+@* AlertDialogCancel — wraps AlertDialogClose so clicking it dismisses
+   the dialog. Renders as a Button (outline variant by default). *@
+
+<BlazeUI.Headless.Components.Dialog.DialogClose
+    data-slot="alert-dialog-cancel"
+    Class="@GetClasses()"
+    @attributes="AdditionalAttributes">
+    @ChildContent
+</BlazeUI.Headless.Components.Dialog.DialogClose>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public Button.ButtonVariant Variant { get; set; } = Button.ButtonVariant.Outline;
+    [Parameter] public Button.ButtonSize Size { get; set; } = Button.ButtonSize.Default;
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetClasses() => Css.Cn(
+        ButtonClasses.Base,
+        ButtonClasses.GetVariant(Variant),
+        ButtonClasses.GetSize(Size),
+        Class
+    );
+}

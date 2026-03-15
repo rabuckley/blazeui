@@ -1,0 +1,36 @@
+@page "/popover"
+
+<div class="space-y-6">
+<h1 class="text-2xl font-bold">Popover</h1>
+
+<div>
+<Popover>
+    <PopoverTrigger>
+        <Render>
+            <Button Variant="Button.ButtonVariant.Outline" @attributes="context.Attributes">
+                @context.ChildContent
+            </Button>
+        </Render>
+        <ChildContent>Open Popover</ChildContent>
+    </PopoverTrigger>
+    <PopoverContent>
+        <div class="grid gap-4">
+            <div class="space-y-2">
+                <h4 class="font-medium leading-none">Dimensions</h4>
+                <p class="text-sm text-muted-foreground">Set the dimensions for the layer.</p>
+            </div>
+            <div class="grid gap-2">
+                <div class="grid grid-cols-3 items-center gap-4">
+                    <label class="text-sm">Width</label>
+                    <Input Class="col-span-2 h-8" placeholder="100%" />
+                </div>
+                <div class="grid grid-cols-3 items-center gap-4">
+                    <label class="text-sm">Height</label>
+                    <Input Class="col-span-2 h-8" placeholder="25px" />
+                </div>
+            </div>
+        </div>
+    </PopoverContent>
+</Popover>
+</div>
+</div>

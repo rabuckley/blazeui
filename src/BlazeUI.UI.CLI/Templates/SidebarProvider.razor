@@ -1,0 +1,135 @@
+@namespace __NAMESPACE__
+@using Microsoft.JSInterop
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+@*
+    SidebarProvider — manages sidebar open/collapsed state and cascades it
+    to all child sidebar components. Wraps the entire page layout.
+
+    On mobile viewports (< 768px), the sidebar trigger opens a Sheet overlay
+    instead of collapsing/expanding the fixed sidebar.
+
+    Usage:
+    <SidebarProvider>
+        <Sidebar>...</Sidebar>
+        <SidebarInset>...main content...</SidebarInset>
+    </SidebarProvider>
+*@
+
+<CascadingValue Value="@_context">
+    <div data-slot="sidebar-wrapper"
+         class="@Css.Cn("group/sidebar-wrapper flex min-h-svh w-full has-data-[variant=inset]:bg-sidebar", Class)"
+         style="--sidebar-width: 16rem; --sidebar-width-icon: 3rem;"
+         @attributes="AdditionalAttributes">
+        @ChildContent
+    </div>
+</CascadingValue>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool DefaultOpen { get; set; } = true;
+    [Parameter] public bool? Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private readonly string _instanceKey = Guid.NewGuid().ToString("N");
+    private SidebarContext _context = default!;
+    private DotNetObjectReference<SidebarProvider>? _dotNetRef;
+    private IJSObjectReference? _jsModule;
+
+    // Mutable state — pushed into new SidebarContext instances on change.
+    private bool _open;
+    private bool _openMobile;
+    private bool _isMobile;
+
+    protected override void OnInitialized()
+    {
+        _open = Open ?? DefaultOpen;
+        BuildContext();
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (Open.HasValue && Open.Value != _open)
+        {
+            _open = Open.Value;
+            BuildContext();
+        }
+    }
+
+    /// <summary>
+    /// Creates a fresh SidebarContext instance so CascadingValue detects
+    /// a reference change and re-renders all consumers.
+    /// </summary>
+    private void BuildContext()
+    {
+        _context = new SidebarContext
+        {
+            Open = _open,
+            OpenMobile = _openMobile,
+            IsMobile = _isMobile,
+            ToggleSidebar = EventCallback.Factory.Create(this, ToggleSidebarAsync),
+            SetOpenMobile = EventCallback.Factory.Create<bool>(this, SetOpenMobileAsync)
+        };
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _dotNetRef = DotNetObjectReference.Create(this);
+            _jsModule = await JS.InvokeAsync<IJSObjectReference>("import", "./js/sidebar.js");
+            var isMobile = await _jsModule.InvokeAsync<bool>("initMobile", _instanceKey, _dotNetRef);
+            _isMobile = isMobile;
+            BuildContext();
+            StateHasChanged();
+        }
+    }
+
+    [JSInvokable]
+    public void OnMobileChanged(bool isMobile)
+    {
+        _isMobile = isMobile;
+        if (!isMobile)
+            _openMobile = false;
+        BuildContext();
+        StateHasChanged();
+    }
+
+    private async Task ToggleSidebarAsync()
+    {
+        if (_isMobile)
+        {
+            _openMobile = !_openMobile;
+        }
+        else
+        {
+            _open = !_open;
+            if (OpenChanged.HasDelegate)
+                await OpenChanged.InvokeAsync(_open);
+        }
+        BuildContext();
+        StateHasChanged();
+    }
+
+    private Task SetOpenMobileAsync(bool open)
+    {
+        _openMobile = open;
+        BuildContext();
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_jsModule is not null)
+        {
+            try { await _jsModule.InvokeVoidAsync("dispose", _instanceKey); } catch { }
+            await _jsModule.DisposeAsync();
+        }
+        _dotNetRef?.Dispose();
+    }
+}

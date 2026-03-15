@@ -1,0 +1,11 @@
+{
+  "name": "blazeui-headless-js",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@floating-ui/dom": "^1.7.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}
