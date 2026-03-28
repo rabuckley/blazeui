@@ -49,8 +49,10 @@ public class SelectTests(E2EFixture fixture)
             await Expect(trigger).ToHaveAttributeAsync("aria-expanded", "false");
 
             // Focus should return to trigger after close.
-            var focusedId = await page.EvaluateAsync<string>("() => document.activeElement?.getAttribute('role')");
-            Assert.Equal("combobox", focusedId);
+            await page.WaitForFunctionAsync(
+                "() => document.activeElement?.getAttribute('role') === 'combobox'",
+                null,
+                new() { Timeout = 5_000 });
         }
         finally
         {

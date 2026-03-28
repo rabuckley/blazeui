@@ -127,9 +127,10 @@ public class MenuTests(E2EFixture fixture)
             await page.Keyboard.PressAsync("Escape");
             await Expect(trigger).ToHaveAttributeAsync("aria-expanded", "false");
 
-            var focusedHaspopup = await page.EvaluateAsync<string?>(
-                "() => document.activeElement?.getAttribute('aria-haspopup')");
-            Assert.Equal("menu", focusedHaspopup);
+            await page.WaitForFunctionAsync(
+                "() => document.activeElement?.getAttribute('aria-haspopup') === 'menu'",
+                null,
+                new() { Timeout = 5_000 });
         }
         finally
         {

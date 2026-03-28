@@ -91,9 +91,10 @@ public class DialogTests(E2EFixture fixture)
             await Expect(trigger).ToHaveAttributeAsync("aria-expanded", "false");
 
             // Focus should return to the trigger.
-            var focusedHaspopup = await page.EvaluateAsync<string?>(
-                "() => document.activeElement?.getAttribute('aria-haspopup')");
-            Assert.Equal("dialog", focusedHaspopup);
+            await page.WaitForFunctionAsync(
+                "() => document.activeElement?.getAttribute('aria-haspopup') === 'dialog'",
+                null,
+                new() { Timeout = 5_000 });
         }
         finally
         {
