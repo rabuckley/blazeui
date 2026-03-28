@@ -155,6 +155,32 @@ public class InitCommandTests
     }
 
     [Fact]
+    public void Init_injects_using_after_header_comments()
+    {
+        // Arrange
+        var fs = CreateFileSystem();
+        CreateCsproj(fs, "/project");
+        fs.File.WriteAllText("/project/Program.cs",
+            "// Licensed to the .NET Foundation under one or more agreements.\n" +
+            "// The .NET Foundation licenses this file to you under the MIT license.\n" +
+            "\n" +
+            "var builder = WebApplication.CreateBuilder(args);\n" +
+            "var app = builder.Build();\n" +
+            "app.Run();\n");
+        var (cmd, _, _) = CreateCommand(fs);
+
+        // Act
+        cmd.Execute("/project");
+
+        // Assert — using directive appears after the header comments, not before them.
+        var program = fs.File.ReadAllText("/project/Program.cs");
+        var usingIndex = program.IndexOf("using BlazeUI.Headless.Core");
+        var headerEnd = program.IndexOf("MIT license.");
+        Assert.True(usingIndex > headerEnd,
+            "using directive should appear after header comments");
+    }
+
+    [Fact]
     public void Init_skips_service_injection_when_already_present()
     {
         // Arrange
@@ -176,6 +202,70 @@ public class InitCommandTests
         var program = fs.File.ReadAllText("/project/Program.cs");
         var count = program.Split("AddBlazeUI").Length - 1;
         Assert.Equal(1, count);
+    }
+
+    [Fact]
+    public void Init_injects_using_into_imports_razor()
+    {
+        // Arrange
+        var fs = CreateFileSystem();
+        CreateCsproj(fs, "/project");
+        fs.File.WriteAllText("/project/Program.cs",
+            "var builder = WebApplication.CreateBuilder(args);\nvar app = builder.Build();\napp.Run();\n");
+        fs.File.WriteAllText("/project/_Imports.razor",
+            "@using Microsoft.AspNetCore.Components.Web\n");
+        var (cmd, console, _) = CreateCommand(fs);
+
+        // Act
+        cmd.Execute("/project");
+
+        // Assert
+        var imports = fs.File.ReadAllText("/project/_Imports.razor");
+        Assert.Contains("@using BlazeUI.Headless.Core", imports);
+        Assert.Contains("Added @using BlazeUI.Headless.Core", console.Output);
+    }
+
+    [Fact]
+    public void Init_skips_imports_injection_when_already_present()
+    {
+        // Arrange
+        var fs = CreateFileSystem();
+        CreateCsproj(fs, "/project");
+        fs.File.WriteAllText("/project/Program.cs",
+            "var builder = WebApplication.CreateBuilder(args);\nvar app = builder.Build();\napp.Run();\n");
+        fs.File.WriteAllText("/project/_Imports.razor",
+            "@using BlazeUI.Headless.Core\n");
+        var (cmd, console, _) = CreateCommand(fs);
+
+        // Act
+        cmd.Execute("/project");
+
+        // Assert — no duplicate directive added.
+        var imports = fs.File.ReadAllText("/project/_Imports.razor");
+        var count = imports.Split("@using BlazeUI.Headless.Core").Length - 1;
+        Assert.Equal(1, count);
+        Assert.DoesNotContain("Added @using BlazeUI.Headless.Core", console.Output);
+    }
+
+    [Fact]
+    public void Init_finds_imports_in_components_subfolder()
+    {
+        // Arrange
+        var fs = CreateFileSystem();
+        CreateCsproj(fs, "/project");
+        fs.File.WriteAllText("/project/Program.cs",
+            "var builder = WebApplication.CreateBuilder(args);\nvar app = builder.Build();\napp.Run();\n");
+        fs.Directory.CreateDirectory("/project/Components");
+        fs.File.WriteAllText("/project/Components/_Imports.razor",
+            "@using Microsoft.AspNetCore.Components.Routing\n");
+        var (cmd, console, _) = CreateCommand(fs);
+
+        // Act
+        cmd.Execute("/project");
+
+        // Assert
+        var imports = fs.File.ReadAllText("/project/Components/_Imports.razor");
+        Assert.Contains("@using BlazeUI.Headless.Core", imports);
     }
 
     [Fact]

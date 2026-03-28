@@ -224,6 +224,10 @@ internal class InitCommand
         // Auto-inject services into Program.cs.
         var servicesOk = TryInjectServices(projectDir);
 
+        // Ensure _Imports.razor has @using BlazeUI.Headless.Core so styled
+        // components can reference Side, Align, Orientation, etc. unqualified.
+        TryInjectImports(projectDir);
+
         // Auto-install npm dependencies when we created package.json.
         var npmOk = false;
         if (createdPackageJson)
@@ -354,16 +358,68 @@ internal class InitCommand
 
         lines.Insert(insertIndex, "builder.Services.AddBlazeUI();");
 
-        // Ensure the using directive is present.
-        var joined = string.Join('\n', lines);
-        if (!joined.Contains("using BlazeUI.Headless.Core"))
+        // Ensure the using directive is present, inserted after any leading
+        // file-header comments (e.g., license blocks) rather than above them.
+        if (!lines.Any(l => l.Contains("using BlazeUI.Headless.Core")))
         {
-            joined = "using BlazeUI.Headless.Core;\n" + joined;
+            var usingIndex = 0;
+            var inBlockComment = false;
+            for (var i = 0; i < lines.Count; i++)
+            {
+                var trimmed = lines[i].TrimStart();
+                if (inBlockComment)
+                {
+                    if (trimmed.Contains("*/"))
+                        inBlockComment = false;
+                    continue;
+                }
+
+                if (trimmed.StartsWith("/*"))
+                {
+                    inBlockComment = !trimmed.Contains("*/");
+                    continue;
+                }
+
+                if (trimmed.StartsWith("//") || trimmed.Length == 0)
+                    continue;
+
+                usingIndex = i;
+                break;
+            }
+
+            lines.Insert(usingIndex, "using BlazeUI.Headless.Core;");
         }
+
+        var joined = string.Join('\n', lines);
 
         _fs.File.WriteAllText(programPath, joined);
         _console.MarkupLine("[green]✓[/] Added AddBlazeUI() to Program.cs");
         return true;
+    }
+
+    private void TryInjectImports(string projectDir)
+    {
+        const string directive = "@using BlazeUI.Headless.Core";
+
+        // Look for _Imports.razor in the project root or a Components/ subfolder.
+        var candidates = new[]
+        {
+            _fs.Path.Combine(projectDir, "_Imports.razor"),
+            _fs.Path.Combine(projectDir, "Components", "_Imports.razor"),
+        };
+
+        var importsPath = candidates.FirstOrDefault(p => _fs.File.Exists(p));
+        if (importsPath is null)
+            return;
+
+        var content = _fs.File.ReadAllText(importsPath);
+        if (content.Contains(directive))
+            return;
+
+        // Append the directive at the end of the file.
+        var separator = content.Length > 0 && !content.EndsWith('\n') ? "\n" : "";
+        _fs.File.WriteAllText(importsPath, content + separator + directive + "\n");
+        _console.MarkupLine($"[green]✓[/] Added {directive} to _Imports.razor");
     }
 
     private string DetectPackageManager(string dir)
