@@ -1,33 +1,139 @@
 @page "/field"
 
-<div class="space-y-6">
+<div class="space-y-12">
     <h1 class="text-2xl font-bold">Field</h1>
-    <div class="max-w-sm">
-        <FieldGroup>
-            <Field>
-                <FieldLabel for="field-username">Username</FieldLabel>
-                <Input id="field-username" type="text" placeholder="Enter your username" />
-                <FieldDescription>Choose a unique username for your account.</FieldDescription>
-            </Field>
-            <Field>
-                <FieldLabel>Email</FieldLabel>
-                <Input type="email" placeholder="@("name@example.com")" />
-                <FieldDescription>We'll send updates to this address.</FieldDescription>
-            </Field>
-            <Field Invalid="true">
-                <FieldLabel>Invalid Input</FieldLabel>
-                <Input placeholder="Error" />
-                <FieldError>This field contains validation errors.</FieldError>
-            </Field>
-            <Field Disabled="true">
-                <FieldLabel>Email</FieldLabel>
-                <Input type="email" placeholder="Email" disabled />
-                <FieldDescription>This field is currently disabled.</FieldDescription>
-            </Field>
-            <Field Orientation="Field.FieldOrientation.Horizontal">
-                <Button Variant="Button.ButtonVariant.Outline" type="button">Cancel</Button>
-                <Button type="submit">Submit</Button>
-            </Field>
-        </FieldGroup>
-    </div>
+
+    @* Basic Input *@
+    <section class="space-y-4">
+        <h2 class="text-lg font-semibold">Input</h2>
+        <div class="max-w-sm">
+            <FieldSet>
+                <FieldLegend>Account Details</FieldLegend>
+                <FieldDescription>Fill in your account information below.</FieldDescription>
+                <FieldGroup>
+                    <Field>
+                        <FieldLabel for="field-username">Username</FieldLabel>
+                        <Input id="field-username" type="text" placeholder="Enter your username" />
+                        <FieldDescription>Choose a unique username for your account.</FieldDescription>
+                    </Field>
+                    <Field>
+                        <FieldLabel for="field-email">Email</FieldLabel>
+                        <Input id="field-email" type="email" placeholder="@("name@example.com")" />
+                        <FieldDescription>We'll send updates to this address.</FieldDescription>
+                    </Field>
+                    <Field Invalid="true">
+                        <FieldLabel for="field-invalid">Invalid Input</FieldLabel>
+                        <Input id="field-invalid" placeholder="Error" aria-invalid="true" />
+                        <FieldError>This field contains validation errors.</FieldError>
+                    </Field>
+                    <Field Disabled="true">
+                        <FieldLabel for="field-disabled">Email</FieldLabel>
+                        <Input id="field-disabled" type="email" placeholder="Email" disabled />
+                        <FieldDescription>This field is currently disabled.</FieldDescription>
+                    </Field>
+                    <Field Orientation="Field.FieldOrientation.Horizontal">
+                        <Button Variant="Button.ButtonVariant.Outline" type="button">Cancel</Button>
+                        <Button type="submit">Submit</Button>
+                    </Field>
+                </FieldGroup>
+            </FieldSet>
+        </div>
+    </section>
+
+    @* Checkbox *@
+    <section class="space-y-4">
+        <h2 class="text-lg font-semibold">Checkbox</h2>
+        <div class="max-w-xs">
+            <FieldGroup>
+                <FieldSet>
+                    <FieldLegend Variant="FieldLegend.FieldLegendVariant.Label">Show these items on the desktop</FieldLegend>
+                    <FieldDescription>Select the items you want to show on the desktop.</FieldDescription>
+                    <FieldGroup Class="gap-3">
+                        <Field Orientation="Field.FieldOrientation.Horizontal">
+                            <Checkbox id="field-cb-hard-disks" DefaultChecked="true" />
+                            <FieldLabel for="field-cb-hard-disks" Class="font-normal">Hard disks</FieldLabel>
+                        </Field>
+                        <Field Orientation="Field.FieldOrientation.Horizontal">
+                            <Checkbox id="field-cb-external-disks" />
+                            <FieldLabel for="field-cb-external-disks" Class="font-normal">External disks</FieldLabel>
+                        </Field>
+                        <Field Orientation="Field.FieldOrientation.Horizontal">
+                            <Checkbox id="field-cb-cds-dvds" />
+                            <FieldLabel for="field-cb-cds-dvds" Class="font-normal">CDs, DVDs, and iPods</FieldLabel>
+                        </Field>
+                        <Field Orientation="Field.FieldOrientation.Horizontal">
+                            <Checkbox id="field-cb-connected-servers" />
+                            <FieldLabel for="field-cb-connected-servers" Class="font-normal">Connected servers</FieldLabel>
+                        </Field>
+                    </FieldGroup>
+                </FieldSet>
+                <FieldSeparator />
+                <Field Orientation="Field.FieldOrientation.Horizontal">
+                    <Checkbox id="field-cb-sync-folders" DefaultChecked="true" />
+                    <FieldContent>
+                        <FieldLabel for="field-cb-sync-folders">Sync Desktop & Documents folders</FieldLabel>
+                        <FieldDescription>Your Desktop & Documents folders are being synced with iCloud Drive. You can access them from other devices.</FieldDescription>
+                    </FieldContent>
+                </Field>
+            </FieldGroup>
+        </div>
+    </section>
+
+    @* Radio *@
+    <section class="space-y-4">
+        <h2 class="text-lg font-semibold">Radio</h2>
+        <div class="max-w-xs">
+            <FieldSet>
+                <FieldLegend Variant="FieldLegend.FieldLegendVariant.Label">Subscription Plan</FieldLegend>
+                <FieldDescription>Yearly and lifetime plans offer significant savings.</FieldDescription>
+                <Radio DefaultValue="monthly">
+                    <Field Orientation="Field.FieldOrientation.Horizontal">
+                        <RadioGroupItem Value="monthly" id="field-radio-monthly" />
+                        <FieldLabel for="field-radio-monthly" Class="font-normal">Monthly ($9.99/month)</FieldLabel>
+                    </Field>
+                    <Field Orientation="Field.FieldOrientation.Horizontal">
+                        <RadioGroupItem Value="yearly" id="field-radio-yearly" />
+                        <FieldLabel for="field-radio-yearly" Class="font-normal">Yearly ($99.99/year)</FieldLabel>
+                    </Field>
+                    <Field Orientation="Field.FieldOrientation.Horizontal">
+                        <RadioGroupItem Value="lifetime" id="field-radio-lifetime" />
+                        <FieldLabel for="field-radio-lifetime" Class="font-normal">Lifetime ($299.99)</FieldLabel>
+                    </Field>
+                </Radio>
+            </FieldSet>
+        </div>
+    </section>
+
+    @* Choice Card *@
+    <section class="space-y-4">
+        <h2 class="text-lg font-semibold">Choice Card</h2>
+        <div class="max-w-xs">
+            <FieldGroup>
+                <FieldSet>
+                    <FieldLegend Variant="FieldLegend.FieldLegendVariant.Label">Compute Environment</FieldLegend>
+                    <FieldDescription>Select the compute environment for your cluster.</FieldDescription>
+                    <Radio DefaultValue="kubernetes">
+                        <FieldLabel for="field-cc-kubernetes">
+                            <Field Orientation="Field.FieldOrientation.Horizontal">
+                                <FieldContent>
+                                    <FieldTitle>Kubernetes</FieldTitle>
+                                    <FieldDescription>Run GPU workloads on a K8s cluster.</FieldDescription>
+                                </FieldContent>
+                                <RadioGroupItem Value="kubernetes" id="field-cc-kubernetes" />
+                            </Field>
+                        </FieldLabel>
+                        <FieldLabel for="field-cc-vm">
+                            <Field Orientation="Field.FieldOrientation.Horizontal">
+                                <FieldContent>
+                                    <FieldTitle>Virtual Machine</FieldTitle>
+                                    <FieldDescription>Access a cluster to run GPU workloads.</FieldDescription>
+                                </FieldContent>
+                                <RadioGroupItem Value="vm" id="field-cc-vm" />
+                            </Field>
+                        </FieldLabel>
+                    </Radio>
+                </FieldSet>
+            </FieldGroup>
+        </div>
+    </section>
 </div>

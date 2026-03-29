@@ -21,6 +21,9 @@
 *@
 
 <BlazeUI.Headless.Components.Field.FieldRoot
+    data-slot="field"
+    data-orientation="@OrientationValue"
+    role="group"
     Class="@GetClasses()"
     Disabled="@Disabled"
     Invalid="@Invalid"
@@ -42,11 +45,19 @@
         Orientation switch
         {
             FieldOrientation.Vertical => "flex-col *:w-full [&>.sr-only]:w-auto",
-            FieldOrientation.Horizontal => "flex-row items-center has-[>[data-slot=field-content]]:items-start *:data-[slot=field-label]:flex-auto",
+            FieldOrientation.Horizontal => "flex-row items-center has-[>[data-slot=field-content]]:items-start *:data-[slot=field-label]:flex-auto has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px",
+            FieldOrientation.Responsive => "flex-col *:w-full @md/field-group:flex-row @md/field-group:items-center @md/field-group:*:w-auto @md/field-group:has-[>[data-slot=field-content]]:items-start @md/field-group:*:data-[slot=field-label]:flex-auto [&>.sr-only]:w-auto @md/field-group:has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px",
             _ => "flex-col *:w-full [&>.sr-only]:w-auto"
         },
         Class
     );
 
-    public enum FieldOrientation { Vertical, Horizontal }
+    private string OrientationValue => Orientation switch
+    {
+        FieldOrientation.Horizontal => "horizontal",
+        FieldOrientation.Responsive => "responsive",
+        _ => "vertical"
+    };
+
+    public enum FieldOrientation { Vertical, Horizontal, Responsive }
 }

@@ -1,0 +1,14 @@
+@namespace BlazeUI.Styled.Demo.Components.UI
+
+<fieldset data-slot="field-set"
+         class="@Css.Cn("flex flex-col gap-4 has-[>[data-slot=checkbox-group]]:gap-3 has-[>[data-slot=radio-group]]:gap-3", Class)"
+         @attributes="AdditionalAttributes">
+    @ChildContent
+</fieldset>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

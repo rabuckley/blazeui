@@ -1,0 +1,14 @@
+@namespace __NAMESPACE__
+
+<div data-slot="field-content"
+     class="@Css.Cn("group/field-content flex flex-1 flex-col gap-0.5 leading-snug", Class)"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}
