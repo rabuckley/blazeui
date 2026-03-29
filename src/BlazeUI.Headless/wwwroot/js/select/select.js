@@ -89,8 +89,11 @@ export function show(triggerId, popupId, options, ref) {
     },
   });
 
-  // Focus the selected item, or the first option.
+  // Focus the selected item, or the first option. Guard with revealId so
+  // a rapid close (hide() increments pendingRevealId) cancels this focus
+  // — otherwise it fires after restoreFocus and steals focus from the trigger.
   requestAnimationFrame(() => {
+    if (inst.pendingRevealId !== revealId) return;
     const selected = popup.querySelector('[role="option"][data-selected]');
     const first = popup.querySelector('[role="option"]:not([aria-disabled="true"])');
     const target = selected || first;
