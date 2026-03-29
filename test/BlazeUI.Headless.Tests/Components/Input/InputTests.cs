@@ -1,5 +1,6 @@
 using BlazeUI.Headless.Components.Field;
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using InputComponent = BlazeUI.Headless.Components.Input.Input;
 
 namespace BlazeUI.Headless.Tests.Components.Input;
@@ -68,6 +69,60 @@ public sealed class InputTests : BunitContext
         Assert.Empty(cut.FindAll("[data-dirty]"));
         Assert.Empty(cut.FindAll("[data-touched]"));
         Assert.Empty(cut.FindAll("[data-filled]"));
+    }
+
+    // --- Value binding ---
+
+    [Fact]
+    public void Controlled_value_renders_value_attribute()
+    {
+        var cut = Render<InputComponent>(p => p
+            .Add(c => c.Value, "hello"));
+
+        Assert.Equal("hello", cut.Find("input").GetAttribute("value"));
+    }
+
+    [Fact]
+    public void Default_value_renders_value_attribute()
+    {
+        var cut = Render<InputComponent>(p => p
+            .Add(c => c.DefaultValue, "default"));
+
+        Assert.Equal("default", cut.Find("input").GetAttribute("value"));
+    }
+
+    [Fact]
+    public void ValueChanged_fires_on_input()
+    {
+        string? received = null;
+        var cut = Render<InputComponent>(p => p
+            .Add(c => c.Value, "")
+            .Add(c => c.ValueChanged, (string? v) => received = v));
+
+        cut.Find("input").Input(new ChangeEventArgs { Value = "typed" });
+
+        Assert.Equal("typed", received);
+    }
+
+    [Fact]
+    public void Uncontrolled_input_updates_value_on_input()
+    {
+        var cut = Render<InputComponent>(p => p
+            .Add(c => c.DefaultValue, "initial"));
+
+        cut.Find("input").Input(new ChangeEventArgs { Value = "changed" });
+
+        Assert.Equal("changed", cut.Find("input").GetAttribute("value"));
+    }
+
+    [Fact]
+    public void Passthrough_mode_does_not_emit_value_attribute()
+    {
+        // When no Value/DefaultValue/ValueChanged is set, the component
+        // should not interfere — consumers use AdditionalAttributes.
+        var cut = Render<InputComponent>();
+
+        Assert.Null(cut.Find("input").GetAttribute("value"));
     }
 
     // --- Field integration ---
